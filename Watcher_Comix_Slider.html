@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Watcher Comix | Margin Audit</title>
+    <style>
+        :root {
+            --navy: #000035;
+            --gold: #D4AF37;
+            --white: #ffffff;
+            --grey: #f4f4f4;
+            --emerald: #004d40;
+            --comic-purple: #4a148c;
+            --red: #b71c1c;
+        }
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--grey); margin: 0; padding: 20px; }
+        .container { max-width: 900px; margin: auto; background: var(--white); border-radius: 12px; border: 1px solid #ccc; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.15); }
+        
+        /* HEADER */
+        .header { 
+            background: var(--navy); 
+            color: var(--gold); 
+            padding: 25px 40px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            border-bottom: 5px solid var(--gold);
+        }
+        .header-text h1 { margin: 0; text-transform: uppercase; letter-spacing: 2px; font-size: 1.5rem; }
+        .header-text p { margin: 5px 0 0 0; color: var(--white); opacity: 0.9; font-size: 0.9rem; }
+        /* Logo styling */
+        .header-logo img { height: 85px; width: auto; border: none; }
+
+        /* INPUT SECTION */
+        .main-body { padding: 40px; }
+        .grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 40px; }
+        
+        .input-panel { background: #f9f9f9; padding: 25px; border-radius: 10px; border-left: 6px solid var(--comic-purple); }
+        
+        /* Form Elements */
+        label { display: block; font-size: 0.85rem; font-weight: bold; margin-bottom: 8px; color: #444; }
+        input[type="number"] { width: 92%; padding: 12px; font-size: 1.1rem; border: 1px solid #ccc; border-radius: 5px; margin-bottom: 5px; color: var(--navy); font-weight: bold; }
+        
+        /* SLIDER STYLES */
+        .slider-container { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+        input[type="range"] { flex: 1; cursor: pointer; accent-color: var(--comic-purple); }
+        .rate-display { width: 70px !important; text-align: center; margin-bottom: 0 !important; }
+
+        hr { border: 0; border-top: 1px solid #ddd; margin: 20px 0; }
+        
+        /* RESULTS SECTION */
+        .result-panel { display: flex; flex-direction: column; justify-content: flex-start; }
+        .hero-box { 
+            background: var(--navy); 
+            color: var(--white); 
+            padding: 30px; 
+            border-radius: 10px; 
+            text-align: center; 
+            margin-bottom: 25px; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .hero-title { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0.9; }
+        .hero-val { font-size: 2.8rem; color: var(--gold); font-weight: bold; margin: 10px 0; }
+        
+        /* TABLE */
+        .comp-table { width: 100%; border-collapse: separate; border-spacing: 0; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden; }
+        .comp-table th { background: #eee; padding: 12px; text-align: left; font-size: 0.8rem; text-transform: uppercase; color: #666; border-bottom: 2px solid #ddd; }
+        .comp-table td { padding: 15px 12px; border-bottom: 1px solid #f0f0f0; font-size: 0.95rem; }
+        .comp-table tr:last-child td { border-bottom: none; }
+        
+        .col-bad { background: #fff5f5; color: var(--red); font-weight: bold; }
+        .col-good { background: #f3e5f5; color: var(--comic-purple); font-weight: bold; }
+        
+        /* FOOTER */
+        .footer { padding: 20px; text-align: center; font-size: 0.8rem; color: #888; border-top: 1px solid #eee; background: #fafafa; }
+
+        @media (max-width: 750px) { .grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <div class="header-text">
+            <h1>Watcher Comix</h1>
+            <p>Retail Margin & Asset Security Audit</p>
+        </div>
+        <div class="header-logo">
+            <img src="NDPS.Logo.jpg" alt="NDPS">
+        </div>
+    </div>
+
+    <div class="main-body">
+        <div class="grid">
+            <div class="input-panel">
+                <h3>Shop Volume Data</h3>
+                
+                <label>Weekly "Pull List" Sales ($)</label>
+                <input type="number" id="wk_vol" value="3500" oninput="runCalc()">
+                <div style="font-size:0.75rem; color:#666; margin-bottom:20px;">*Est. New Issue / Small Ticket Volume</div>
+
+                <label>Monthly Slab/Key Sales ($)</label>
+                <input type="number" id="mo_slab" value="7500" oninput="runCalc()">
+                <div style="font-size:0.75rem; color:#666; margin-bottom:20px;">*High-Value / Back Issue Volume</div>
+
+                <hr>
+
+                <label>Est. Current Effective Rate (%)</label>
+                <div class="slider-container">
+                    <input type="range" id="rate_slider" min="2.0" max="12.0" step="0.1" value="8.5" oninput="syncRate('slider')">
+                    <input type="number" id="rate_input" class="rate-display" value="8.5" oninput="syncRate('input')">
+                </div>
+                <div style="font-size:0.75rem; color:#666; margin-bottom:20px;">*Adjust to match current statement effective rate</div>
+
+                <hr>
+                
+                <label style="color:var(--comic-purple)">Target NDPS Rate (%)</label>
+                <input type="number" id="target_rate" value="2.5" step="0.1" oninput="runCalc()">
+            </div>
+
+            <div class="result-panel">
+                <div class="hero-box">
+                    <div class="hero-title">Total Annual Profit Reclaimed</div>
+                    <div id="annual_saved" class="hero-val">$0.00</div>
+                    <div style="font-size:0.8rem; opacity:0.8;">(Fee Reduction + Fraud Prevention)</div>
+                </div>
+
+                <table class="comp-table">
+                    <thead>
+                        <tr>
+                            <th>Metric</th>
+                            <th>Legacy Processor</th>
+                            <th>NDPS Digital Rail</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>New Issue Costs</strong><br><span style="font-size:0.75rem; color:#666;">(Transaction Fees)</span></td>
+                            <td class="col-bad" id="legacy_mic">$0</td>
+                            <td class="col-good" id="ndps_mic">$0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>High-Ticket Risk</strong><br><span style="font-size:0.75rem; color:#666;">(Chargeback Liability)</span></td>
+                            <td class="col-bad">Unprotected</td>
+                            <td class="col-good">Zero Liability</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Net Effective Rate</strong><br><span style="font-size:0.75rem; color:#666;">(Blended Avg)</span></td>
+                            <td class="col-bad" id="legacy_eff_rate">0.0%</td>
+                            <td class="col-good" id="ndps_eff_rate">2.5%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        
+        Confidential Analysis prepared for Watcher Comix by New Digital Payment Systems LLC
+    </div>
+</div>
+
+<script>
+    // FORMATTER
+    function fmt(num) {
+        return '$' + num.toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2});
+    }
+
+    // SYNC SLIDER AND INPUT
+    function syncRate(source) {
+        var slider = document.getElementById('rate_slider');
+        var input = document.getElementById('rate_input');
+        
+        if (source === 'slider') {
+            input.value = slider.value;
+        } else {
+            slider.value = input.value;
+        }
+        runCalc(); // Recalculate whenever changed
+    }
+
+    // MAIN CALCULATION LOGIC
+    function runCalc() {
+        // 1. GET VALUES
+        const wk_vol = parseFloat(document.getElementById('wk_vol').value) || 0;
+        const mo_slab = parseFloat(document.getElementById('mo_slab').value) || 0;
+        const current_rate_val = parseFloat(document.getElementById('rate_input').value) || 0;
+        const target = parseFloat(document.getElementById('target_rate').value) || 0;
+
+        // 2. NORMALIZE
+        const mo_new_vol = wk_vol * 4; 
+        const total_vol = mo_new_vol + mo_slab;
+
+        // 3. LEGACY COST CALC
+        // Use the SLIDER value for the Small Ticket Rate (The "Hidden Tax")
+        const leg_new_cost = mo_new_vol * (current_rate_val / 100);
+        
+        // Slabs usually have a better rate (standard ~3.2% or lower risk tier)
+        // We will assume slabs perform slightly better than small tickets, 
+        // OR we can apply the slider rate to the whole bucket if that's their "Blended" input.
+        // STRATEGY: To be fair, let's assume Slabs are at 3.0% fixed if the slider is high, 
+        // or match the slider if the slider is low.
+        // For simplicity in the pitch: Let's apply the Slider Rate to the NEW ISSUES (Pain point)
+        // and keep Slabs at a standard 3.2% card-not-present rate.
+        const leg_slab_cost = mo_slab * 0.032; 
+
+        const leg_total_cost = leg_new_cost + leg_slab_cost;
+        const leg_blended_rate = total_vol > 0 ? (leg_total_cost / total_vol) * 100 : 0;
+
+        // 4. NDPS COST CALC
+        const ndps_total_cost = total_vol * (target / 100);
+
+        // 5. SAVINGS
+        const annual_save = (leg_total_cost - ndps_total_cost) * 12;
+
+        // 6. UPDATE UI
+        document.getElementById('annual_saved').innerText = fmt(annual_save);
+
+        document.getElementById('legacy_mic').innerText = fmt(leg_new_cost) + " / mo";
+        document.getElementById('ndps_mic').innerText = fmt(mo_new_vol * (target/100)) + " / mo";
+
+        document.getElementById('legacy_eff_rate').innerText = leg_blended_rate.toFixed(2) + "%";
+        document.getElementById('ndps_eff_rate').innerText = target.toFixed(1) + "%";
+    }
+
+    // Initialize
+    runCalc();
+</script>
+
+</body>
+</html>

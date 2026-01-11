@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hops & Grapes | The ATM Pivot</title>
+    <style>
+        :root {
+            --bg-dark: #0a0a0a;
+            --card-dark: #1c1c1c;
+            --neon-green: #00e676;
+            --dim-text: #b0b0b0;
+            --white: #ffffff;
+            --red: #ff5252;
+            --gold: #ffd700;
+        }
+        body { font-family: 'Segoe UI', Roboto, sans-serif; background-color: var(--bg-dark); color: var(--white); margin: 0; padding: 20px; }
+        .container { max-width: 900px; margin: auto; background: var(--card-dark); border: 1px solid #333; border-radius: 12px; overflow: hidden; box-shadow: 0 0 30px rgba(0, 230, 118, 0.1); }
+        
+        /* HEADER */
+        .header { 
+            background: linear-gradient(180deg, #1a1a1a 0%, #000 100%); 
+            padding: 25px 35px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            border-bottom: 2px solid var(--neon-green);
+        }
+        .header h1 { margin: 0; text-transform: uppercase; letter-spacing: 1px; color: var(--neon-green); font-size: 1.5rem; }
+        .header p { margin: 5px 0 0 0; font-size: 0.9rem; color: var(--dim-text); }
+        .header-logo img { height: 80px; width: auto; }
+
+        /* TAB NAVIGATION */
+        .tab-row { display: flex; background: #000; border-bottom: 1px solid #333; }
+        .tab-btn { flex: 1; padding: 15px; border: none; background: #000; cursor: pointer; font-weight: bold; color: #666; transition: 0.3s; text-transform: uppercase; font-size: 0.85rem; }
+        .tab-btn:hover { color: var(--white); }
+        .tab-btn.active { color: var(--neon-green); border-bottom: 3px solid var(--neon-green); background: #111; }
+
+        /* CONTENT */
+        .content { display: none; padding: 30px; animation: fadeIn 0.4s; }
+        .content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* GRID */
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        .box { background: #111; padding: 20px; border-radius: 8px; border: 1px solid #333; }
+        
+        label { display: block; font-size: 0.8rem; letter-spacing: 0.5px; margin-bottom: 8px; color: var(--dim-text); text-transform: uppercase; }
+        input[type="number"] { width: 95%; padding: 12px; font-size: 1.1rem; background: #222; border: 1px solid #444; color: var(--white); border-radius: 4px; margin-bottom: 15px; font-weight: bold; }
+        
+        /* SLIDER */
+        .slider-row { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; }
+        input[type="range"] { flex: 1; accent-color: var(--neon-green); cursor: pointer; height: 5px; }
+        .rate-disp { width: 60px !important; text-align: center; margin-bottom: 0 !important; color: var(--red) !important; }
+
+        hr { border: 0; border-top: 1px solid #333; margin: 20px 0; }
+        
+        /* RESULTS */
+        .result-box { background: #000; border: 1px solid var(--neon-green); padding: 25px; border-radius: 8px; text-align: center; margin-bottom: 20px; }
+        .big-text { font-size: 2.5rem; color: var(--neon-green); font-weight: bold; margin: 10px 0; text-shadow: 0 0 10px rgba(0, 230, 118, 0.2); }
+        .sub-text { font-size: 0.85rem; color: var(--dim-text); }
+        
+        /* TABLE */
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { padding: 12px; border-bottom: 1px solid #333; text-align: left; }
+        th { color: #888; text-transform: uppercase; font-size: 0.8rem; }
+        .col-old { color: var(--red); }
+        .col-new { color: var(--neon-green); }
+        
+        .footer { padding: 20px; text-align: center; font-size: 0.8rem; color: #555; border-top: 1px solid #333; }
+        
+        @media (max-width: 700px) { .grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <div>
+            <h1>The ATM Pivot</h1>
+            <p>Hops & Grapes | Dempster Food/Liquor</p>
+        </div>
+        <div class="header-logo">
+            <img src="NDPS.Logo.jpg" alt="NDPS">
+        </div>
+    </div>
+
+    <div class="tab-row">
+        <button class="tab-btn active" onclick="switchTab('tab1', this)">1. The ATM Conversion</button>
+        <button class="tab-btn" onclick="switchTab('tab2', this)">2. High-Risk CC Audit</button>
+        <button class="tab-btn" onclick="switchTab('tab3', this)">3. Fraud Shield</button>
+    </div>
+
+    <div id="tab1" class="content active">
+        <div class="grid">
+            <div class="box">
+                <h3>ATM Traffic Conversion</h3>
+                <p style="font-size:0.8rem; color:#888;">Convert cash-out customers to direct digital payers.</p>
+                
+                <label>Est. Monthly ATM Volume ($)</label>
+                <input type="number" id="t1_atm_vol" value="10000" oninput="runCalc()">
+                
+                <label>Current ATM Fee (%)</label>
+                <input type="number" id="t1_atm_fee" value="15.0" step="0.5" oninput="runCalc()">
+                
+                <hr>
+                <label style="color:var(--neon-green)">NDPS Direct Rate (%)</label>
+                <input type="number" id="t1_target" value="2.5" readonly style="background:#222; color:#888;">
+            </div>
+            <div>
+                <div class="result-box">
+                    <label>Purchasing Power Unlocked</label>
+                    <div id="t1_unlocked" class="big-text">$0.00</div>
+                    <div class="sub-text">Money saved by customers that can be spent in-store.</div>
+                </div>
+                <table>
+                    <tr><th>Flow</th><th>ATM Route</th><th>Direct Rail</th></tr>
+                    <tr><td>Customer Pays</td><td class="col-old">$115.00</td><td class="col-new">$101.00</td></tr>
+                    <tr><td>Store Receives</td><td class="col-old">$100.00</td><td class="col-new">$100.00</td></tr>
+                    <tr><td>Friction Cost</td><td class="col-old">High (15%)</td><td class="col-new">Low (1%)</td></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="tab2" class="content">
+        <div class="grid">
+            <div class="box">
+                <h3>"High Risk" Credit Audit</h3>
+                <label>Monthly Credit Card Sales ($)</label>
+                <input type="number" id="t2_vol" value="25000" oninput="runCalc()">
+                
+                <label>Current "High Risk" Rate (%)</label>
+                <div class="slider-row">
+                    <input type="range" id="t2_slider" min="2.5" max="5.0" step="0.1" value="4.0" oninput="syncRate('t2', 'slider')">
+                    <input type="number" id="t2_rate" class="rate-disp" value="4.0" oninput="syncRate('t2', 'input')">
+                </div>
+                <div style="font-size:0.75rem; color:#666;">*Liquor/Tobacco often rated 4%+</div>
+
+                <hr>
+                <label style="color:var(--neon-green)">NDPS Flat Rate (%)</label>
+                <input type="number" id="t2_target" value="2.5" step="0.1" oninput="runCalc()">
+            </div>
+            <div>
+                <div class="result-box">
+                    <label>Annual Fee Savings</label>
+                    <div id="t2_res" class="big-text">$0.00</div>
+                </div>
+                <table>
+                    <tr><th>Metric</th><th>Legacy Processor</th><th>NDPS Rail</th></tr>
+                    <tr><td>Processing Rate</td><td id="t2_out_rate" class="col-old">4.0%</td><td id="t2_out_target" class="col-new">1.0%</td></tr>
+                    <tr><td>Monthly Fees</td><td id="t2_out_cost_old" class="col-old">$1,000</td><td id="t2_out_cost_new" class="col-new">$250</td></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="tab3" class="content">
+        <div class="grid">
+            <div class="box">
+                <h3>High-End Bottle Security</h3>
+                <p style="font-size:0.8rem; color:#888;">Protect against chargebacks on expensive inventory.</p>
+                
+                <label>Avg. High-End Ticket ($)</label>
+                <input type="number" id="t3_ticket" value="150" oninput="runCalc()">
+                
+                <label>Annual Chargeback Loss ($)</label>
+                <input type="number" id="t3_loss" value="1200" oninput="runCalc()">
+                
+                <hr>
+                <label style="color:var(--neon-green)">NDPS Liability</label>
+                <input type="text" value="ZERO" readonly style="background:#222; color:var(--neon-green);">
+            </div>
+            <div>
+                <div class="result-box" style="border-color:var(--gold);">
+                    <label style="color:var(--gold)">Total Value Protected</label>
+                    <div id="t3_res" class="big-text" style="color:var(--gold)">$0.00</div>
+                    <div class="sub-text">Prevention + recovered liquidity</div>
+                </div>
+                <table>
+                    <tr><th>Security</th><th>Credit Card</th><th>NDPS Rail</th></tr>
+                    <tr><td>Chargeback Risk</td><td class="col-old">High</td><td class="col-new">None</td></tr>
+                    <tr><td>Settlement</td><td class="col-old">2 Days</td><td class="col-new">Instant</td></tr>
+                    <tr><td>ID Verification</td><td class="col-old">Signature</td><td class="col-new">Crypto/Bio</td></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        
+        Kevin Yi, Fintech Consultant | (224) 307-4511 | Evanston, Il
+    </div>
+</div>
+
+<script>
+    function switchTab(tabId, btnElement) {
+        var contents = document.getElementsByClassName('content');
+        for (var i = 0; i < contents.length; i++) { contents[i].style.display = 'none'; }
+        document.getElementById(tabId).style.display = 'block';
+        var btns = document.getElementsByClassName('tab-btn');
+        for (var i = 0; i < btns.length; i++) { btns[i].classList.remove('active'); }
+        btnElement.classList.add('active');
+    }
+
+    function syncRate(tab, source) {
+        var slider = document.getElementById(tab + '_slider');
+        var input = document.getElementById(tab + '_rate');
+        if (source === 'slider') { input.value = slider.value; } 
+        else { slider.value = input.value; }
+        runCalc();
+    }
+
+    function fmt(num) { return '$' + num.toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2}); }
+
+    function runCalc() {
+        // TAB 1: ATM CONVERSION
+        var t1_vol = parseFloat(document.getElementById('t1_atm_vol').value) || 0;
+        var t1_fee = parseFloat(document.getElementById('t1_atm_fee').value) || 0;
+        
+        // Logic: How much money are customers wasting on ATM fees?
+        var customer_waste = t1_vol * (t1_fee / 100);
+        document.getElementById('t1_unlocked').innerText = fmt(customer_waste);
+
+        // TAB 2: HIGH RISK AUDIT
+        var t2_vol = parseFloat(document.getElementById('t2_vol').value) || 0;
+        var t2_rate = parseFloat(document.getElementById('t2_rate').value) || 0;
+        var t2_trg = parseFloat(document.getElementById('t2_target').value) || 0;
+        
+        var old_cost = t2_vol * (t2_rate / 100);
+        var new_cost = t2_vol * (t2_trg / 100);
+        var annual_save = (old_cost - new_cost) * 12;
+        
+        document.getElementById('t2_res').innerText = fmt(annual_save);
+        document.getElementById('t2_out_rate').innerText = t2_rate.toFixed(1) + '%';
+        document.getElementById('t2_out_target').innerText = t2_trg.toFixed(1) + '%';
+        document.getElementById('t2_out_cost_old').innerText = fmt(old_cost);
+        document.getElementById('t2_out_cost_new').innerText = fmt(new_cost);
+
+        // TAB 3: FRAUD SHIELD
+        var t3_loss = parseFloat(document.getElementById('t3_loss').value) || 0;
+        // Logic: Value is the loss prevented + assumed time savings/stress
+        document.getElementById('t3_res').innerText = fmt(t3_loss);
+    }
+
+    runCalc();
+</script>
+
+</body>
+</html>

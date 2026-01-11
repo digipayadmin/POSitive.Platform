@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evanston Games | Payment Meta Update</title>
+    <style>
+        :root {
+            --dark: #0d0d0d;
+            --card-bg: #1a1a1a;
+            --neon-blue: #00f3ff;
+            --neon-green: #00ff41;
+            --neon-purple: #bc13fe;
+            --text-main: #e0e0e0;
+            --text-dim: #888;
+            --risk-red: #ff3333;
+        }
+        body { font-family: 'Segoe UI', 'Roboto', monospace; background-color: var(--dark); color: var(--text-main); margin: 0; padding: 20px; }
+        .container { max-width: 1000px; margin: auto; background: var(--card-bg); border: 1px solid #333; border-radius: 12px; overflow: hidden; box-shadow: 0 0 25px rgba(0, 243, 255, 0.15); }
+        
+        /* HEADER */
+        .header { 
+            background: linear-gradient(90deg, #000 0%, #111 100%); 
+            padding: 25px 35px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            border-bottom: 2px solid var(--neon-blue);
+        }
+        .header h1 { margin: 0; font-family: 'Courier New', monospace; letter-spacing: -1px; color: var(--neon-blue); text-transform: uppercase; font-size: 1.5rem; }
+        .header p { margin: 5px 0 0 0; font-size: 0.9rem; color: var(--text-dim); }
+        .header-logo img { height: 80px; width: auto; border: none; }
+
+        /* TABS */
+        .tab-row { display: flex; background: #000; border-bottom: 1px solid #333; }
+        .tab-btn { flex: 1; padding: 15px; border: none; background: #000; cursor: pointer; font-weight: bold; color: #555; font-family: 'Courier New', monospace; transition: 0.3s; text-transform: uppercase; font-size: 0.8rem; }
+        .tab-btn:hover { color: var(--neon-green); }
+        .tab-btn.active { color: var(--neon-blue); border-bottom: 3px solid var(--neon-blue); background: #151515; }
+        
+        /* Tab Specific Colors */
+        .tab-btn.asset-tab.active { color: var(--neon-blue); border-color: var(--neon-blue); }
+        .tab-btn.cafe-tab.active { color: var(--neon-purple); border-color: var(--neon-purple); }
+
+        /* CONTENT */
+        .content { display: none; padding: 30px; animation: fadeIn 0.4s; }
+        .content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* GRID */
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        .box { background: #111; padding: 20px; border-radius: 8px; border: 1px solid #333; }
+        
+        label { display: block; font-size: 0.75rem; letter-spacing: 1px; margin-bottom: 8px; color: var(--text-dim); text-transform: uppercase; }
+        input[type="number"] { width: 95%; padding: 12px; font-size: 1.1rem; background: #080808; border: 1px solid #444; color: var(--neon-green); font-family: 'Courier New', monospace; border-radius: 4px; margin-bottom: 15px; font-weight: bold; }
+        
+        /* SLIDERS */
+        .slider-group { margin-bottom: 15px; background: #080808; padding: 10px; border-radius: 4px; border: 1px solid #333; }
+        .slider-row { display: flex; align-items: center; gap: 10px; }
+        input[type="range"] { flex: 1; accent-color: var(--neon-blue); cursor: pointer; height: 5px; }
+        .rate-input { width: 60px !important; margin-bottom: 0 !important; text-align: center; color: var(--risk-red) !important; border-color: #333 !important; }
+
+        hr { border: 0; border-top: 1px solid #333; margin: 20px 0; }
+        
+        /* RESULTS */
+        .result-box { background: #000; border: 1px solid var(--neon-blue); padding: 25px; border-radius: 8px; text-align: center; margin-bottom: 20px; box-shadow: 0 0 15px rgba(0, 243, 255, 0.05); }
+        .result-box.cafe-style { border-color: var(--neon-purple); box-shadow: 0 0 15px rgba(188, 19, 254, 0.05); }
+        
+        .big-text { font-size: 2.5rem; color: var(--neon-blue); font-family: 'Courier New', monospace; font-weight: bold; margin: 10px 0; text-shadow: 0 0 5px rgba(0, 243, 255, 0.3); }
+        .cafe-style .big-text { color: var(--neon-purple); text-shadow: 0 0 5px rgba(188, 19, 254, 0.3); }
+
+        /* TABLE */
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; font-family: 'Courier New', monospace; }
+        th, td { padding: 12px; border-bottom: 1px solid #333; text-align: left; }
+        th { color: #666; text-transform: uppercase; font-size: 0.75rem; }
+        .col-old { color: var(--risk-red); }
+        .col-new { color: var(--neon-green); }
+        
+        .footer { padding: 20px; text-align: center; font-size: 0.75rem; color: #555; border-top: 1px solid #333; font-family: 'Courier New', monospace; }
+        
+        @media (max-width: 700px) { .grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <div>
+            <h1>PAYMENT META UPDATE</h1>
+            <p>Evanston Games & Cafe | v2026.2</p>
+        </div>
+        <div class="header-logo">
+            <img src="NDPS.Logo.jpg" alt="NDPS" onerror="this.style.display='none'">
+        </div>
+    </div>
+
+    <div class="tab-row">
+        <button class="tab-btn asset-tab active" onclick="switchTab('tab1', this)">1. The Asset Rail</button>
+        <button class="tab-btn asset-tab" onclick="switchTab('tab2', this)">2. The Vault</button>
+        <button class="tab-btn cafe-tab" onclick="switchTab('tab3', this)">3. The Grind</button>
+        <button class="tab-btn cafe-tab" onclick="switchTab('tab4', this)">4. The Latte Fix</button>
+    </div>
+
+    <div id="tab1" class="content active">
+        <div class="grid">
+            <div class="box">
+                <h3>High-End Asset Audit</h3>
+                <label>Monthly Collectible Sales ($)</label>
+                <input type="number" id="t1_vol" value="35000" oninput="runCalc()">
+                <div style="font-size:0.7rem; color:#666; margin-bottom:10px;">*Singles, Sealed, High-Value Items</div>
+                
+                <label>Legacy Fee Rate (%)</label>
+                <div class="slider-group">
+                    <div class="slider-row">
+                        <input type="range" id="t1_slider" min="2.0" max="5.0" step="0.1" value="3.5" oninput="syncRate('t1', 'slider')">
+                        <input type="number" id="t1_rate" class="rate-input" value="3.5" oninput="syncRate('t1', 'input')">
+                    </div>
+                </div>
+
+                <hr>
+                <label style="color:var(--neon-blue)">NDPS Asset Rail (%)</label>
+                <input type="number" id="t1_target" value="1.0" step="0.1" oninput="runCalc()" style="color:var(--neon-blue); border-color:var(--neon-blue);">
+            </div>
+            <div>
+                <div class="result-box">
+                    <label>Annual Loot Recovered</label>
+                    <div id="t1_res" class="big-text">$0.00</div>
+                </div>
+                <table>
+                    <tr><th>Metric</th><th>Legacy Rail</th><th>Asset Rail</th></tr>
+                    <tr><td>Processing Rate</td><td id="t1_out_rate" class="col-old">3.50%</td><td id="t1_out_target" class="col-new">1.00%</td></tr>
+                    <tr><td>Monthly Cost</td><td id="t1_out_cost_old" class="col-old">$0.00</td><td id="t1_out_cost_new" class="col-new">$0.00</td></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="tab2" class="content">
+        <div class="grid">
+            <div class="box">
+                <h3>Fraud Shield Analysis</h3>
+                <label>Avg. High-End Ticket ($)</label>
+                <input type="number" id="t2_ticket" value="250" oninput="runCalc()">
+                
+                <label>Est. Annual Chargeback Loss ($)</label>
+                <input type="number" id="t2_loss" value="1500" oninput="runCalc()">
+                <div style="font-size:0.7rem; color:#666; margin-bottom:10px;">*Value of goods lost to disputes</div>
+                
+                <hr>
+                <label style="color:var(--neon-blue)">NDPS Liability</label>
+                <input type="text" value="ZERO" readonly style="background:#080808; border:1px solid #444; color:var(--neon-blue); padding:12px; font-family:'Courier New'; font-weight:bold; width:95%;">
+            </div>
+            <div>
+                <div class="result-box">
+                    <label>Total Value Protected</label>
+                    <div id="t2_res" class="big-text">$0.00</div>
+                    <div style="font-size:0.8rem; color:#666;">(Prevention + Recovered Liquidity)</div>
+                </div>
+                <table>
+                    <tr><th>Security Protocol</th><th>Legacy</th><th>The Vault</th></tr>
+                    <tr><td>Dispute Window</td><td class="col-old">90 Days</td><td class="col-new">0 Days</td></tr>
+                    <tr><td>Settlement</td><td class="col-old">Pending</td><td class="col-new">Final</td></tr>
+                    <tr><td>Fraud Liability</td><td class="col-old">Merchant</td><td class="col-new">None</td></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="tab3" class="content">
+        <div class="grid">
+            <div class="box">
+                <h3>Cafe Margin Audit</h3>
+                <label>Monthly Cafe Sales ($)</label>
+                <input type="number" id="t3_vol" value="12000" oninput="runCalc()">
+                
+                <label>Detected Effective Rate (%)</label>
+                <div class="slider-group">
+                    <div class="slider-row">
+                        <input type="range" id="t3_slider" min="3.0" max="12.0" step="0.1" value="8.5" oninput="syncRate('t3', 'slider')">
+                        <input type="number" id="t3_rate" class="rate-input" value="8.5" oninput="syncRate('t3', 'input')">
+                    </div>
+                </div>
+                <div style="font-size:0.7rem; color:#666;">*High due to fixed fees on small tickets</div>
+
+                <hr>
+                <label style="color:var(--neon-purple)">NDPS Bundle Rate (%)</label>
+                <input type="number" id="t3_target" value="2.5" step="0.1" oninput="runCalc()" style="color:var(--neon-purple); border-color:var(--neon-purple);">
+            </div>
+            <div>
+                <div class="result-box cafe-style">
+                    <label>Cafe Profit Reclaimed</label>
+                    <div id="t3_res" class="big-text">$0.00</div>
+                </div>
+                <table>
+                    <tr><th>Metric</th><th>Legacy Rail</th><th>Bundle Rail</th></tr>
+                    <tr><td>Effective Rate</td><td id="t3_out_rate" class="col-old">8.50%</td><td id="t3_out_target" class="col-new">2.50%</td></tr>
+                    <tr><td>Monthly Fees</td><td id="t3_out_cost_old" class="col-old">$0.00</td><td id="t3_out_cost_new" class="col-new">$0.00</td></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="tab4" class="content">
+        <div class="grid">
+            <div class="box">
+                <h3>The "Latte Tax" Audit</h3>
+                <label>Avg. Cafe Ticket ($)</label>
+                <input type="number" id="t4_ticket" value="5.00" oninput="runCalc()">
+                
+                <label>Daily Transaction Count (#)</label>
+                <input type="number" id="t4_count" value="80" oninput="runCalc()">
+                
+                <label>Legacy Fixed Fee ($)</label>
+                <input type="number" id="t4_fix" value="0.30" step="0.05" oninput="runCalc()">
+
+                <hr>
+                <label style="color:var(--neon-purple)">NDPS Bundle Rate (%)</label>
+                <input type="number" id="t4_target" value="2.5" step="0.1" oninput="runCalc()" style="color:var(--neon-purple); border-color:var(--neon-purple);">
+            </div>
+            <div>
+                <div class="result-box cafe-style">
+                    <label>Annual "Latte Tax" Savings</label>
+                    <div id="t4_res" class="big-text">$0.00</div>
+                </div>
+                <table>
+                    <tr><th>Per Cup Audit</th><th>Legacy</th><th>Bundled</th></tr>
+                    <tr><td>Fixed Fee Cost</td><td id="t4_out_fix" class="col-old">$0.30</td><td class="col-new">$0.00</td></tr>
+                    <tr><td>% Cost</td><td id="t4_out_perc" class="col-old">$0.15</td><td id="t4_out_new" class="col-new">$0.08</td></tr>
+                    <tr><td>Total Fee / Cup</td><td id="t4_out_tot" class="col-old">$0.45</td><td id="t4_out_tot_new" class="col-new">$0.08</td></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        Kevin Yi, Fintech Consultant | (224) 435-8699 | Evanston, IL
+    </div>
+</div>
+
+<script>
+    // 1. TAB SWITCHER
+    function switchTab(tabId, btnElement) {
+        var contents = document.getElementsByClassName('content');
+        for (var i = 0; i < contents.length; i++) { contents[i].style.display = 'none'; }
+        document.getElementById(tabId).style.display = 'block';
+        var btns = document.getElementsByClassName('tab-btn');
+        for (var i = 0; i < btns.length; i++) { btns[i].classList.remove('active'); }
+        btnElement.classList.add('active');
+    }
+
+    // 2. SLIDER SYNC
+    function syncRate(tab, source) {
+        var slider = document.getElementById(tab + '_slider');
+        var input = document.getElementById(tab + '_rate');
+        if (source === 'slider') { input.value = slider.value; } 
+        else { slider.value = input.value; }
+        runCalc();
+    }
+
+    // 3. FORMATTER
+    function fmt(num) { return '$' + num.toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2}); }
+
+    // 4. MAIN CALCULATOR ENGINE
+    function runCalc() {
+        // --- TAB 1: ASSET RAIL ---
+        var t1_vol = parseFloat(document.getElementById('t1_vol').value) || 0;
+        var t1_rate = parseFloat(document.getElementById('t1_rate').value) || 0;
+        var t1_trg = parseFloat(document.getElementById('t1_target').value) || 0;
+        
+        var t1_save = (t1_vol * ((t1_rate - t1_trg)/100)) * 12;
+        document.getElementById('t1_res').innerText = fmt(t1_save);
+        document.getElementById('t1_out_rate').innerText = t1_rate.toFixed(2) + '%';
+        document.getElementById('t1_out_target').innerText = t1_trg.toFixed(2) + '%';
+        document.getElementById('t1_out_cost_old').innerText = fmt(t1_vol * (t1_rate/100));
+        document.getElementById('t1_out_cost_new').innerText = fmt(t1_vol * (t1_trg/100));
+
+        // --- TAB 2: THE VAULT ---
+        var t2_loss = parseFloat(document.getElementById('t2_loss').value) || 0;
+        // Combine Fee Savings (Tab 1 result) + Fraud Prevention
+        var t2_total = t1_save + t2_loss; 
+        document.getElementById('t2_res').innerText = fmt(t2_total);
+
+        // --- TAB 3: THE GRIND (CAFE) ---
+        var t3_vol = parseFloat(document.getElementById('t3_vol').value) || 0;
+        var t3_rate = parseFloat(document.getElementById('t3_rate').value) || 0;
+        var t3_trg = parseFloat(document.getElementById('t3_target').value) || 0;
+        
+        var t3_save = (t3_vol * ((t3_rate - t3_trg)/100)) * 12;
+        document.getElementById('t3_res').innerText = fmt(t3_save);
+        document.getElementById('t3_out_rate').innerText = t3_rate.toFixed(2) + '%';
+        document.getElementById('t3_out_target').innerText = t3_trg.toFixed(2) + '%';
+        document.getElementById('t3_out_cost_old').innerText = fmt(t3_vol * (t3_rate/100));
+        document.getElementById('t3_out_cost_new').innerText = fmt(t3_vol * (t3_trg/100));
+
+        // --- TAB 4: LATTE FIX ---
+        var t4_ticket = parseFloat(document.getElementById('t4_ticket').value) || 0;
+        var t4_count = parseFloat(document.getElementById('t4_count').value) || 0;
+        var t4_fix = parseFloat(document.getElementById('t4_fix').value) || 0;
+        var t4_trg = parseFloat(document.getElementById('t4_target').value) || 0;
+
+        // Cost Per Cup
+        var leg_perc_cost = t4_ticket * 0.029; // Assume 2.9% base
+        var leg_total_cup = leg_perc_cost + t4_fix;
+        var new_total_cup = t4_ticket * (t4_trg/100);
+        
+        // Annual Savings
+        var save_per_cup = leg_total_cup - new_total_cup;
+        var annual_mic_save = save_per_cup * t4_count * 365;
+
+        document.getElementById('t4_res').innerText = fmt(annual_mic_save);
+        document.getElementById('t4_out_fix').innerText = fmt(t4_fix);
+        document.getElementById('t4_out_perc').innerText = fmt(leg_perc_cost);
+        document.getElementById('t4_out_new').innerText = fmt(new_total_cup);
+        document.getElementById('t4_out_tot').innerText = fmt(leg_total_cup);
+        document.getElementById('t4_out_tot_new').innerText = fmt(new_total_cup);
+    }
+    
+    // Init
+    runCalc();
+</script>
+
+</body>
+</html>
