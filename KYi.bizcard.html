@@ -7,24 +7,31 @@
     <style>
         body { font-family: 'Segoe UI', sans-serif; background: #000035; color: #fff; text-align: center; padding: 40px 20px; margin: 0; }
         .card-container { max-width: 400px; margin: auto; background: #000035; padding: 40px 20px; border-radius: 15px; border: 1px solid #333; box-shadow: 0 0 30px rgba(0, 243, 255, 0.1); }
+        
+        /* Updated Profile Link/Image Styles */
+        .profile-link { text-decoration: none; display: inline-block; transition: 0.3s; }
+        .profile-link:hover { transform: scale(1.05); }
         .profile-img { width: 100px; height: 100px; border-radius: 50%; border: 3px solid #D4AF37; margin-bottom: 20px; object-fit: cover; }
+        
         h1 { margin: 0; font-size: 1.5rem; color: #D4AF37; }
         p { color: #888; font-size: 0.9rem; margin-top: 5px; margin-bottom: 30px; }
         
         /* BUTTONS */
         .btn { display: block; width: 100%; padding: 15px 0; margin-bottom: 15px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 1rem; transition: 0.2s; box-sizing: border-box; }
         .btn-primary { background: #D4AF37; color: #000; border: none; }
+        .btn-primary:hover { background: #fff; }
         .btn-secondary { background: transparent; color: #fff; border: 2px solid #D4AF37; }
-        .btn-link { color: #888; font-size: 0.85rem; margin-top: 20px; display: inline-block; }
+        .btn-secondary:hover { background: rgba(212, 175, 55, 0.1); }
 
-        /* ICONS (Simple text for now) */
         .icon { margin-right: 8px; }
     </style>
 </head>
 <body>
 
     <div class="card-container">
-        <img src="NDPS.Logo.jpg" alt="Kevin Yi" class="profile-img">
+        <a href="index.html" class="profile-link">
+            <img src="NDPS.Logo.jpg" alt="NDPS Logo" class="profile-img">
+        </a>
         
         <h1>Kevin Yi</h1>
         <p>FinTech Consultant<br>New Digital Payment Systems LLC</p>
@@ -35,10 +42,6 @@
 
         <a href="downloads/NDPS.BizCards.pdf" class="btn btn-secondary" target="_blank">
             <span class="icon">📄</span> View Card PDF
-        </a>
-        
-        <a href="index.html" class="btn-link">
-            &larr; Access Client Portal
         </a>
     </div>
 
