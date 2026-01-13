@@ -149,9 +149,9 @@
 
 <section class="hero">
     <h1>UpScaling Chicago’s<br>Financial Infrastructure</h1>
-    <p>Stop paying unfair high rates, fees and charge-backs on your 'legacy POS'<br> 
-       Start owning your transaction rails. Local, secure, instant & IRREVERSIBLE<br>
-       settlement for Chicago’s premier independent businesses.</p>
+    <p>Stop paying unfair high rates, fees and charge-backs on your 'legacy POS'. 
+       Start owning your transaction rails. Local, secure, instant
+       & IRREVERSIBLE settlement for Chicago’s premier independent businesses.</p>
     <div>
         <a href="#simulator" class="btn-main">Calculate My Savings</a>
         <a href="#mission" class="btn-sec">Our Mission</a>
@@ -171,9 +171,8 @@
 <section id="mission" class="mission">
     <div class="mission-text">
         <h2>We Are the Anti-Middleman.</h2>
-        <p>For decades, local merchants have been treated like renters<br> 
-           of their own transaction systems. You pay a "tax" on every swipe,
-            carry the risk of fraud, and wait days for the bank to release your funds.</p>
+        <p>For decades, local merchants have been treated like renters of their own transaction systems. 
+           You pay a "tax" on every swipe, carry the risk of fraud, and wait days for the bank to release your funds.</p>
         <p><strong>NDPS alongside Digital Residuals is changing the rules through latest FinTech.</strong> 
            We don't believe in "one-size-fits-all" rates. A $4 latte and a $4,000 diamond ring should not be processed 
            on the same rail—and we've built the hybrid systems to prove it.</p>
@@ -240,4 +239,162 @@
             against ri$ing cost$ of rent, and the desire to reduce higher costs of paying for resource$ and Supplie$
             for continued operation.</p>
 
-        <p>With the latest & greatest, I found ways to further $
+        <p>With the latest & greatest, I found ways to further $lice & $have away at those hidden unexpected high costs. 
+            Aside the MOTIVATION to provide retail fintech solutions for fellow, local Chicago businesses
+            —I find much SATISFACTION Upgrading & UpScaling your financial infrastructure, 
+            so you KEEP more of every Hard EARNED dollar.</p>
+        <div class="signature">- Kevin Yi, Principal FinTech Consultant</div>
+    </div>
+</section>
+
+<footer class="footer" id="footer-trigger">
+    <div style="margin-bottom:30px;">
+        <div>New Digital Payment Systems LLC | Chicago, IL</div>
+        <div>(224) 307-4511</div>
+        <div style="font-size:0.8rem; opacity:0.5; margin-top:10px;">Keep scrolling to connect...</div>
+    </div>
+
+    <section style="background:#222; padding:40px; color:#fff; border-top:5px solid #D4AF37; border-radius:10px; text-align:left;">
+        <h3 style="color:#D4AF37; text-transform:uppercase; letter-spacing:1px; margin-bottom:10px; margin-top:0;">
+            <span style="background:#D4AF37; color:#000; padding:2px 8px; font-size:0.8rem; border-radius:3px; vertical-align:middle; margin-right:10px;">INTERNAL</span>
+            Client Demo Portal
+        </h3>
+        <p style="color:#888; font-size:0.9rem; margin-bottom:30px;">
+            Secure access for NDPS Agents. Select a client archetype to launch the interactive audit tool.
+        </p>
+
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap:20px;">
+            <a href="Hops.Grapes.html" style="text-decoration:none;">
+                <div style="background:#333; padding:20px; border-radius:5px; border:1px solid #444; transition:0.2s;" onmouseover="this.style.borderColor='#00e676'" onmouseout="this.style.borderColor='#444'">
+                    <div style="color:#00e676; font-weight:bold; font-family:'Courier New'; margin-bottom:5px;">HOPS & GRAPES</div>
+                    <div style="color:#ccc; font-size:0.9rem;">High-Risk & ATM Pivot</div>
+                    <div style="margin-top:15px; font-size:0.8rem; color:#888;">&rarr; Launch Tool</div>
+                </div>
+            </a>
+
+            <a href="Watcher.Comix.html" style="text-decoration:none;">
+                <div style="background:#333; padding:20px; border-radius:5px; border:1px solid #444; transition:0.2s;" onmouseover="this.style.borderColor='#bc13fe'" onmouseout="this.style.borderColor='#444'">
+                    <div style="color:#bc13fe; font-weight:bold; font-family:'Courier New'; margin-bottom:5px;">WATCHER COMIX</div>
+                    <div style="color:#ccc; font-size:0.9rem;">Subscribers & Chargebacks</div>
+                    <div style="margin-top:15px; font-size:0.8rem; color:#888;">&rarr; Launch Tool</div>
+                </div>
+            </a>
+
+            <a href="Evanston.Games.html" style="text-decoration:none;">
+                <div style="background:#333; padding:20px; border-radius:5px; border:1px solid #444; transition:0.2s;" onmouseover="this.style.borderColor='#00f3ff'" onmouseout="this.style.borderColor='#444'">
+                    <div style="color:#00f3ff; font-weight:bold; font-family:'Courier New'; margin-bottom:5px;">EVANSTON GAMES</div>
+                    <div style="color:#ccc; font-size:0.9rem;">The "Meta" Asset Rail</div>
+                    <div style="margin-top:15px; font-size:0.8rem; color:#888;">&rarr; Launch Tool</div>
+                </div>
+            </a>
+        </div>
+    </section>    
+</footer>
+
+<script>
+    // 1. CALCULATOR LOGIC
+    function calculate() {
+        const vol = parseFloat(document.getElementById('monthly_vol').value) || 0;
+        const rate = parseFloat(document.getElementById('current_rate').value) || 0;
+        const target_rate = 2.5; 
+        const savings = (vol * ((rate - target_rate) / 100)) * 12;
+        document.getElementById('savings').innerText = '$' + savings.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+    }
+
+    // 2. OVERLAY & SCROLL LOGIC
+    const overlay = document.getElementById('bizOverlay');
+    const footer = document.getElementById('footer-trigger');
+    
+    const vcfPath = 'downloads/KevinYi.vcf';
+    const pdfPath = 'downloads/NDPS.BizCards.pdf';
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) { activateOverlay(); }
+        });
+    }, { threshold: 0.5 }); // Trigger when 50% of footer is visible
+
+    observer.observe(footer);
+
+    function activateOverlay() {
+        if (overlay.classList.contains('active')) return; 
+        overlay.classList.add('active');
+        document.body.style.overflow = 'hidden'; 
+    }
+
+    function dismissOverlay() {
+        overlay.classList.remove('active');
+        document.body.style.overflow = 'auto'; 
+        hideContextMenu();
+    }
+
+    // 3. INTERACTION LOGIC
+    const cardZone = document.getElementById('cardZone');
+    const ctxMenu = document.getElementById('contextMenu');
+    let longPressTimer;
+    let hasTriggeredVCF = false;
+
+    function autoTriggerVCF() {
+        if (!hasTriggeredVCF && !sessionStorage.getItem('ndps_vcf_manual_trigger')) {
+            window.location.href = vcfPath;
+            hasTriggeredVCF = true;
+            sessionStorage.setItem('ndps_vcf_manual_trigger', 'true');
+            const toast = document.getElementById('dl-toast');
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+    }
+
+    // Desktop Right Click
+    cardZone.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+        autoTriggerVCF(); 
+        showContextMenu(e.clientX, e.clientY);
+    });
+
+    // Mobile Long Press
+    cardZone.addEventListener('touchstart', (e) => {
+        longPressTimer = setTimeout(() => {
+            autoTriggerVCF(); 
+            showContextMenu(e.touches[0].clientX, e.touches[0].clientY);
+        }, 600); 
+    });
+
+    cardZone.addEventListener('touchend', () => { clearTimeout(longPressTimer); });
+
+    function showContextMenu(x, y) {
+        const menuWidth = 200;
+        if (x + menuWidth > window.innerWidth) { x = window.innerWidth - menuWidth - 20; }
+        if (y + 150 > window.innerHeight) { y = y - 150; }
+        ctxMenu.style.left = x + 'px';
+        ctxMenu.style.top = y + 'px';
+        ctxMenu.style.display = 'block';
+    }
+
+    function hideContextMenu() { ctxMenu.style.display = 'none'; }
+    window.addEventListener('click', (e) => {
+        if (!ctxMenu.contains(e.target)) { hideContextMenu(); }
+    });
+
+    function execAction(action) {
+        hideContextMenu();
+        if (action === 'vcf') window.location.href = vcfPath;
+        if (action === 'view') window.open(pdfPath);
+        if (action === 'print') window.open(pdfPath); 
+    }
+
+    // Scroll Up to Dismiss
+    let startY = 0;
+    overlay.addEventListener('touchstart', (e) => startY = e.touches[0].clientY);
+    overlay.addEventListener('touchmove', (e) => {
+        if (e.touches[0].clientY - startY > 50) dismissOverlay(); 
+    });
+    overlay.addEventListener('wheel', (e) => {
+        if (e.deltaY < -30) dismissOverlay();
+    });
+
+    calculate();
+</script>
+
+</body>
+</html>
