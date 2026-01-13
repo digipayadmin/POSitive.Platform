@@ -12,12 +12,57 @@
         }
         body { margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; color: var(--text); background: var(--white); user-select: none; -webkit-user-select: none; }
         
-        /* --- NAVIGATION --- */
-        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; background: var(--navy); border-bottom: 3px solid var(--gold); position:sticky; top:0; z-index:100; }
-        .logo-container { display: flex; align-items: center; gap: 15px; }
-        .logo-img { height: 100px; width: auto; border-radius: 50%; border: 2px solid var(--gold); }
-        .nav-brand { color: var(--white); font-size: 1.1rem; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; }
-        .nav-cta { background: var(--gold); color: var(--navy); padding: 8px 15px; border-radius: 4px; text-decoration: none; font-weight: bold; transition: 0.3s; font-size: 0.9rem; }
+        /* --- NAVIGATION (UPDATED FOR CENTERED LOGO) --- */
+        .navbar { 
+            display: flex; 
+            justify-content: center; /* Key Change: Centers the Logo */
+            align-items: center; 
+            padding: 10px 5%; 
+            background: var(--navy); 
+            border-bottom: 3px solid var(--gold); 
+            position: sticky; 
+            top: 0; 
+            z-index: 100; 
+            height: 70px; /* Fixed height for stability */
+        }
+
+        .logo-container { 
+            display: flex; 
+            align-items: center; 
+            gap: 15px; 
+            text-decoration: none;
+        }
+
+        .logo-img { 
+            height: 50px; 
+            width: auto; 
+            border-radius: 50%; 
+            border: 2px solid var(--gold); 
+        }
+
+        .nav-brand { 
+            color: var(--white); 
+            font-size: 1.1rem; 
+            font-weight: bold; 
+            letter-spacing: 1px; 
+            text-transform: uppercase; 
+        }
+
+        /* The CTA is now anchored absolutely to the right */
+        .nav-cta { 
+            position: absolute; 
+            right: 5%; 
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--gold); 
+            color: var(--navy); 
+            padding: 8px 15px; 
+            border-radius: 4px; 
+            text-decoration: none; 
+            font-weight: bold; 
+            transition: 0.3s; 
+            font-size: 0.9rem; 
+        }
         .nav-cta:hover { background: var(--white); }
 
         /* --- HERO SECTION --- */
@@ -54,7 +99,7 @@
         .result-display { background: var(--grey); padding: 20px; border-radius: 5px; margin-top: 20px; border: 1px solid #ddd; }
         .saving-amount { font-size: 2.5rem; color: var(--emerald); font-weight: bold; margin: 10px 0; }
 
-        /* --- BIO SECTION (RESTORED) --- */
+        /* --- BIO SECTION --- */
         .bio { padding: 80px 5%; background: var(--white); text-align: center; }
         .bio-content { max-width: 800px; margin: auto; }
         .bio h2 { color: var(--navy); font-size: 2rem; margin-bottom:30px; }
@@ -116,9 +161,14 @@
         @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(-10px);} 60% {transform: translateY(-5px);} } 
         @keyframes fadeIn { from {opacity:0; transform: scale(0.95);} to {opacity:1; transform: scale(1);} }
 
+        /* --- MOBILE OPTIMIZATION --- */
         @media (max-width: 768px) {
             .mission { grid-template-columns: 1fr; }
             .hero h1 { font-size: 2rem; }
+            /* Hide brand text on mobile for minimalist logo-only header */
+            .nav-brand { display: none; }
+            /* Reduce button padding slightly on mobile */
+            .nav-cta { padding: 6px 12px; font-size: 0.8rem; }
         }
     </style>
 </head>
@@ -305,6 +355,7 @@
     const overlay = document.getElementById('bizOverlay');
     const footer = document.getElementById('footer-trigger');
     
+    // Config
     const vcfPath = 'downloads/KevinYi.vcf';
     const pdfPath = 'downloads/NDPS.BizCards.pdf';
 
@@ -312,7 +363,7 @@
         entries.forEach(entry => {
             if (entry.isIntersecting) { activateOverlay(); }
         });
-    }, { threshold: 0.5 }); // Trigger when 50% of footer is visible
+    }, { threshold: 0.5 }); 
 
     observer.observe(footer);
 
