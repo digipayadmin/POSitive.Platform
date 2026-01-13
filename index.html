@@ -10,7 +10,7 @@
             --grey: #f8f9fa; --text: #333333; --emerald: #004d40;
             --glass: rgba(0, 0, 53, 0.98);
         }
-        body { margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; color: var(--text); background: var(--white); user-select: none; /* Prevents text selection to feel more app-like */ }
+        body { margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; color: var(--text); background: var(--white); user-select: none; -webkit-user-select: none; }
         
         /* --- NAVIGATION & HERO --- */
         .navbar { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; background: var(--navy); border-bottom: 3px solid var(--gold); position:sticky; top:0; z-index:100; }
@@ -26,8 +26,6 @@
         
         /* --- SECTIONS --- */
         .trust-bar { background: #f0f0f0; padding: 25px 5%; text-align: center; border-bottom: 1px solid #e0e0e0; }
-        .trust-text { font-size: 0.9rem; color: #666; text-transform: uppercase; letter-spacing: 1px; font-weight: bold; }
-        
         .mission { padding: 80px 5%; max-width: 1000px; margin: auto; }
         .mission h2 { color: var(--navy); font-size: 2.2rem; margin-bottom: 20px; text-align:center; }
         .mission p { font-size: 1.1rem; line-height: 1.8; color: #555; text-align:center; max-width: 700px; margin: auto; }
@@ -56,41 +54,38 @@
 
         #bizOverlay.active { opacity: 1; pointer-events: all; }
 
-        /* The PDF Card Container */
+        /* The Card Container - Now holds an Image, not an Iframe */
         .gui-card-frame {
-            background: #222;
-            border: 2px solid var(--gold);
-            padding: 5px;
-            border-radius: 10px;
+            background: transparent; /* Transparent so the image shape dictates the look */
             width: 90%;
             max-width: 450px;
-            height: 60vh; /* Takes up 60% of vertical screen height */
-            box-shadow: 0 0 60px rgba(212, 175, 55, 0.25);
+            /* Adjust height to match your image aspect ratio */
+            height: auto; 
             transform: translateY(50px);
             transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            overflow: hidden;
             position: relative;
+            cursor: context-menu; /* Hints that right click is available */
         }
 
         #bizOverlay.active .gui-card-frame { transform: translateY(0); }
 
-        /* The PDF Embed */
-        .pdf-viewer {
+        /* The Visual Image (Solves Mobile Grey Box) */
+        .card-visual {
             width: 100%;
-            height: 100%;
-            border: none;
-            border-radius: 6px;
-            background: #fff; /* White bg for clean PDF contrast */
+            height: auto;
+            border-radius: 10px;
+            border: 2px solid var(--gold);
+            box-shadow: 0 0 50px rgba(212, 175, 55, 0.3);
+            display: block;
         }
 
-        /* Instructions */
         .gui-hint { 
-            font-size: 0.8rem; color: #aaa; margin-top: 15px; 
+            font-size: 0.8rem; color: #aaa; margin-top: 20px; 
             opacity: 0.8; letter-spacing: 0.5px;
         }
         
         .scroll-hint { 
-            margin-top: 25px; color: #fff; opacity: 0.5; font-size: 0.9rem; 
+            margin-top: 30px; color: #fff; opacity: 0.5; font-size: 0.9rem; 
             animation: bounce 2s infinite; cursor: pointer; 
         }
 
@@ -103,24 +98,34 @@
             border: 1px solid var(--gold);
             border-radius: 8px;
             box-shadow: 0 5px 25px rgba(0,0,0,0.5);
-            min-width: 180px;
+            min-width: 200px;
             overflow: hidden;
             animation: fadeIn 0.2s;
         }
 
         .ctx-item {
-            padding: 12px 20px;
+            padding: 15px 20px;
             color: #fff;
             cursor: pointer;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             border-bottom: 1px solid #333;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             transition: 0.2s;
         }
         .ctx-item:last-child { border-bottom: none; }
         .ctx-item:hover { background: var(--gold); color: #000; }
+        .ctx-icon { width: 20px; text-align: center; }
+
+        /* TOAST NOTIFICATION */
+        .toast {
+            position: absolute; top: -50px; left: 50%; transform: translateX(-50%);
+            background: var(--emerald); color: white; padding: 10px 20px;
+            border-radius: 20px; font-weight: bold; font-size: 0.9rem;
+            opacity: 0; transition: 0.5s; pointer-events: none; white-space: nowrap;
+        }
+        .toast.show { top: -60px; opacity: 1; }
 
         @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(-10px);} 60% {transform: translateY(-5px);} } 
         @keyframes fadeIn { from {opacity:0; transform: scale(0.95);} to {opacity:1; transform: scale(1);} }
@@ -129,14 +134,14 @@
 <body>
 
 <div id="bizOverlay">
-    <div style="color:var(--emerald); font-weight:bold; margin-bottom:15px; display:none;" id="auto-msg">✓ Contact Info Downloaded</div>
     
     <div class="gui-card-frame" id="cardZone">
-        <iframe src="downloads/NDPS.BizCards.pdf#toolbar=0&navpanes=0&scrollbar=0&view=Fit" class="pdf-viewer"></iframe>
+        <div id="dl-toast" class="toast">✓ Contact Saved!</div>
+        <img src="downloads/NDPS.BizCard.Visual.jpg" alt="Kevin Yi NDPS" class="card-visual">
     </div>
 
     <div class="gui-hint">
-        Right-Click (or Long Press) Card for Options
+        Right-Click (or Long Press) for Options
     </div>
 
     <div class="scroll-hint" onclick="dismissOverlay()">
@@ -146,13 +151,13 @@
 
 <div id="contextMenu">
     <div class="ctx-item" onclick="execAction('vcf')">
-        <span>📇</span> Save Contact
+        <span class="ctx-icon">📇</span> Save Contact
     </div>
     <div class="ctx-item" onclick="execAction('view')">
-        <span>📄</span> View PDF Fullscreen
+        <span class="ctx-icon">📄</span> View PDF Fullscreen
     </div>
     <div class="ctx-item" onclick="execAction('print')">
-        <span>🖨️</span> Print Card
+        <span class="ctx-icon">🖨️</span> Print Card
     </div>
 </div>
 
@@ -222,7 +227,10 @@
     // 2. SCROLL TRIGGER LOGIC
     const overlay = document.getElementById('bizOverlay');
     const footer = document.getElementById('footer-trigger');
-    let hasDownloaded = false; 
+    
+    // Config: File paths
+    const vcfPath = 'downloads/KevinYi.vcf';
+    const pdfPath = 'downloads/NDPS.BizCards.pdf';
 
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -236,19 +244,8 @@
 
     function activateOverlay() {
         if (overlay.classList.contains('active')) return; 
-
         overlay.classList.add('active');
         document.body.style.overflow = 'hidden'; 
-
-        // Auto-Trigger Download (ONLY ONCE)
-        if (!hasDownloaded && !sessionStorage.getItem('ndps_vcf_dl')) {
-            document.getElementById('auto-msg').style.display = 'block';
-            setTimeout(() => {
-                window.location.href = 'downloads/KevinYi.vcf';
-                hasDownloaded = true;
-                sessionStorage.setItem('ndps_vcf_dl', 'true');
-            }, 800);
-        }
     }
 
     function dismissOverlay() {
@@ -257,22 +254,39 @@
         hideContextMenu();
     }
 
-    // 3. CUSTOM CONTEXT MENU LOGIC
+    // 3. SMART INTERACTION LOGIC (Context Menu + Auto VCF)
     const cardZone = document.getElementById('cardZone');
     const ctxMenu = document.getElementById('contextMenu');
     let longPressTimer;
+    let hasTriggeredVCF = false; // Session flag for this specific interaction
+
+    // Helper: The "Sneaky" Auto-Download Function
+    function autoTriggerVCF() {
+        if (!hasTriggeredVCF && !sessionStorage.getItem('ndps_vcf_manual_trigger')) {
+            window.location.href = vcfPath;
+            hasTriggeredVCF = true;
+            sessionStorage.setItem('ndps_vcf_manual_trigger', 'true'); // Remember user got it
+            
+            // Show subtle visual confirmation
+            const toast = document.getElementById('dl-toast');
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+    }
 
     // A. Desktop Right Click
     cardZone.addEventListener('contextmenu', (e) => {
         e.preventDefault();
+        autoTriggerVCF(); // <--- TRIGGERS DOWNLOAD ON OPEN
         showContextMenu(e.clientX, e.clientY);
     });
 
-    // B. Mobile Long Press (Simulated Right Click)
+    // B. Mobile Long Press
     cardZone.addEventListener('touchstart', (e) => {
         longPressTimer = setTimeout(() => {
+            autoTriggerVCF(); // <--- TRIGGERS DOWNLOAD ON OPEN
             showContextMenu(e.touches[0].clientX, e.touches[0].clientY);
-        }, 600); // 600ms hold triggers menu
+        }, 600); 
     });
 
     cardZone.addEventListener('touchend', () => {
@@ -280,11 +294,13 @@
     });
 
     function showContextMenu(x, y) {
-        // Bounds checking to keep menu on screen
-        const menuWidth = 180;
+        const menuWidth = 200;
         const screenWidth = window.innerWidth;
+        // Keep menu on screen
         if (x + menuWidth > screenWidth) { x = screenWidth - menuWidth - 20; }
-        
+        // Keep menu above fold if too low
+        if (y + 150 > window.innerHeight) { y = y - 150; }
+
         ctxMenu.style.left = x + 'px';
         ctxMenu.style.top = y + 'px';
         ctxMenu.style.display = 'block';
@@ -304,20 +320,17 @@
     // 4. ACTION HANDLERS
     function execAction(action) {
         hideContextMenu();
-        if (action === 'vcf') window.location.href = 'downloads/KevinYi.vcf';
-        if (action === 'view') window.open('downloads/NDPS.BizCards.pdf');
-        if (action === 'print') window.open('downloads/NDPS.BizCards.pdf'); // Print usually requires opening system dialog via PDF viewer
+        if (action === 'vcf') window.location.href = vcfPath;
+        if (action === 'view') window.open(pdfPath);
+        if (action === 'print') window.open(pdfPath); 
     }
 
-    // 5. SCROLL-UP TO DISMISS (Overlay Level)
+    // 5. SCROLL-UP TO DISMISS
     let startY = 0;
     overlay.addEventListener('touchstart', (e) => startY = e.touches[0].clientY);
     overlay.addEventListener('touchmove', (e) => {
-        // Prevent dismissal if they are just trying to scroll inside the PDF iframe (not possible due to iframe capture, but safety first)
-        if (e.target.tagName !== 'IFRAME') {
-            let currentY = e.touches[0].clientY;
-            if (currentY - startY > 50) dismissOverlay(); 
-        }
+        let currentY = e.touches[0].clientY;
+        if (currentY - startY > 50) dismissOverlay(); 
     });
     overlay.addEventListener('wheel', (e) => {
         if (e.deltaY < -30) dismissOverlay();
