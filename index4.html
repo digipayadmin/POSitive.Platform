@@ -134,7 +134,23 @@
             </div>
 
             <form id="lead-form" action="https://formspree.io/f/maqonago" method="POST" class="capture-form">
+           
                 
+                <input type="hidden" name="Selected_Volume" id="hidden-vol">
+                <input type="hidden" name="Selected_Current_Rate" id="hidden-rate">
+                <input type="hidden" name="Calculated_Annual_Savings" id="hidden-savings">
+
+                <div class="form-title">GENERATE OFFICIAL BREAKDOWN</div>
+                ```
+
+### **Next Steps to Test**
+1.  **Update the Code:** Make this change in your GitHub file.
+2.  **Commit & Wait:** Give GitHub Pages about 60 seconds to refresh.
+3.  **Hard Refresh:** On your phone or browser, refresh the page (Shift+F5 or pull down to refresh) to ensure you aren't loading the old cached version.
+4.  **Test Submit:** Fill out the form and hit submit.
+
+**Why this will work:**
+Your form ID (`maqonago`) looks correct. Once the URL structure is fixed, Formspree will receive the POST request and trigger the email to `digipaymentsystems@gmail.com` immediately.     
                 <input type="hidden" name="Selected_Volume" id="hidden-vol">
                 <input type="hidden" name="Selected_Current_Rate" id="hidden-rate">
                 <input type="hidden" name="Calculated_Annual_Savings" id="hidden-savings">
