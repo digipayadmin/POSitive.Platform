@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Breath Coach School | Infrastructure Audit</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --calm-bg: #fdfcf9; --teal: #4a7c7c; --soft-gold: #c5a059;
+            --text: #2d3436; --card-bg: #ffffff; --danger: #d63031;
+        }
+        body { font-family: 'Avenir', 'Segoe UI', sans-serif; background: var(--calm-bg); color: var(--text); padding: 40px 5%; }
+        
+        .header { text-align: center; margin-bottom: 50px; }
+        .header h1 { color: var(--teal); font-weight: 300; letter-spacing: 2px; text-transform: uppercase; }
+        
+        .container { max-width: 1000px; margin: auto; display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px; }
+        
+        .input-card { background: var(--card-bg); padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(74, 124, 124, 0.08); }
+        .input-group { margin-bottom: 25px; }
+        label { display: block; font-size: 0.85rem; font-weight: bold; margin-bottom: 10px; color: var(--teal); text-transform: uppercase; }
+        
+        input[type="number"], select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 1.1rem; box-sizing: border-box; }
+        
+        .result-panel { background: var(--teal); color: white; padding: 40px; border-radius: 15px; text-align: center; display: flex; flex-direction: column; justify-content: center; }
+        .savings-label { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; }
+        .savings-amt { font-size: 3.5rem; font-weight: bold; margin: 15px 0; color: white; }
+        
+        .chart-box { margin-top: 30px; background: rgba(255,255,255,0.1); padding: 20px; border-radius: 10px; }
+        
+        .impact-footer { grid-column: 1 / -1; background: #fff; padding: 30px; border-radius: 15px; border-left: 5px solid var(--soft-gold); }
+        .impact-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-top: 20px; }
+        .metric { text-align: center; }
+        .metric-val { font-size: 1.5rem; font-weight: bold; color: var(--teal); }
+        .metric-label { font-size: 0.8rem; opacity: 0.6; }
+
+        @media (max-width: 800px) { .container { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>Global Expansion Infrastructure</h1>
+    <p>Audit for The Breath Coach School x NDPS</p>
+</div>
+
+<div class="container">
+    <div class="input-card">
+        <div class="input-group">
+            <label>Estimated Monthly Revenue ($)</label>
+            <input type="number" id="vol" value="25000" oninput="update()">
+        </div>
+        
+        <div class="input-group">
+            <label>% of Students Outside the US</label>
+            <input type="range" id="intl_pct" min="0" max="100" value="40" style="width:100%; accent-color: var(--teal);" oninput="update()">
+            <div style="text-align:right; font-size:0.8rem;" id="intl_val">40% International</div>
+        </div>
+
+        <div class="input-group">
+            <label>Current Enrollment Cost (Domestic)</label>
+            <input type="number" id="dom_rate" value="2.9" step="0.1" oninput="update()">
+        </div>
+
+        <div class="input-group">
+            <label>Current Enrollment Cost (International)</label>
+            <input type="number" id="intl_rate" value="4.4" step="0.1" oninput="update()">
+        </div>
+    </div>
+
+    <div class="result-panel">
+        <div class="savings-label">Annual Margin Recovery</div>
+        <div class="savings-amt" id="total_save">$0</div>
+        <div class="savings-label" style="font-size: 0.7rem;">Redirected into scholarships & content</div>
+        
+        <div class="chart-box">
+            <canvas id="saveChart"></canvas>
+        </div>
+    </div>
+
+    <div class="impact-footer">
+        <h3 style="margin-top:0; color:var(--teal);">Institutional Impact Breakdown</h3>
+        <p style="font-size:0.9rem; line-height:1.6;">By shifting global enrollments to the **NDPS Digital Rail**, we bypass legacy banking surcharges and currency conversion "taxes." This capital remains within the school's ecosystem.</p>
+        
+        <div class="impact-grid">
+            <div class="metric">
+                <div class="metric-val" id="m_fx">$0</div>
+                <div class="metric-label">FX Fees Bypassed</div>
+            </div>
+            <div class="metric">
+                <div class="metric-val" id="m_risk">Zero</div>
+                <div class="metric-label">Chargeback Liability</div>
+            </div>
+            <div class="metric">
+                <div class="metric-val" id="m_students">0</div>
+                <div class="metric-label">Scholarships Funded</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const ctx = document.getElementById('saveChart').getContext('2d');
+    const saveChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Legacy Fees', 'Recovered Revenue'],
+            datasets: [{
+                data: [50, 50],
+                backgroundColor: ['rgba(255,255,255,0.2)', '#c5a059'],
+                borderColor: 'transparent',
+                borderWidth: 0
+            }]
+        },
+        options: { cutout: '80%', plugins: { legend: { display: false } } }
+    });
+
+    function update() {
+        const vol = parseFloat(document.getElementById('vol').value) || 0;
+        const intlPct = parseFloat(document.getElementById('intl_pct').value) / 100;
+        const domRate = parseFloat(document.getElementById('dom_rate').value) / 100;
+        const intlRate = parseFloat(document.getElementById('intl_rate').value) / 100;
+        
+        document.getElementById('intl_val').innerText = (intlPct * 100).toFixed(0) + "% International Students";
+
+        const ndpsRate = 0.025; // 2.5% Target
+
+        // Math
+        const currentCost = (vol * (1 - intlPct) * domRate) + (vol * intlPct * intlRate);
+        const ndpsCost = vol * ndpsRate;
+        const monthlySave = currentCost - ndpsCost;
+        const annualSave = monthlySave * 12;
+
+        // Displays
+        document.getElementById('total_save').innerText = '$' + annualSave.toLocaleString(undefined, {maximumFractionDigits: 0});
+        document.getElementById('m_fx').innerText = '$' + (vol * intlPct * 0.015 * 12).toLocaleString(undefined, {maximumFractionDigits: 0});
+        document.getElementById('m_students').innerText = Math.floor(annualSave / 1500); // Assuming $1500 course
+
+        // Chart
+        saveChart.data.datasets[0].data = [ndpsCost, monthlySave];
+        saveChart.update();
+    }
+
+    update();
+</script>
+</body>
+</html>
