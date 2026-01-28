@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POSitive Rails | The Infrastructure Upgrade</title>
+    <style>
+        :root {
+            /* BRAND: POSitive Rails */
+            --navy: #0f172a;       /* Deep Infrastructure */
+            --slate: #1e293b;      /* Panel Background */
+            --white: #f8fafc;      /* Text */
+            --mint: #10b981;       /* The "Positive" Signal */
+            --rail-blue: #3b82f6;  /* Tech/Speed */
+            --grey: #f1f5f9;       /* Background */
+        }
+        body { margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; color: #334155; background: var(--grey); }
+        
+        /* --- NAVIGATION --- */
+        .navbar { 
+            display: flex; justify-content: space-between; align-items: center; 
+            padding: 15px 5%; background: var(--navy); border-bottom: 3px solid var(--mint); 
+            position: sticky; top: 0; z-index: 100;
+        }
+        
+        /* LOGO CONSTRUCT */
+        .brand-box { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+        .logo-icon {
+            width: 40px; height: 40px; 
+            background: linear-gradient(135deg, var(--slate), var(--navy)); 
+            border: 2px solid var(--mint); border-radius: 8px; 
+            display: flex; align-items: center; justify-content: center; 
+            font-family: 'Courier New', monospace; font-weight: 900; font-size: 1.2rem; 
+            color: var(--mint);
+        }
+        .brand-text { color: var(--white); font-weight: bold; font-size: 1.1rem; letter-spacing: -0.5px; line-height: 1.1; }
+        .brand-sub { font-size: 0.75rem; color: var(--rail-blue); letter-spacing: 2px; text-transform: uppercase; }
+
+        /* --- HERO --- */
+        .hero { 
+            background: linear-gradient(160deg, var(--navy) 0%, #020617 100%); 
+            color: var(--white); padding: 80px 5%; text-align: center; 
+        }
+        .hero h1 { font-size: 3rem; margin-bottom: 20px; letter-spacing: -1px; }
+        .hero span { color: var(--mint); }
+        .hero p { font-size: 1.2rem; max-width: 700px; margin: 0 auto 40px auto; opacity: 0.8; line-height: 1.6; }
+        
+        /* --- CALCULATOR CARD --- */
+        .calc-section { margin-top: -50px; padding: 0 5% 80px 5%; }
+        .calc-container { 
+            max-width: 600px; margin: auto; background: var(--white); 
+            border-radius: 12px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); 
+            overflow: hidden; border: 1px solid #e2e8f0;
+        }
+        
+        .calc-header { 
+            background: var(--slate); color: var(--white); padding: 25px; 
+            text-align: center; border-bottom: 4px solid var(--rail-blue); 
+        }
+        .calc-body { padding: 30px; }
+
+        /* Input Styling */
+        .input-row { margin-bottom: 25px; }
+        .input-label { display: flex; justify-content: space-between; font-weight: bold; font-size: 0.9rem; margin-bottom: 10px; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; }
+        .input-val-display { color: var(--rail-blue); font-weight: bold; }
+        
+        .hybrid-input { display: flex; align-items: center; gap: 15px; }
+        input[type="number"], input[type="text"], input[type="email"] { 
+            padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 1rem; width: 100%; transition: 0.3s;
+            background: #f8fafc;
+        }
+        input[type="number"]:focus, input[type="text"]:focus, input[type="email"]:focus { 
+            border-color: var(--mint); outline: none; background: #fff; box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1); 
+        }
+        
+        /* Range Sliders */
+        input[type=range] { flex-grow: 1; accent-color: var(--rail-blue); cursor: pointer; height: 6px; }
+
+        /* Results Display */
+        .result-box { 
+            background: var(--navy); color: #fff; padding: 25px; border-radius: 8px; 
+            text-align: center; margin-bottom: 30px; position: relative; overflow: hidden;
+            border: 1px solid var(--slate);
+        }
+        .result-title { font-size: 0.8rem; letter-spacing: 1px; color: var(--mint); margin-bottom: 5px; text-transform: uppercase; }
+        .result-amt { font-size: 3rem; color: var(--white); font-weight: bold; letter-spacing: -1px; }
+        .result-note { font-size: 0.75rem; opacity: 0.6; margin-top: 5px; }
+        
+        /* Capture Form */
+        .capture-form { 
+            border-top: 1px dashed #cbd5e1; padding-top: 25px; animation: fadeIn 1s; 
+        }
+        .form-title { font-size: 0.9rem; font-weight: bold; margin-bottom: 15px; color: var(--navy); text-align: center; }
+        
+        .btn-submit { 
+            background: var(--mint); color: #064e3b; width: 100%; padding: 16px; 
+            border: none; border-radius: 6px; font-weight: bold; font-size: 1rem; 
+            cursor: pointer; margin-top: 15px; transition: 0.3s; 
+        }
+        .btn-submit:hover { background: #34d399; transform: translateY(-1px); }
+
+        /* Success State */
+        #success-message { display: none; text-align: center; padding: 20px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 6px; margin-top: 20px; color: #166534; }
+        
+        @keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
+        
+        /* Footer */
+        .footer { text-align: center; padding: 40px; color: #64748b; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <a href="#" class="brand-box">
+        <div class="logo-icon">P<span style="color:var(--rail-blue)">+</span></div>
+        <div class="brand-text">
+            POSitive<br><span class="brand-sub">Rails</span>
+        </div>
+    </a>
+    <div style="color:white; font-size:0.9rem; opacity:0.8; display:none;">Login</div> </nav>
+
+<section class="hero">
+    <h1>Stop Using <span style="color:#ef4444">Negative</span> Rails.</h1>
+    <p>The "Point of Sale" is dead. It's time for a <strong>Point of Savings</strong>. <br>Audit your infrastructure for hidden banking fees and legacy friction.</p>
+</section>
+
+<section class="calc-section">
+    <div class="calc-container">
+        <div class="calc-header">
+            <h3 style="margin:0;">Infrastructure Audit</h3>
+            <div style="font-size:0.8rem; opacity:0.7; margin-top:5px;">Live Margin Analysis</div>
+        </div>
+        
+        <div class="calc-body">
+            
+            <div class="input-row">
+                <div class="input-label">
+                    <span>Monthly Revenue</span>
+                    <span class="input-val-display" id="disp-vol">$25,000</span>
+                </div>
+                <div class="hybrid-input">
+                    <input type="number" id="vol-input" value="25000" step="1000" style="width: 100px;">
+                    <input type="range" id="vol-range" min="5000" max="150000" step="1000" value="25000">
+                </div>
+            </div>
+
+            <div class="input-row">
+                <div class="input-label">
+                    <span>Current Legacy Fee</span>
+                    <span class="input-val-display" id="disp-rate">3.5%</span>
+                </div>
+                <div class="hybrid-input">
+                    <span style="font-size:0.8rem; color:#64748b;">2%</span>
+                    <input type="range" id="rate-range" min="2.0" max="5.0" step="0.1" value="3.5">
+                    <span style="font-size:0.8rem; color:#64748b;">5%</span>
+                </div>
+                <div style="font-size: 0.8rem; color: #64748b; margin-top: 5px; font-style: italic;">
+                    Set this to match your current statement effective rate.
+                </div>
+            </div>
+
+            <div class="result-box">
+                <div class="result-title">Positive Capital Recoverable</div>
+                <div class="result-amt" id="savings-amt">$2,400</div>
+                <div class="result-note">*Annual savings by switching to POSitive Rails (2.7% Flat)</div>
+            </div>
+
+            <form id="lead-form" action="https://formspree.io/f/maqonago" method="POST" class="capture-form">
+                
+                <input type="hidden" name="Selected_Volume" id="hidden-vol">
+                <input type="hidden" name="Selected_Current_Rate" id="hidden-rate">
+                <input type="hidden" name="Calculated_Annual_Savings" id="hidden-savings">
+
+                <div class="form-title">GENERATE OFFICIAL PROPOSAL</div>
+                <p style="font-size:0.85rem; color:#64748b; margin-bottom:15px; text-align:center;">
+                    Secure this rate and generate a formal PDF breakdown for your business.
+                </p>
+
+                <div style="margin-bottom: 15px;">
+                    <input type="text" name="Business_Industry" id="biz-type" placeholder="Industry (e.g., Wellness, Retail, Cafe)">
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <input type="text" name="Business_Name" id="biz-name" placeholder="Business Legal Name">
+                </div>
+
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <input type="text" name="Owner_Name" id="owner-name" placeholder="Your Name">
+                    <input type="email" name="email" id="owner-email" placeholder="Email Address" required>
+                </div>
+
+                <button type="submit" class="btn-submit" id="submit-btn">Switch to POSitive</button>
+
+            </form>
+
+            <div id="success-message">
+                <strong>✓ Application Received</strong><br>
+                <span style="font-size:0.9rem;">Your Positive Rail audit has been queued. A senior agent will email your PDF shortly.</span>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <div>&copy; 2026 POSitive Rails. All Rights Reserved.</div>
+    <div style="margin-top:5px; font-size:0.8rem;">A Division of New Digital Payment Systems (NDPS) LLC</div>
+</footer>
+
+<script>
+    // --- SYNC & CALCULATOR LOGIC ---
+    const volInput = document.getElementById('vol-input');
+    const volRange = document.getElementById('vol-range');
+    const rateRange = document.getElementById('rate-range');
+    
+    // Display Elements
+    const dispVol = document.getElementById('disp-vol');
+    const dispRate = document.getElementById('disp-rate');
+    const savingsDisplay = document.getElementById('savings-amt');
+
+    // Hidden Form Fields
+    const hiddenVol = document.getElementById('hidden-vol');
+    const hiddenRate = document.getElementById('hidden-rate');
+    const hiddenSavings = document.getElementById('hidden-savings');
+
+    // POSitive Rail Target
+    const NDPS_RATE = 2.7; 
+
+    function updateCalc() {
+        const vol = parseFloat(volInput.value) || 0;
+        const currentRate = parseFloat(rateRange.value) || 0;
+
+        // Sync inputs
+        if(document.activeElement === volRange) volInput.value = volRange.value;
+        if(document.activeElement === volInput) volRange.value = volInput.value;
+
+        dispVol.innerText = '$' + vol.toLocaleString();
+        dispRate.innerText = currentRate.toFixed(1) + '%';
+
+        // Math
+        const margin = currentRate - NDPS_RATE;
+        let monthlySavings = 0;
+        if (margin > 0) {
+            monthlySavings = vol * (margin / 100);
+        }
+        const annualSavings = monthlySavings * 12;
+        const formattedSavings = '$' + annualSavings.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0});
+
+        savingsDisplay.innerText = formattedSavings;
+
+        // Update Hidden Fields
+        if(hiddenVol) hiddenVol.value = '$' + vol.toLocaleString();
+        if(hiddenRate) hiddenRate.value = currentRate.toFixed(1) + '%';
+        if(hiddenSavings) hiddenSavings.value = formattedSavings;
+    }
+
+    volInput.addEventListener('input', updateCalc);
+    volRange.addEventListener('input', updateCalc);
+    rateRange.addEventListener('input', updateCalc);
+
+    // --- FORM HANDLING ---
+    var form = document.getElementById("lead-form");
+    
+    async function handleSubmit(event) {
+        event.preventDefault(); 
+        
+        var status = document.getElementById("success-message");
+        var btn = document.getElementById("submit-btn");
+        var data = new FormData(event.target);
+        
+        btn.innerText = "Processing...";
+        btn.style.opacity = "0.7";
+
+        fetch(event.target.action, {
+            method: form.method,
+            body: data,
+            headers: { 'Accept': 'application/json' }
+        }).then(response => {
+            if (response.ok) {
+                form.style.display = "none";
+                status.style.display = "block";
+            } else {
+                alert("Submission Error. Please try again.");
+                btn.innerText = "Try Again";
+                btn.style.opacity = "1";
+            }
+        }).catch(error => {
+            alert("Network Error.");
+            btn.innerText = "Try Again";
+            btn.style.opacity = "1";
+        });
+    }
+    form.addEventListener("submit", handleSubmit);
+
+    // Init
+    updateCalc();
+</script>
+
+</body>
+</html>
