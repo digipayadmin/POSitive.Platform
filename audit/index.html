@@ -22,6 +22,7 @@
             padding: 15px 5%; background: var(--navy); border-bottom: 3px solid var(--mint); 
             position: sticky; top: 0; z-index: 100;
         }
+        /* KEY FIX: Points to Root Domain */
         .brand-box { display: flex; align-items: center; gap: 12px; text-decoration: none; }
         .logo-icon {
             width: 40px; height: 40px; 
@@ -110,4 +111,128 @@
         /* Footer */
         .footer { text-align: center; padding: 40px; color: #64748b; font-size: 0.9rem; }
     </style>
-</
+</head>
+<body>
+
+<nav class="navbar">
+    <a href="/index.html" class="brand-box">
+        <div class="logo-icon">P<span style="color:var(--rail-blue)">+</span></div>
+        <div class="brand-text">POSitive<br><span class="brand-sub">Rails</span></div>
+    </a>
+</nav>
+
+<section class="hero">
+    <div id="client-badge" class="client-badge">Exclusive Audit</div>
+    <h1 id="hero-title">Infrastructure Analysis</h1>
+    <p>Prepared by New Digital Payment Systems</p>
+</section>
+
+<div class="letter-container">
+    <div class="letter-head">
+        <div>
+            <div style="font-weight:bold; color:var(--navy);">PREPARED FOR:</div>
+            <div id="letter-client-name" style="font-size:1.2rem; margin-top:5px;">Valued Partner</div>
+        </div>
+        <div style="text-align:right;">
+            <div style="font-weight:bold; color:var(--navy);">DATE:</div>
+            <div id="letter-date" style="margin-top:5px;">January 28, 2026</div>
+        </div>
+    </div>
+    <div class="letter-body" id="letter-content">
+        Analyzing your payment infrastructure...
+    </div>
+</div>
+
+<section class="calc-section">
+    <div class="calc-container">
+        <div class="calc-header">
+            <h3 style="margin:0;">Live Margin Audit</h3>
+            <div style="font-size:0.8rem; opacity:0.8;">Real-time Recovery Calculation</div>
+        </div>
+        
+        <div class="calc-body">
+            <div class="input-row">
+                <div class="input-label">
+                    <span>Monthly Volume</span>
+                    <span style="color:var(--rail-blue); font-weight:bold;" id="disp-vol">$0</span>
+                </div>
+                <div class="hybrid-input">
+                    <input type="range" id="vol-range" min="5000" max="150000" step="1000">
+                </div>
+            </div>
+
+            <div class="input-row">
+                <div class="input-label">
+                    <span>Current Effective Rate</span>
+                    <span style="color:var(--rail-blue); font-weight:bold;" id="disp-rate">0%</span>
+                </div>
+                <div class="hybrid-input">
+                    <span style="font-size:0.8rem; color:#64748b;">2.3%</span>
+                    <input type="range" id="rate-range" min="2.3" max="5.0" step="0.1">
+                    <span style="font-size:0.8rem; color:#64748b;">5%</span>
+                </div>
+            </div>
+
+            <div class="result-box">
+                <div class="result-title">Annual Capital Recoverable</div>
+                <div class="result-amt" id="savings-amt">$0</div>
+                <div style="font-size:0.75rem; opacity:0.7; margin-top:5px;">
+                    *Based on switching to POSitive Rails (2.7% Flat)
+                </div>
+            </div>
+
+            <button onclick="window.location.href='mailto:kevin@positiverails.com?subject=Activate%20My%20Rate'" class="btn-email" style="width:100%; padding:15px; border:none; font-size:1rem; border-radius:6px;">
+                Secure This Rate
+            </button>
+        </div>
+    </div>
+</section>
+
+<div id="biz-card" class="biz-popup">
+    <div class="biz-header">
+        <div class="biz-avatar">KY</div>
+        <div class="biz-info">
+            <h4>Kevin Yi</h4>
+            <p>Founder, NDPS & POSitive Rails</p>
+            <p style="font-size:0.7rem; color:var(--mint); margin-top:3px;">● Online Now</p>
+        </div>
+    </div>
+    <div style="font-size:0.85rem; color:#475569; margin-bottom:15px; line-height:1.4;">
+        "I've pre-loaded your numbers above. Scroll up to see the recovered capital available for <span id="popup-client">your business</span>."
+    </div>
+    <div class="biz-actions">
+        <a href="mailto:kevin@positiverails.com" class="biz-btn btn-email">Email Kevin</a>
+        <div class="biz-btn btn-close" onclick="document.getElementById('biz-card').classList.remove('active')">X</div>
+    </div>
+</div>
+
+<footer class="footer">
+    <div>&copy; 2026 POSitive Rails. All Rights Reserved.</div>
+    <div style="margin-top:5px;">Evanston, IL • kevin@positiverails.com</div>
+</footer>
+
+<script>
+    // --- 1. STRATEGIC TARGET DATABASE ---
+    const clientDB = {
+        
+        // --- GROUP 4: WARM MARKET (Beta Sandbox) ---
+        'breath': {
+            name: "The Breath Coach School",
+            badge: "Global Education Audit",
+            vol: 65000,
+            rate: 3.5,
+            letter: "Kashi & Jahn,<br><br>As we discussed, the 'invisible tax' on global education is the cross-border banking fees you currently absorb. My audit shows that for every 15 international students, you lose nearly one full tuition in banking friction.<br><br>This page models the impact of switching your international enrollment to <strong>POSitive Rails</strong>. We bypass the SWIFT network entirely, opening up students in countries with banking restrictions and recovering the capital needed to fund your diversity scholarships."
+        },
+        'cauli': {
+            name: "Cauli Kitchen",
+            badge: "New Location Launch Audit",
+            vol: 45000,
+            rate: 2.9,
+            letter: "Management Team,<br><br>Opening a new physical location requires rigorous margin protection. In the food industry, a 2.9% effective rate isn't just a fee—it's the cost of ingredients for dozens of orders.<br><br><strong>POSitive Rails</strong> ensures your new Chicago location starts with a 'Margin First' infrastructure, protecting your profitability from day one rather than fixing it years later."
+        },
+
+        // --- GROUP 1: LOCAL ROUTINE (Community Rail) ---
+        'watcher': {
+            name: "Watcher Comix",
+            badge: "High-Frequency Retail Audit",
+            vol:
