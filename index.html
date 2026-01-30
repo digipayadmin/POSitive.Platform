@@ -9,12 +9,6 @@
             --navy: #000035; --gold: #D4AF37; --white: #ffffff;
             --grey: #f8f9fa; --text: #333333; --emerald: #004d40;
             --glass: rgba(0, 0, 53, 0.98);
-            
-            /* Industry Theme Colors */
-            --theme-cafe: #bc13fe;   /* Neon Purple */
-            --theme-risk: #00e676;   /* Neon Green */
-            --theme-retail: #D4AF37; /* Gold */
-            --theme-default: #D4AF37;
         }
         body { margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; color: var(--text); background: var(--white); user-select: none; -webkit-user-select: none; transition: background 0.5s; }
         
@@ -26,13 +20,15 @@
         }
         .logo-container { display: flex; align-items: center; gap: 15px; text-decoration: none; }
         .logo-img { height: 150px; width: auto; border-radius: 50%; border: 2px solid var(--gold); background:#000; }
-        .nav-brand { color: var(--white); font-size: 1.1rem; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; }
-        .nav-cta { 
+        
+        /* LOGIN BUTTON (Top Right) */
+        .login-btn { 
             position: absolute; right: 5%; top: 50%; transform: translateY(-50%);
-            background: var(--gold); color: var(--navy); padding: 8px 15px; 
-            border-radius: 4px; text-decoration: none; font-weight: bold; transition: 0.3s; font-size: 0.9rem; 
+            border: 1px solid var(--gold); color: var(--gold); padding: 8px 20px; 
+            border-radius: 4px; text-decoration: none; font-size: 0.8rem; letter-spacing: 1px;
+            transition: 0.3s; cursor: pointer; text-transform: uppercase;
         }
-        .nav-cta:hover { background: var(--white); }
+        .login-btn:hover { background: var(--gold); color: var(--navy); }
 
         /* --- HERO SECTION --- */
         .hero { background: linear-gradient(135deg, var(--navy) 0%, #001f3f 100%); color: var(--white); padding: 80px 5%; text-align: center; }
@@ -40,24 +36,27 @@
         .hero p { font-size: 1.2rem; max-width: 700px; margin: 0 auto 40px auto; opacity: 0.9; line-height: 1.6; }
         .btn-main { background: var(--gold); color: var(--navy); padding: 15px 35px; font-size: 1.1rem; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; transition: 0.3s; text-decoration: none; display: inline-block; }
         
+        /* --- ANONYMIZED SUCCESS TICKER --- */
+        .ticker-wrap { width: 100%; overflow: hidden; background: #f0f0f0; border-bottom: 1px solid #e0e0e0; padding: 15px 0; }
+        .ticker { display: flex; width: 100%; animation: ticker 30s linear infinite; }
+        .ticker-item { white-space: nowrap; padding: 0 40px; color: var(--navy); font-weight: bold; font-size: 0.9rem; }
+        .ticker-highlight { color: var(--emerald); }
+        @keyframes ticker { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+
         /* --- SMART SIMULATOR --- */
         .simulator { background: var(--navy); color: var(--white); padding: 80px 5%; text-align: center; position: relative; overflow: hidden; }
-        
         .sim-container { 
             max-width: 650px; margin: auto; background: var(--white); color: var(--text); 
             padding: 0; border-radius: 12px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); 
             overflow: hidden; transition: 0.4s ease-in-out; border: 2px solid transparent;
         }
-
         .sim-container.theme-cafe { border-color: var(--theme-cafe); box-shadow: 0 0 30px rgba(188, 19, 254, 0.3); }
         .sim-container.theme-risk { border-color: var(--theme-risk); box-shadow: 0 0 30px rgba(0, 230, 118, 0.3); }
         .sim-container.theme-retail { border-color: var(--theme-retail); box-shadow: 0 0 30px rgba(212, 175, 55, 0.3); }
 
         .sim-header { background: #111; padding: 20px; color: #fff; border-bottom: 1px solid #333; }
         .sim-header h3 { margin: 0; text-transform: uppercase; letter-spacing: 1px; color: var(--gold); transition: 0.3s; }
-        
         .sim-body { padding: 30px; text-align: left; }
-        
         .input-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
         .input-group label { display: block; font-weight: bold; margin-bottom: 8px; color: #555; font-size: 0.85rem; text-transform: uppercase; }
         .input-group input, .input-group select { 
@@ -66,37 +65,15 @@
         }
         .input-group input:focus { border-color: var(--gold); outline: none; }
 
-        #dynamic-fields { 
-            background: #f4f4f4; padding: 0 20px; margin: 0 -30px; 
-            max-height: 0; overflow: hidden; transition: max-height 0.5s ease; border-top: 1px solid #e0e0e0;
-        }
-        /* Keep this class to force it open via JS */
-        #dynamic-fields.open { max-height: 150px; padding: 20px 20px; border-bottom: 1px solid #e0e0e0; }
-
-        .result-display { 
-            background: #111; padding: 25px; margin-top: 20px; border-radius: 8px; 
-            text-align: center; color: #fff; position: relative;
-        }
+        #dynamic-fields { background: #f4f4f4; padding: 0 20px; margin: 0 -30px; border-top: 1px solid #e0e0e0; padding: 20px 20px; border-bottom: 1px solid #e0e0e0; }
+        .result-display { background: #111; padding: 25px; margin-top: 20px; border-radius: 8px; text-align: center; color: #fff; position: relative; }
         .saving-amount { font-size: 2.8rem; color: var(--gold); font-weight: bold; margin: 5px 0; transition: 0.3s; }
-        
-        #tier-badge {
-            position: absolute; top: 10px; right: 10px; 
-            background: var(--emerald); color: #fff; font-size: 0.7rem; font-weight: bold; 
-            padding: 4px 8px; border-radius: 4px; display: none; text-transform: uppercase;
-        }
-
-        #personalizer {
-            margin-top: 25px; padding-top: 20px; border-top: 1px dashed #ccc; display: none; animation: fadeIn 0.5s;
-        }
+        #tier-badge { position: absolute; top: 10px; right: 10px; background: var(--emerald); color: #fff; font-size: 0.7rem; font-weight: bold; padding: 4px 8px; border-radius: 4px; display: none; text-transform: uppercase; }
+        #personalizer { margin-top: 25px; padding-top: 20px; border-top: 1px dashed #ccc; display: block; animation: fadeIn 0.5s; }
         .p-btn { background: #333; color: #fff; width: 100%; padding: 15px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; transition: 0.3s; }
         .p-btn:hover { background: var(--gold); color: #000; }
 
-        /* --- TRUST BAR --- */
-        .trust-bar { background: #f0f0f0; padding: 25px 5%; text-align: center; border-bottom: 1px solid #e0e0e0; }
-        .trust-text { font-size: 0.9rem; color: #666; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; font-weight: bold; }
-        .trust-icons { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; font-weight: bold; color: var(--navy); }
-
-        /* --- MISSION SECTION --- */
+        /* --- MISSION & BIO --- */
         .mission { padding: 80px 5%; max-width: 1000px; margin: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
         .mission-text h2 { color: var(--navy); font-size: 2.2rem; margin-bottom: 20px; }
         .mission-text p { font-size: 1.1rem; line-height: 1.8; color: #555; margin-bottom: 20px; }
@@ -106,18 +83,23 @@
         .comp-bad { color: #c62828; }
         .comp-good { color: var(--emerald); font-weight: bold; }
 
-        /* --- BIO SECTION --- */
         .bio { padding: 80px 5%; background: var(--white); text-align: center; }
         .bio-content { max-width: 800px; margin: auto; }
         .bio h2 { color: var(--navy); font-size: 2rem; margin-bottom:30px; }
         .bio p { font-size: 1.1rem; line-height: 1.8; color: #555; margin-bottom: 25px; }
         .signature { font-family: 'Courier New', monospace; font-weight: bold; color: var(--navy); margin-top: 30px; font-size: 1.2rem; }
 
-        /* --- FOOTER --- */
+        /* --- FOOTER & LOGIN MODAL --- */
         .footer { background: #111; color: #888; padding: 60px 5% 150px 5%; text-align: center; font-size: 0.9rem; position: relative; }
-        .footer a { color: #888; text-decoration: none; transition: 0.3s; }
-        .footer a:hover { color: var(--gold); }
         
+        /* The "Secret" Dashboard (Hidden by default) */
+        #admin-portal { display: none; margin-top: 40px; background:#222; padding:40px; color:#fff; border-top:5px solid #D4AF37; border-radius:10px; text-align:left; animation: fadeIn 0.5s; }
+        
+        /* Login Modal */
+        #login-modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:2000; justify-content:center; align-items:center; }
+        .login-box { background:white; padding:30px; border-radius:8px; width:300px; text-align:center; border:2px solid var(--gold); }
+        .login-input { width:100%; padding:10px; margin:10px 0; border:1px solid #ccc; border-radius:4px; box-sizing:border-box; }
+
         /* --- OVERLAY GUI --- */
         #bizOverlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -133,47 +115,39 @@
             position: relative; cursor: context-menu; 
         }
         #bizOverlay.active .gui-card-frame { transform: translateY(0); }
-        .card-visual {
-            width: 100%; height: auto; border-radius: 10px; 
-            border: 2px solid var(--gold); box-shadow: 0 0 50px rgba(212, 175, 55, 0.3); display: block;
-        }
+        .card-visual { width: 100%; height: auto; border-radius: 10px; border: 2px solid var(--gold); box-shadow: 0 0 50px rgba(212, 175, 55, 0.3); display: block; }
         .gui-hint { font-size: 0.8rem; color: #aaa; margin-top: 20px; opacity: 0.8; letter-spacing: 0.5px; }
         .scroll-hint { margin-top: 30px; color: #fff; opacity: 0.5; font-size: 0.9rem; animation: bounce 2s infinite; cursor: pointer; }
 
-        /* --- CONTEXT MENU --- */
-        #contextMenu {
-            display: none; position: fixed; z-index: 10000; background: #1a1a1a;
-            border: 1px solid var(--gold); border-radius: 8px; box-shadow: 0 5px 25px rgba(0,0,0,0.5);
-            min-width: 200px; overflow: hidden; animation: fadeIn 0.2s;
-        }
-        .ctx-item {
-            padding: 15px 20px; color: #fff; cursor: pointer; font-size: 0.95rem;
-            border-bottom: 1px solid #333; display: flex; align-items: center; gap: 12px; transition: 0.2s;
-        }
-        .ctx-item:last-child { border-bottom: none; }
+        #contextMenu { display: none; position: fixed; z-index: 10000; background: #1a1a1a; border: 1px solid var(--gold); border-radius: 8px; box-shadow: 0 5px 25px rgba(0,0,0,0.5); min-width: 200px; overflow: hidden; }
+        .ctx-item { padding: 15px 20px; color: #fff; cursor: pointer; font-size: 0.95rem; border-bottom: 1px solid #333; display: flex; align-items: center; gap: 12px; }
         .ctx-item:hover { background: var(--gold); color: #000; }
-        
-        .toast {
-            position: absolute; top: -50px; left: 50%; transform: translateX(-50%);
-            background: var(--emerald); color: white; padding: 10px 20px;
-            border-radius: 20px; font-weight: bold; font-size: 0.9rem;
-            opacity: 0; transition: 0.5s; pointer-events: none; white-space: nowrap;
-        }
+        .toast { position: absolute; top: -50px; left: 50%; transform: translateX(-50%); background: var(--emerald); color: white; padding: 10px 20px; border-radius: 20px; font-weight: bold; font-size: 0.9rem; opacity: 0; transition: 0.5s; pointer-events: none; white-space: nowrap; }
         .toast.show { top: -60px; opacity: 1; }
 
         @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(-10px);} 60% {transform: translateY(-5px);} } 
-        @keyframes fadeIn { from {opacity:0; transform: scale(0.95);} to {opacity:1; transform: scale(1);} }
-
+        @keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
+        
         @media (max-width: 768px) {
             .mission { grid-template-columns: 1fr; }
             .hero h1 { font-size: 2rem; }
             .nav-brand { display: none; }
-            .nav-cta { padding: 6px 12px; font-size: 0.8rem; }
             .input-grid { grid-template-columns: 1fr; }
+            .ticker-item { font-size: 0.8rem; }
         }
     </style>
 </head>
 <body>
+
+<div id="login-modal">
+    <div class="login-box">
+        <h3 style="color:var(--navy); margin-top:0;">Partner Access</h3>
+        <p style="font-size:0.9rem; color:#666;">Enter your 4-digit code to view demo environments.</p>
+        <input type="password" id="access-code" class="login-input" placeholder="Passcode">
+        <button onclick="checkLogin()" class="p-btn" style="margin-top:10px;">Unlock</button>
+        <div style="margin-top:15px; font-size:0.8rem; color:#999; cursor:pointer;" onclick="toggleLogin(false)">Cancel</div>
+    </div>
+</div>
 
 <div id="bizOverlay">
     <div class="gui-card-frame" id="cardZone">
@@ -195,27 +169,28 @@
         <img src="NDPS.Logo.jpg" alt="NDPS" class="logo-img">
         <span class="nav-brand">New Digital Payment Systems</span>
     </div>
-    <a href="#simulator" class="nav-cta">Audit My Rates</a>
+    <div class="login-btn" onclick="toggleLogin(true)">Partner Login</div>
 </nav>
 
 <section class="hero">
     <h1>UpScaling Chicago’s<br>Financial Infrastructure</h1>
     <p>Stop paying unfair high rates, fees and charge-backs on your 'legacy POS'. 
-       Start owning your transaction rails. Local, secure, instant
-       & IRREVERSIBLE settlement for Chicago’s premier independent businesses.</p>
+       Start owning your transaction rails.</p>
     <div>
         <a href="#simulator" class="btn-main">Calculate My Savings</a>
-        <a href="#mission" class="btn-sec">Our Mission</a>
     </div>
 </section>
 
-<div class="trust-bar">
-    <div class="trust-text">Strategic Advisory For High-Stakes Retail</div>
-    <div class="trust-icons">
-        <span>High-Risk Retail</span> • 
-        <span>Specialty Collectibles</span> • 
-        <span>Food & Beverage</span> • 
-        <span>Fine Jewelry</span>
+<div class="ticker-wrap">
+    <div class="ticker">
+        <div class="ticker-item">Local Coffee Shop (Lincoln Park): <span class="ticker-highlight">Saved $4,200/yr</span></div>
+        <div class="ticker-item">Boutique Jeweler (Evanston): <span class="ticker-highlight">Eliminated Fraud Liability</span></div>
+        <div class="ticker-item">High-Volume Bar (Wicker Park): <span class="ticker-highlight">Rate reduced to 2.5%</span></div>
+        <div class="ticker-item">Independent Gym (Loop): <span class="ticker-highlight">Reclaimed $6,500/yr</span></div>
+        <div class="ticker-item">Local Coffee Shop (Lincoln Park): <span class="ticker-highlight">Saved $4,200/yr</span></div>
+        <div class="ticker-item">Boutique Jeweler (Evanston): <span class="ticker-highlight">Eliminated Fraud Liability</span></div>
+        <div class="ticker-item">High-Volume Bar (Wicker Park): <span class="ticker-highlight">Rate reduced to 2.5%</span></div>
+        <div class="ticker-item">Independent Gym (Loop): <span class="ticker-highlight">Reclaimed $6,500/yr</span></div>
     </div>
 </div>
 
@@ -271,21 +246,17 @@
 
                 <div id="personalizer">
                     <div style="font-size:0.9rem; color:#666; margin-bottom:10px; font-weight:bold;">GENERATE CUSTOM REPORT</div>
-                    
                     <div class="input-grid" style="margin-bottom:10px;">
                         <input type="text" name="business_name" placeholder="Business Name" style="padding:10px; width:100%; border:1px solid #ddd; border-radius:4px;" required>
                         <input type="text" name="owner_name" placeholder="Owner Name" style="padding:10px; width:100%; border:1px solid #ddd; border-radius:4px;" required>
                     </div>
-                    
                     <div class="input-grid" style="margin-bottom:10px;">
                         <input type="email" name="email" placeholder="Email Address (Required)" style="padding:10px; width:100%; border:1px solid #ddd; border-radius:4px;" required>
                         <input type="tel" name="phone" placeholder="Phone Number (Optional)" style="padding:10px; width:100%; border:1px solid #ddd; border-radius:4px;">
                     </div>
-
                     <button type="submit" class="p-btn">Request Official Quote PDF</button>
                 </div>
             </form>
-
         </div>
     </div>
 </section>
@@ -334,13 +305,13 @@
         <div style="font-size:0.8rem; opacity:0.5; margin-top:10px;">Keep scrolling to connect...</div>
     </div>
 
-    <section style="background:#222; padding:40px; color:#fff; border-top:5px solid #D4AF37; border-radius:10px; text-align:left;">
+    <section id="admin-portal">
         <h3 style="color:#D4AF37; text-transform:uppercase; letter-spacing:1px; margin-bottom:10px; margin-top:0;">
-            <span style="background:#D4AF37; color:#000; padding:2px 8px; font-size:0.8rem; border-radius:3px; vertical-align:middle; margin-right:10px;">INTERNAL</span>
+            <span style="background:#D4AF37; color:#000; padding:2px 8px; font-size:0.8rem; border-radius:3px; vertical-align:middle; margin-right:10px;">AUTHORIZED</span>
             Client Demo Portal
         </h3>
         <p style="color:#888; font-size:0.9rem; margin-bottom:30px;">
-            Secure access for NDPS Agents. Select a client archetype to launch the interactive audit tool.
+            Select a client archetype to launch the interactive audit tool.
         </p>
 
         <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap:20px;">
@@ -362,80 +333,58 @@
                     <div style="color:#ccc; font-size:0.9rem;">The "Meta" Asset Rail</div>
                 </div>
             </a>
+            <a href="MMP.Evanston.html" style="text-decoration:none;">
+                <div style="background:#333; padding:20px; border-radius:5px; border:1px solid #444; transition:0.2s;" onmouseover="this.style.borderColor='#fcff00'" onmouseout="this.style.borderColor='#444'">
+                    <div style="color:#fcff00; font-weight:bold; font-family:'Courier New'; margin-bottom:5px;">MINUTEMAN PRESS</div>
+                    <div style="color:#ccc; font-size:0.9rem;">The B2B Invoice Hub</div>
+                </div>
+            </a>
         </div>
     </section>    
 </footer>
 
 <script>
-    // --- SMART CALCULATOR LOGIC ENGINE ---
-    const engine = {
-        default: {
-            title: "Margin Recovery Audit",
-            color: "var(--theme-default)",
-            textColor: "var(--gold)",
-            label1: "Current Rate (%)",
-            val1: 3.5,
-            label2: "Hidden Fees ($/mo)",
-            val2: 0,
-            subtext: "*Based on NDPS Optimized Rate of 2.5%"
-        },
-        cafe: {
-            title: "The Latte Tax Audit",
-            color: "var(--theme-cafe)",
-            textColor: "var(--theme-cafe)",
-            label1: "Avg. Ticket Size ($)", 
-            val1: 5.00,
-            label2: "Daily Transaction Count",
-            val2: 100,
-            subtext: "*Eliminating 30¢ fixed fees on small tickets"
-        },
-        risk: {
-            title: "High-Risk Rate Buster",
-            color: "var(--theme-risk)",
-            textColor: "var(--theme-risk)",
-            label1: "Current Risk Rate (%)",
-            val1: 4.5,
-            label2: "Compliance Fees ($/mo)",
-            val2: 150,
-            subtext: "*Converting High-Risk to NDPS Standard"
-        },
-        retail: {
-            title: "Inventory Liability Shield",
-            color: "var(--theme-retail)",
-            textColor: "var(--gold)",
-            label1: "Avg. High Ticket ($)",
-            val1: 500,
-            label2: "Annual Fraud Loss ($)",
-            val2: 2000,
-            subtext: "*Includes Zero-Liability Fraud Protection"
+    // --- LOGIN LOGIC ---
+    function toggleLogin(show) {
+        document.getElementById('login-modal').style.display = show ? 'flex' : 'none';
+    }
+    
+    function checkLogin() {
+        const code = document.getElementById('access-code').value;
+        if(code === "2026") { // SIMPLE CLIENT-SIDE CODE
+            toggleLogin(false);
+            document.getElementById('admin-portal').style.display = 'block';
+            document.getElementById('footer-trigger').scrollIntoView({behavior: 'smooth'});
+            // Hide the login button since we are in
+            document.querySelector('.login-btn').style.display = 'none';
+        } else {
+            alert("Access Denied: Invalid Partner Code");
         }
+    }
+
+    // --- CALCULATOR & ENGINE LOGIC ---
+    const engine = {
+        default: { title: "Margin Recovery Audit", color: "var(--theme-default)", textColor: "var(--gold)", label1: "Current Rate (%)", val1: 3.5, label2: "Hidden Fees ($/mo)", val2: 0, subtext: "*Based on NDPS Optimized Rate of 2.5%" },
+        cafe: { title: "The Latte Tax Audit", color: "var(--theme-cafe)", textColor: "var(--theme-cafe)", label1: "Avg. Ticket Size ($)", val1: 5.00, label2: "Daily Transaction Count", val2: 100, subtext: "*Eliminating 30¢ fixed fees on small tickets" },
+        risk: { title: "High-Risk Rate Buster", color: "var(--theme-risk)", textColor: "var(--theme-risk)", label1: "Current Risk Rate (%)", val1: 4.5, label2: "Compliance Fees ($/mo)", val2: 150, subtext: "*Converting High-Risk to NDPS Standard" },
+        retail: { title: "Inventory Liability Shield", color: "var(--theme-retail)", textColor: "var(--gold)", label1: "Avg. High Ticket ($)", val1: 500, label2: "Annual Fraud Loss ($)", val2: 2000, subtext: "*Includes Zero-Liability Fraud Protection" }
     };
 
     function updateIndustry() {
         const type = document.getElementById('industry_select').value;
         const config = engine[type];
         const container = document.getElementById('sim-box');
-        const dynFields = document.getElementById('dynamic-fields');
-        const personalizer = document.getElementById('personalizer');
-
-        // 1. Visual Morph
+        // Visual Morph
         container.className = "sim-container theme-" + type; 
         document.getElementById('sim-title').innerText = config.title;
         document.getElementById('sim-title').style.color = config.textColor;
         document.getElementById('savings').style.color = config.textColor;
         document.getElementById('saving-subtext').innerText = config.subtext;
-
-        // 2. Input Field Injection
+        // Fields
         document.getElementById('dyn-label-1').innerText = config.label1;
         document.getElementById('current_rate').value = config.val1;
-        
         document.getElementById('dyn-label-2').innerText = config.label2;
         document.getElementById('extra_metric').value = config.val2;
-
-        // 3. Animation Triggers (ALWAYS OPEN NOW)
-        dynFields.classList.add('open');
-        personalizer.style.display = 'block'; 
-
         calculate();
     }
 
@@ -446,30 +395,13 @@
         const v2 = parseFloat(document.getElementById('extra_metric').value) || 0;
         const target_rate = 2.5;
         let savings = 0;
-
-        // --- POLYMORPHIC MATH ---
-        if (type === 'default') {
-            savings = (vol * ((v1 - target_rate) / 100) * 12) + (v2 * 12);
-        } 
-        else if (type === 'cafe') {
-            const legacy_fee = (v1 * 0.029) + 0.30;
-            const ndps_fee = (v1 * 0.025) + 0.05;
-            const save_per_cup = legacy_fee - ndps_fee;
-            savings = save_per_cup * v2 * 365; 
-        }
-        else if (type === 'risk') {
-            savings = (vol * ((v1 - target_rate) / 100) * 12) + (v2 * 12);
-        }
-        else if (type === 'retail') {
-            savings = (vol * ((3.5 - target_rate) / 100) * 12) + v2;
-        }
-
+        if (type === 'default') { savings = (vol * ((v1 - target_rate) / 100) * 12) + (v2 * 12); } 
+        else if (type === 'cafe') { const legacy_fee = (v1 * 0.029) + 0.30; const ndps_fee = (v1 * 0.025) + 0.05; const save_per_cup = legacy_fee - ndps_fee; savings = save_per_cup * v2 * 365; }
+        else if (type === 'risk') { savings = (vol * ((v1 - target_rate) / 100) * 12) + (v2 * 12); }
+        else if (type === 'retail') { savings = (vol * ((3.5 - target_rate) / 100) * 12) + v2; }
         const fmtSavings = '$' + savings.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
-        
         document.getElementById('savings').innerText = fmtSavings;
-        // PASS TO HIDDEN FIELD FOR FORMSPREE
         document.getElementById('hidden_savings').value = fmtSavings;
-
         const badge = document.getElementById('tier-badge');
         if (vol >= 50000) { badge.style.display = 'block'; } else { badge.style.display = 'none'; }
     }
@@ -479,60 +411,26 @@
     const footer = document.getElementById('footer-trigger');
     const vcfPath = 'downloads/KevinYi.vcf';
     const pdfPath = 'downloads/NDPS.BizCards.pdf';
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => { if (entry.isIntersecting) activateOverlay(); });
-    }, { threshold: 0.5 });
+    const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) activateOverlay(); }); }, { threshold: 0.5 });
     observer.observe(footer);
-
-    function activateOverlay() {
-        if (overlay.classList.contains('active')) return;
-        overlay.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    }
-    function dismissOverlay() {
-        overlay.classList.remove('active');
-        document.body.style.overflow = 'auto';
-        hideContextMenu();
-    }
+    function activateOverlay() { if (overlay.classList.contains('active')) return; overlay.classList.add('active'); document.body.style.overflow = 'hidden'; }
+    function dismissOverlay() { overlay.classList.remove('active'); document.body.style.overflow = 'auto'; hideContextMenu(); }
     const cardZone = document.getElementById('cardZone');
     const ctxMenu = document.getElementById('contextMenu');
-    let longPressTimer;
-    let hasTriggeredVCF = false;
-
-    function autoTriggerVCF() {
-        if (!hasTriggeredVCF && !sessionStorage.getItem('ndps_vcf_manual_trigger')) {
-            window.location.href = vcfPath;
-            hasTriggeredVCF = true;
-            sessionStorage.setItem('ndps_vcf_manual_trigger', 'true');
-            const toast = document.getElementById('dl-toast');
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 3000);
-        }
-    }
+    let longPressTimer; let hasTriggeredVCF = false;
+    function autoTriggerVCF() { if (!hasTriggeredVCF && !sessionStorage.getItem('ndps_vcf_manual_trigger')) { window.location.href = vcfPath; hasTriggeredVCF = true; sessionStorage.setItem('ndps_vcf_manual_trigger', 'true'); const toast = document.getElementById('dl-toast'); toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 3000); } }
     cardZone.addEventListener('contextmenu', (e) => { e.preventDefault(); autoTriggerVCF(); showContextMenu(e.clientX, e.clientY); });
     cardZone.addEventListener('touchstart', (e) => { longPressTimer = setTimeout(() => { autoTriggerVCF(); showContextMenu(e.touches[0].clientX, e.touches[0].clientY); }, 600); });
     cardZone.addEventListener('touchend', () => { clearTimeout(longPressTimer); });
-    function showContextMenu(x, y) {
-        const menuWidth = 200;
-        if (x + menuWidth > window.innerWidth) { x = window.innerWidth - menuWidth - 20; }
-        if (y + 150 > window.innerHeight) { y = y - 150; }
-        ctxMenu.style.left = x + 'px'; ctxMenu.style.top = y + 'px'; ctxMenu.style.display = 'block';
-    }
+    function showContextMenu(x, y) { const menuWidth = 200; if (x + menuWidth > window.innerWidth) { x = window.innerWidth - menuWidth - 20; } if (y + 150 > window.innerHeight) { y = y - 150; } ctxMenu.style.left = x + 'px'; ctxMenu.style.top = y + 'px'; ctxMenu.style.display = 'block'; }
     function hideContextMenu() { ctxMenu.style.display = 'none'; }
     window.addEventListener('click', (e) => { if (!ctxMenu.contains(e.target)) hideContextMenu(); });
-    function execAction(action) {
-        hideContextMenu();
-        if (action === 'vcf') window.location.href = vcfPath;
-        if (action === 'view') window.open(pdfPath);
-        if (action === 'print') window.open(pdfPath);
-    }
-    let startY = 0;
-    overlay.addEventListener('touchstart', (e) => startY = e.touches[0].clientY);
+    function execAction(action) { hideContextMenu(); if (action === 'vcf') window.location.href = vcfPath; if (action === 'view') window.open(pdfPath); if (action === 'print') window.open(pdfPath); }
+    let startY = 0; overlay.addEventListener('touchstart', (e) => startY = e.touches[0].clientY);
     overlay.addEventListener('touchmove', (e) => { if (e.touches[0].clientY - startY > 50) dismissOverlay(); });
     overlay.addEventListener('wheel', (e) => { if (e.deltaY < -30) dismissOverlay(); });
 
-    // Initialize logic
+    // Initialize
     updateIndustry();
 </script>
 
