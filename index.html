@@ -3,297 +3,533 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>POSitive Rails | The Infrastructure Upgrade</title>
+    <title>NDPS | Chicago Fintech Infrastructure</title>
     <style>
         :root {
-            /* BRAND: POSitive Rails */
-            --navy: #0f172a;       /* Deep Infrastructure */
-            --slate: #1e293b;      /* Panel Background */
-            --white: #f8fafc;      /* Text */
-            --mint: #10b981;       /* The "Positive" Signal */
-            --rail-blue: #3b82f6;  /* Tech/Speed */
-            --grey: #f1f5f9;       /* Background */
+            --navy: #000035; --gold: #D4AF37; --white: #ffffff;
+            --grey: #f8f9fa; --text: #333333; --emerald: #004d40;
+            --glass: rgba(0, 0, 53, 0.98);
+            
+            /* Industry Theme Colors */
+            --theme-cafe: #bc13fe;   /* Neon Purple */
+            --theme-risk: #00e676;   /* Neon Green */
+            --theme-retail: #D4AF37; /* Gold */
+            --theme-default: #D4AF37;
         }
-        body { margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; color: #334155; background: var(--grey); }
+        body { margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; color: var(--text); background: var(--white); user-select: none; -webkit-user-select: none; transition: background 0.5s; }
         
         /* --- NAVIGATION --- */
         .navbar { 
-            display: flex; justify-content: space-between; align-items: center; 
-            padding: 15px 5%; background: var(--navy); border-bottom: 3px solid var(--mint); 
-            position: sticky; top: 0; z-index: 100;
+            display: flex; justify-content: center; align-items: center; 
+            padding: 10px 5%; background: var(--navy); border-bottom: 3px solid var(--gold); 
+            position: sticky; top: 0; z-index: 100; height: 70px; 
         }
-        
-        /* LOGO CONSTRUCT */
-        .brand-box { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-        .logo-icon {
-            width: 40px; height: 40px; 
-            background: linear-gradient(135deg, var(--slate), var(--navy)); 
-            border: 2px solid var(--mint); border-radius: 8px; 
-            display: flex; align-items: center; justify-content: center; 
-            font-family: 'Courier New', monospace; font-weight: 900; font-size: 1.2rem; 
-            color: var(--mint);
+        .logo-container { display: flex; align-items: center; gap: 15px; text-decoration: none; }
+        .logo-img { height: 150px; width: auto; border-radius: 50%; border: 2px solid var(--gold); background:#000; }
+        .nav-brand { color: var(--white); font-size: 1.1rem; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; }
+        .nav-cta { 
+            position: absolute; right: 5%; top: 50%; transform: translateY(-50%);
+            background: var(--gold); color: var(--navy); padding: 8px 15px; 
+            border-radius: 4px; text-decoration: none; font-weight: bold; transition: 0.3s; font-size: 0.9rem; 
         }
-        .brand-text { color: var(--white); font-weight: bold; font-size: 1.1rem; letter-spacing: -0.5px; line-height: 1.1; }
-        .brand-sub { font-size: 0.75rem; color: var(--rail-blue); letter-spacing: 2px; text-transform: uppercase; }
+        .nav-cta:hover { background: var(--white); }
 
-        /* --- HERO --- */
-        .hero { 
-            background: linear-gradient(160deg, var(--navy) 0%, #020617 100%); 
-            color: var(--white); padding: 80px 5%; text-align: center; 
-        }
-        .hero h1 { font-size: 3rem; margin-bottom: 20px; letter-spacing: -1px; }
-        .hero span { color: var(--mint); }
-        .hero p { font-size: 1.2rem; max-width: 700px; margin: 0 auto 40px auto; opacity: 0.8; line-height: 1.6; }
+        /* --- HERO SECTION --- */
+        .hero { background: linear-gradient(135deg, var(--navy) 0%, #001f3f 100%); color: var(--white); padding: 80px 5%; text-align: center; }
+        .hero h1 { font-size: 3rem; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px; }
+        .hero p { font-size: 1.2rem; max-width: 700px; margin: 0 auto 40px auto; opacity: 0.9; line-height: 1.6; }
+        .btn-main { background: var(--gold); color: var(--navy); padding: 15px 35px; font-size: 1.1rem; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; transition: 0.3s; text-decoration: none; display: inline-block; }
         
-        /* --- CALCULATOR CARD --- */
-        .calc-section { margin-top: -50px; padding: 0 5% 80px 5%; }
-        .calc-container { 
-            max-width: 600px; margin: auto; background: var(--white); 
-            border-radius: 12px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); 
-            overflow: hidden; border: 1px solid #e2e8f0;
-        }
+        /* --- SMART SIMULATOR --- */
+        .simulator { background: var(--navy); color: var(--white); padding: 80px 5%; text-align: center; position: relative; overflow: hidden; }
         
-        .calc-header { 
-            background: var(--slate); color: var(--white); padding: 25px; 
-            text-align: center; border-bottom: 4px solid var(--rail-blue); 
+        .sim-container { 
+            max-width: 650px; margin: auto; background: var(--white); color: var(--text); 
+            padding: 0; border-radius: 12px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); 
+            overflow: hidden; transition: 0.4s ease-in-out; border: 2px solid transparent;
         }
-        .calc-body { padding: 30px; }
 
-        /* Input Styling */
-        .input-row { margin-bottom: 25px; }
-        .input-label { display: flex; justify-content: space-between; font-weight: bold; font-size: 0.9rem; margin-bottom: 10px; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; }
-        .input-val-display { color: var(--rail-blue); font-weight: bold; }
-        
-        .hybrid-input { display: flex; align-items: center; gap: 15px; }
-        input[type="number"], input[type="text"], input[type="email"] { 
-            padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 1rem; width: 100%; transition: 0.3s;
-            background: #f8fafc;
-        }
-        input[type="number"]:focus, input[type="text"]:focus, input[type="email"]:focus { 
-            border-color: var(--mint); outline: none; background: #fff; box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1); 
-        }
-        
-        /* Range Sliders */
-        input[type=range] { flex-grow: 1; accent-color: var(--rail-blue); cursor: pointer; height: 6px; }
+        .sim-container.theme-cafe { border-color: var(--theme-cafe); box-shadow: 0 0 30px rgba(188, 19, 254, 0.3); }
+        .sim-container.theme-risk { border-color: var(--theme-risk); box-shadow: 0 0 30px rgba(0, 230, 118, 0.3); }
+        .sim-container.theme-retail { border-color: var(--theme-retail); box-shadow: 0 0 30px rgba(212, 175, 55, 0.3); }
 
-        /* Results Display */
-        .result-box { 
-            background: var(--navy); color: #fff; padding: 25px; border-radius: 8px; 
-            text-align: center; margin-bottom: 30px; position: relative; overflow: hidden;
-            border: 1px solid var(--slate);
-        }
-        .result-title { font-size: 0.8rem; letter-spacing: 1px; color: var(--mint); margin-bottom: 5px; text-transform: uppercase; }
-        .result-amt { font-size: 3rem; color: var(--white); font-weight: bold; letter-spacing: -1px; }
-        .result-note { font-size: 0.75rem; opacity: 0.6; margin-top: 5px; }
+        .sim-header { background: #111; padding: 20px; color: #fff; border-bottom: 1px solid #333; }
+        .sim-header h3 { margin: 0; text-transform: uppercase; letter-spacing: 1px; color: var(--gold); transition: 0.3s; }
         
-        /* Capture Form */
-        .capture-form { 
-            border-top: 1px dashed #cbd5e1; padding-top: 25px; animation: fadeIn 1s; 
-        }
-        .form-title { font-size: 0.9rem; font-weight: bold; margin-bottom: 15px; color: var(--navy); text-align: center; }
+        .sim-body { padding: 30px; text-align: left; }
         
-        .btn-submit { 
-            background: var(--mint); color: #064e3b; width: 100%; padding: 16px; 
-            border: none; border-radius: 6px; font-weight: bold; font-size: 1rem; 
-            cursor: pointer; margin-top: 15px; transition: 0.3s; 
+        .input-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+        .input-group label { display: block; font-weight: bold; margin-bottom: 8px; color: #555; font-size: 0.85rem; text-transform: uppercase; }
+        .input-group input, .input-group select { 
+            width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; 
+            font-size: 1.1rem; box-sizing: border-box; transition: 0.3s;
         }
-        .btn-submit:hover { background: #34d399; transform: translateY(-1px); }
+        .input-group input:focus { border-color: var(--gold); outline: none; }
 
-        /* Success State */
-        #success-message { display: none; text-align: center; padding: 20px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 6px; margin-top: 20px; color: #166534; }
+        #dynamic-fields { 
+            background: #f4f4f4; padding: 0 20px; margin: 0 -30px; 
+            max-height: 0; overflow: hidden; transition: max-height 0.5s ease; border-top: 1px solid #e0e0e0;
+        }
+        #dynamic-fields.open { max-height: 150px; padding: 20px 20px; border-bottom: 1px solid #e0e0e0; }
+
+        .result-display { 
+            background: #111; padding: 25px; margin-top: 20px; border-radius: 8px; 
+            text-align: center; color: #fff; position: relative;
+        }
+        .saving-amount { font-size: 2.8rem; color: var(--gold); font-weight: bold; margin: 5px 0; transition: 0.3s; }
         
-        @keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
+        #tier-badge {
+            position: absolute; top: 10px; right: 10px; 
+            background: var(--emerald); color: #fff; font-size: 0.7rem; font-weight: bold; 
+            padding: 4px 8px; border-radius: 4px; display: none; text-transform: uppercase;
+        }
+
+        #personalizer {
+            margin-top: 25px; padding-top: 20px; border-top: 1px dashed #ccc; display: none; animation: fadeIn 0.5s;
+        }
+        .p-btn { background: #333; color: #fff; width: 100%; padding: 15px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .p-btn:hover { background: var(--gold); color: #000; }
+
+        /* --- TRUST BAR --- */
+        .trust-bar { background: #f0f0f0; padding: 25px 5%; text-align: center; border-bottom: 1px solid #e0e0e0; }
+        .trust-text { font-size: 0.9rem; color: #666; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; font-weight: bold; }
+        .trust-icons { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; font-weight: bold; color: var(--navy); }
+
+        /* --- MISSION SECTION --- */
+        .mission { padding: 80px 5%; max-width: 1000px; margin: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
+        .mission-text h2 { color: var(--navy); font-size: 2.2rem; margin-bottom: 20px; }
+        .mission-text p { font-size: 1.1rem; line-height: 1.8; color: #555; margin-bottom: 20px; }
+        .highlight-box { background: var(--grey); padding: 30px; border-left: 5px solid var(--gold); border-radius: 5px; }
+        .comparison-row { display: flex; justify-content: space-between; margin-bottom: 15px; border-bottom: 1px solid #ddd; padding-bottom: 10px; }
+        .comp-label { font-weight: bold; color: #444; }
+        .comp-bad { color: #c62828; }
+        .comp-good { color: var(--emerald); font-weight: bold; }
+
+        /* --- BIO SECTION --- */
+        .bio { padding: 80px 5%; background: var(--white); text-align: center; }
+        .bio-content { max-width: 800px; margin: auto; }
+        .bio h2 { color: var(--navy); font-size: 2rem; margin-bottom:30px; }
+        .bio p { font-size: 1.1rem; line-height: 1.8; color: #555; margin-bottom: 25px; }
+        .signature { font-family: 'Courier New', monospace; font-weight: bold; color: var(--navy); margin-top: 30px; font-size: 1.2rem; }
+
+        /* --- FOOTER --- */
+        .footer { background: #111; color: #888; padding: 60px 5% 150px 5%; text-align: center; font-size: 0.9rem; position: relative; }
+        .footer a { color: #888; text-decoration: none; transition: 0.3s; }
+        .footer a:hover { color: var(--gold); }
         
-        /* Footer */
-        .footer { text-align: center; padding: 40px; color: #64748b; font-size: 0.9rem; border-top: 1px solid #e2e8f0; margin-top: 40px; background: #fff; }
+        /* --- OVERLAY GUI --- */
+        #bizOverlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--glass);
+            z-index: 9999;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            backdrop-filter: blur(8px); opacity: 0; pointer-events: none; transition: opacity 0.5s ease;
+        }
+        #bizOverlay.active { opacity: 1; pointer-events: all; }
+        .gui-card-frame {
+            background: transparent; width: 90%; max-width: 450px; height: auto; 
+            transform: translateY(50px); transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative; cursor: context-menu; 
+        }
+        #bizOverlay.active .gui-card-frame { transform: translateY(0); }
+        .card-visual {
+            width: 100%; height: auto; border-radius: 10px; 
+            border: 2px solid var(--gold); box-shadow: 0 0 50px rgba(212, 175, 55, 0.3); display: block;
+        }
+        .gui-hint { font-size: 0.8rem; color: #aaa; margin-top: 20px; opacity: 0.8; letter-spacing: 0.5px; }
+        .scroll-hint { margin-top: 30px; color: #fff; opacity: 0.5; font-size: 0.9rem; animation: bounce 2s infinite; cursor: pointer; }
+
+        /* --- CONTEXT MENU --- */
+        #contextMenu {
+            display: none; position: fixed; z-index: 10000; background: #1a1a1a;
+            border: 1px solid var(--gold); border-radius: 8px; box-shadow: 0 5px 25px rgba(0,0,0,0.5);
+            min-width: 200px; overflow: hidden; animation: fadeIn 0.2s;
+        }
+        .ctx-item {
+            padding: 15px 20px; color: #fff; cursor: pointer; font-size: 0.95rem;
+            border-bottom: 1px solid #333; display: flex; align-items: center; gap: 12px; transition: 0.2s;
+        }
+        .ctx-item:last-child { border-bottom: none; }
+        .ctx-item:hover { background: var(--gold); color: #000; }
+        
+        .toast {
+            position: absolute; top: -50px; left: 50%; transform: translateX(-50%);
+            background: var(--emerald); color: white; padding: 10px 20px;
+            border-radius: 20px; font-weight: bold; font-size: 0.9rem;
+            opacity: 0; transition: 0.5s; pointer-events: none; white-space: nowrap;
+        }
+        .toast.show { top: -60px; opacity: 1; }
+
+        @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(-10px);} 60% {transform: translateY(-5px);} } 
+        @keyframes fadeIn { from {opacity:0; transform: scale(0.95);} to {opacity:1; transform: scale(1);} }
+
+        @media (max-width: 768px) {
+            .mission { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 2rem; }
+            .nav-brand { display: none; }
+            .nav-cta { padding: 6px 12px; font-size: 0.8rem; }
+            .input-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
 
+<div id="bizOverlay">
+    <div class="gui-card-frame" id="cardZone">
+        <div id="dl-toast" class="toast">✓ Contact Saved!</div>
+        <img src="downloads/NDPS.BizCard.Visual.jpg" alt="Kevin Yi NDPS" class="card-visual">
+    </div>
+    <div class="gui-hint">Right-Click (or Long Press) for Options</div>
+    <div class="scroll-hint" onclick="dismissOverlay()">SCROLL UP TO RETURN <br> ⬆</div>
+</div>
+
+<div id="contextMenu">
+    <div class="ctx-item" onclick="execAction('vcf')"><span>📇</span> Save Contact</div>
+    <div class="ctx-item" onclick="execAction('view')"><span>📄</span> View PDF Fullscreen</div>
+    <div class="ctx-item" onclick="execAction('print')"><span>🖨️</span> Print Card</div>
+</div>
+
 <nav class="navbar">
-    <a href="#" class="brand-box">
-        <div class="logo-icon">P<span style="color:var(--rail-blue)">+</span></div>
-        <div class="brand-text">
-            POSitive<br><span class="brand-sub">Rails</span>
-        </div>
-    </a>
-    <div style="color:white; font-size:0.9rem; opacity:0.8; cursor:pointer;" onclick="window.location.href='/admin'">Agent Login</div>
+    <div class="logo-container">
+        <img src="NDPS.Logo.jpg" alt="NDPS" class="logo-img">
+        <span class="nav-brand">New Digital Payment Systems</span>
+    </div>
+    <a href="#simulator" class="nav-cta">Audit My Rates</a>
 </nav>
 
 <section class="hero">
-    <h1>Stop Using <span style="color:#ef4444">Negative</span> Rails.</h1>
-    <p>The "Point of Sale" is dead. It's time for a <strong>Point of Savings</strong>. <br>Audit your infrastructure for hidden banking fees and legacy friction.</p>
+    <h1>UpScaling Chicago’s<br>Financial Infrastructure</h1>
+    <p>Stop paying unfair high rates, fees and charge-backs on your 'legacy POS'. 
+       Start owning your transaction rails. Local, secure, instant
+       & IRREVERSIBLE settlement for Chicago’s premier independent businesses.</p>
+    <div>
+        <a href="#simulator" class="btn-main">Calculate My Savings</a>
+        <a href="#mission" class="btn-sec">Our Mission</a>
+    </div>
 </section>
 
-<section class="calc-section">
-    <div class="calc-container">
-        <div class="calc-header">
-            <h3 style="margin:0;">Infrastructure Audit</h3>
-            <div style="font-size:0.8rem; opacity:0.7; margin-top:5px;">Live Margin Analysis</div>
+<div class="trust-bar">
+    <div class="trust-text">Strategic Advisory For High-Stakes Retail</div>
+    <div class="trust-icons">
+        <span>High-Risk Retail</span> • 
+        <span>Specialty Collectibles</span> • 
+        <span>Food & Beverage</span> • 
+        <span>Fine Jewelry</span>
+    </div>
+</div>
+
+<section id="simulator" class="simulator">
+    <h2>The Smart Audit Engine</h2>
+    <p style="margin-bottom:40px; opacity:0.8;">Select your industry to see hidden fees specific to your business model.</p>
+    
+    <div class="sim-container" id="sim-box">
+        <div class="sim-header">
+            <h3 id="sim-title">Margin Recovery Audit</h3>
         </div>
         
-        <div class="calc-body">
-            
-            <div class="input-row">
-                <div class="input-label">
-                    <span>Monthly Revenue</span>
-                    <span class="input-val-display" id="disp-vol">$25,000</span>
-                </div>
-                <div class="hybrid-input">
-                    <input type="number" id="vol-input" value="25000" step="1000" style="width: 100px;">
-                    <input type="range" id="vol-range" min="5000" max="150000" step="1000" value="25000">
-                </div>
-            </div>
-
-            <div class="input-row">
-                <div class="input-label">
-                    <span>Current Legacy Fee</span>
-                    <span class="input-val-display" id="disp-rate">3.5%</span>
-                </div>
-                <div class="hybrid-input">
-                    <span style="font-size:0.8rem; color:#64748b;">2.3%</span>
-                    <input type="range" id="rate-range" min="2.3" max="5.0" step="0.1" value="3.5">
-                    <span style="font-size:0.8rem; color:#64748b;">5%</span>
-                </div>
-                <div style="font-size: 0.8rem; color: #64748b; margin-top: 5px; font-style: italic;">
-                    Set this to match your current statement effective rate.
-                </div>
-            </div>
-
-            <div class="result-box">
-                <div class="result-title">Positive Capital Recoverable</div>
-                <div class="result-amt" id="savings-amt">$2,400</div>
-                <div class="result-note">*Annual savings by switching to POSitive Rails (2.7% Flat)</div>
-            </div>
-
-            <form id="lead-form" action="https://formspree.io/f/mkobzyyz" method="POST" class="capture-form">
+        <div class="sim-body">
+            <form action="https://formspree.io/f/mkobzyyz" method="POST">
                 
-                <input type="hidden" name="Selected_Volume" id="hidden-vol">
-                <input type="hidden" name="Selected_Current_Rate" id="hidden-rate">
-                <input type="hidden" name="Calculated_Annual_Savings" id="hidden-savings">
-
-                <div class="form-title">GENERATE OFFICIAL PROPOSAL</div>
-                <p style="font-size:0.85rem; color:#64748b; margin-bottom:15px; text-align:center;">
-                    Secure this rate and generate a formal PDF breakdown for your business.
-                </p>
-
-                <div style="margin-bottom: 15px;">
-                    <input type="text" name="Business_Industry" id="biz-type" placeholder="Industry (e.g., Wellness, Retail, Cafe)">
+                <div class="input-grid">
+                    <div class="input-group">
+                        <label>Monthly Revenue ($)</label>
+                        <input type="number" name="monthly_revenue" id="monthly_vol" value="25000" oninput="calculate()">
+                    </div>
+                    <div class="input-group">
+                        <label>Industry / Model</label>
+                        <select name="industry" id="industry_select" onchange="updateIndustry()">
+                            <option value="default">General Retail (Standard)</option>
+                            <option value="cafe">Cafe / QSR (High Volume)</option>
+                            <option value="risk">High Risk / Liquor (Regulated)</option>
+                            <option value="retail">Luxury / Collectibles (High Ticket)</option>
+                        </select>
+                    </div>
                 </div>
 
-                <div style="margin-bottom: 15px;">
-                    <input type="text" name="Business_Name" id="biz-name" placeholder="Business Legal Name">
+                <div id="dynamic-fields">
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <label id="dyn-label-1">Current Rate (%)</label>
+                            <input type="number" id="current_rate" value="3.5" step="0.1" oninput="calculate()">
+                        </div>
+                        <div class="input-group">
+                            <label id="dyn-label-2">Extra Metric</label>
+                            <input type="number" id="extra_metric" value="0" oninput="calculate()">
+                        </div>
+                    </div>
                 </div>
 
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                    <input type="text" name="Owner_Name" id="owner-name" placeholder="Your Name">
-                    <input type="email" name="email" id="owner-email" placeholder="Email Address" required>
+                <input type="hidden" name="estimated_savings" id="hidden_savings" value="">
+
+                <div class="result-display">
+                    <div id="tier-badge">Wholesale Rate Unlocked</div>
+                    <div style="font-size:0.9rem; opacity:0.7; text-transform:uppercase;">Est. Annual Profit Reclaimed</div>
+                    <div id="savings" class="saving-amount">$3,000.00</div>
+                    <div style="font-size:0.8rem; color:var(--gold);" id="saving-subtext">*Based on NDPS Optimized Rate of 2.5%</div>
                 </div>
 
-                <button type="submit" class="btn-submit" id="submit-btn">Switch to POSitive</button>
-
+                <div id="personalizer">
+                    <div style="font-size:0.9rem; color:#666; margin-bottom:10px; font-weight:bold;">GENERATE CUSTOM REPORT</div>
+                    <div class="input-grid" style="margin-bottom:10px;">
+                        <input type="text" name="business_name" placeholder="Business Name" style="padding:10px; width:100%; border:1px solid #ddd; border-radius:4px;" required>
+                        <input type="text" name="owner_name" placeholder="Owner Name (Optional)" style="padding:10px; width:100%; border:1px solid #ddd; border-radius:4px;">
+                    </div>
+                    <button type="submit" class="p-btn">Request Official Quote PDF</button>
+                </div>
             </form>
-
-            <div id="success-message">
-                <strong>✓ Application Received</strong><br>
-                <span style="font-size:0.9rem;">Your Positive Rail audit has been queued. A senior agent will email your PDF shortly.</span>
-            </div>
 
         </div>
     </div>
 </section>
 
-<footer class="footer">
-    <div style="font-weight:bold; color:var(--navy);">&copy; 2026 POSitive Rails</div>
-    
-    <div style="margin-top:10px; font-size:0.85rem; line-height:1.6;">
-        A Division of New Digital Payment Systems (NDPS) LLC<br>
-        Evanston, IL • <a href="mailto:kevin@positiverails.com" style="color:var(--rail-blue); text-decoration:none; font-weight:bold;">kevin@positiverails.com</a>
+<section id="mission" class="mission">
+    <div class="mission-text">
+        <h2>We Are the Anti-Middleman.</h2>
+        <p>For decades, local merchants have been treated like renters of their own transaction systems. 
+           You pay a "tax" on every swipe, carry the risk of fraud, and wait days for the bank to release your funds.</p>
+        <p><strong>NDPS alongside Digital Residuals is changing the rules through latest FinTech.</strong> 
+           We don't believe in "one-size-fits-all" rates. A $4 latte and a $4,000 diamond ring should not be processed 
+           on the same rail—and we've built the hybrid systems to prove it.</p>
     </div>
-    
-    <div style="margin-top:20px; opacity:0.5; font-size:0.7rem;">
-        Infrastructure Audit • BitFlow Integration • Rate Optimization
+    <div class="highlight-box">
+        <h3 style="margin-top:0; color:var(--navy);">The Infrastructure Upgrade</h3>
+        <div class="comparison-row">
+            <span class="comp-label">Processing Fees</span><span class="comp-bad">High (3.5%+)</span>
+        </div>
+        <div class="comparison-row" style="border:none;">
+            <span class="comp-label">NDPS Rail</span><span class="comp-good">Flat (2.5%)</span>
+        </div>
+        <hr>
+        <div class="comparison-row">
+            <span class="comp-label">Fraud Liability</span><span class="comp-bad">Merchant Pays</span>
+        </div>
+        <div class="comparison-row" style="border:none;">
+            <span class="comp-label">NDPS Vault</span><span class="comp-good">Zero Liability</span>
+        </div>
     </div>
+</section>
+
+<section class="bio">
+    <div class="bio-content">
+        <h2>Leverage more Liquidity with Retail Fintech.</h2>
+        <p>Aside keeping up to date on the latest developments in BlockChain.
+           From Smart-Contracts critical role in FinTech to NFT ledgers,
+           I'm still your everyday Chicagoan; living and working to provide for my family & community.</p>
+        <div class="signature">- Kevin Yi, Principal FinTech Consultant</div>
+    </div>
+</section>
+
+<footer class="footer" id="footer-trigger">
+    <div style="margin-bottom:30px;">
+        <div>New Digital Payment Systems LLC | Chicago, IL</div>
+        <div>(224) 307-4511</div>
+        <div style="font-size:0.8rem; opacity:0.5; margin-top:10px;">Keep scrolling to connect...</div>
+    </div>
+
+    <section style="background:#222; padding:40px; color:#fff; border-top:5px solid #D4AF37; border-radius:10px; text-align:left;">
+        <h3 style="color:#D4AF37; text-transform:uppercase; letter-spacing:1px; margin-bottom:10px; margin-top:0;">
+            <span style="background:#D4AF37; color:#000; padding:2px 8px; font-size:0.8rem; border-radius:3px; vertical-align:middle; margin-right:10px;">INTERNAL</span>
+            Client Demo Portal
+        </h3>
+        <p style="color:#888; font-size:0.9rem; margin-bottom:30px;">
+            Secure access for NDPS Agents. Select a client archetype to launch the interactive audit tool.
+        </p>
+
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap:20px;">
+            <a href="Hops.Grapes.html" style="text-decoration:none;">
+                <div style="background:#333; padding:20px; border-radius:5px; border:1px solid #444; transition:0.2s;" onmouseover="this.style.borderColor='#00e676'" onmouseout="this.style.borderColor='#444'">
+                    <div style="color:#00e676; font-weight:bold; font-family:'Courier New'; margin-bottom:5px;">HOPS & GRAPES</div>
+                    <div style="color:#ccc; font-size:0.9rem;">High-Risk & ATM Pivot</div>
+                </div>
+            </a>
+            <a href="Watcher.Comix.html" style="text-decoration:none;">
+                <div style="background:#333; padding:20px; border-radius:5px; border:1px solid #444; transition:0.2s;" onmouseover="this.style.borderColor='#bc13fe'" onmouseout="this.style.borderColor='#444'">
+                    <div style="color:#bc13fe; font-weight:bold; font-family:'Courier New'; margin-bottom:5px;">WATCHER COMIX</div>
+                    <div style="color:#ccc; font-size:0.9rem;">Subscribers & Chargebacks</div>
+                </div>
+            </a>
+            <a href="Evanston.Games.html" style="text-decoration:none;">
+                <div style="background:#333; padding:20px; border-radius:5px; border:1px solid #444; transition:0.2s;" onmouseover="this.style.borderColor='#00f3ff'" onmouseout="this.style.borderColor='#444'">
+                    <div style="color:#00f3ff; font-weight:bold; font-family:'Courier New'; margin-bottom:5px;">EVANSTON GAMES</div>
+                    <div style="color:#ccc; font-size:0.9rem;">The "Meta" Asset Rail</div>
+                </div>
+            </a>
+        </div>
+    </section>    
 </footer>
 
 <script>
-    // --- SYNC & CALCULATOR LOGIC ---
-    const volInput = document.getElementById('vol-input');
-    const volRange = document.getElementById('vol-range');
-    const rateRange = document.getElementById('rate-range');
-    
-    const dispVol = document.getElementById('disp-vol');
-    const dispRate = document.getElementById('disp-rate');
-    const savingsDisplay = document.getElementById('savings-amt');
-
-    const hiddenVol = document.getElementById('hidden-vol');
-    const hiddenRate = document.getElementById('hidden-rate');
-    const hiddenSavings = document.getElementById('hidden-savings');
-
-    const NDPS_RATE = 2.7; 
-
-    function updateCalc() {
-        const vol = parseFloat(volInput.value) || 0;
-        const currentRate = parseFloat(rateRange.value) || 0;
-
-        if(document.activeElement === volRange) volInput.value = volRange.value;
-        if(document.activeElement === volInput) volRange.value = volInput.value;
-
-        dispVol.innerText = '$' + vol.toLocaleString();
-        dispRate.innerText = currentRate.toFixed(1) + '%';
-
-        const margin = currentRate - NDPS_RATE;
-        let monthlySavings = 0;
-        if (margin > 0) {
-            monthlySavings = vol * (margin / 100);
+    // --- SMART CALCULATOR LOGIC ENGINE ---
+    const engine = {
+        default: {
+            title: "Margin Recovery Audit",
+            color: "var(--theme-default)",
+            textColor: "var(--gold)",
+            label1: "Current Rate (%)",
+            val1: 3.5,
+            label2: "Hidden Fees ($/mo)",
+            val2: 0,
+            subtext: "*Based on NDPS Optimized Rate of 2.5%"
+        },
+        cafe: {
+            title: "The Latte Tax Audit",
+            color: "var(--theme-cafe)",
+            textColor: "var(--theme-cafe)",
+            label1: "Avg. Ticket Size ($)", 
+            val1: 5.00,
+            label2: "Daily Transaction Count",
+            val2: 100,
+            subtext: "*Eliminating 30¢ fixed fees on small tickets"
+        },
+        risk: {
+            title: "High-Risk Rate Buster",
+            color: "var(--theme-risk)",
+            textColor: "var(--theme-risk)",
+            label1: "Current Risk Rate (%)",
+            val1: 4.5,
+            label2: "Compliance Fees ($/mo)",
+            val2: 150,
+            subtext: "*Converting High-Risk to NDPS Standard"
+        },
+        retail: {
+            title: "Inventory Liability Shield",
+            color: "var(--theme-retail)",
+            textColor: "var(--gold)",
+            label1: "Avg. High Ticket ($)",
+            val1: 500,
+            label2: "Annual Fraud Loss ($)",
+            val2: 2000,
+            subtext: "*Includes Zero-Liability Fraud Protection"
         }
-        const annualSavings = monthlySavings * 12;
-        const formattedSavings = '$' + annualSavings.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0});
+    };
 
-        savingsDisplay.innerText = formattedSavings;
+    function updateIndustry() {
+        const type = document.getElementById('industry_select').value;
+        const config = engine[type];
+        const container = document.getElementById('sim-box');
+        const dynFields = document.getElementById('dynamic-fields');
+        const personalizer = document.getElementById('personalizer');
 
-        if(hiddenVol) hiddenVol.value = '$' + vol.toLocaleString();
-        if(hiddenRate) hiddenRate.value = currentRate.toFixed(1) + '%';
-        if(hiddenSavings) hiddenSavings.value = formattedSavings;
-    }
+        // 1. Visual Morph
+        container.className = "sim-container theme-" + type; 
+        document.getElementById('sim-title').innerText = config.title;
+        document.getElementById('sim-title').style.color = config.textColor;
+        document.getElementById('savings').style.color = config.textColor;
+        document.getElementById('saving-subtext').innerText = config.subtext;
 
-    volInput.addEventListener('input', updateCalc);
-    volRange.addEventListener('input', updateCalc);
-    rateRange.addEventListener('input', updateCalc);
-
-    // --- FORM HANDLING ---
-    var form = document.getElementById("lead-form");
-    async function handleSubmit(event) {
-        event.preventDefault(); 
-        var status = document.getElementById("success-message");
-        var btn = document.getElementById("submit-btn");
-        var data = new FormData(event.target);
+        // 2. Input Field Injection
+        document.getElementById('dyn-label-1').innerText = config.label1;
+        document.getElementById('current_rate').value = config.val1;
         
-        btn.innerText = "Processing...";
-        btn.style.opacity = "0.7";
+        document.getElementById('dyn-label-2').innerText = config.label2;
+        document.getElementById('extra_metric').value = config.val2;
 
-        fetch(event.target.action, {
-            method: form.method,
-            body: data,
-            headers: { 'Accept': 'application/json' }
-        }).then(response => {
-            if (response.ok) {
-                form.style.display = "none";
-                status.style.display = "block";
-            } else {
-                alert("Submission Error. Please try again.");
-                btn.innerText = "Try Again";
-                btn.style.opacity = "1";
-            }
-        }).catch(error => {
-            alert("Network Error.");
-            btn.innerText = "Try Again";
-            btn.style.opacity = "1";
-        });
+        // 3. Animation Triggers
+        if (type !== 'default') {
+            dynFields.classList.add('open');
+            personalizer.style.display = 'block'; 
+        } else {
+            dynFields.classList.remove('open');
+            personalizer.style.display = 'none';
+        }
+
+        calculate();
     }
-    form.addEventListener("submit", handleSubmit);
 
-    updateCalc();
+    function calculate() {
+        const type = document.getElementById('industry_select').value;
+        const vol = parseFloat(document.getElementById('monthly_vol').value) || 0;
+        const v1 = parseFloat(document.getElementById('current_rate').value) || 0;
+        const v2 = parseFloat(document.getElementById('extra_metric').value) || 0;
+        const target_rate = 2.5;
+        let savings = 0;
+
+        // --- POLYMORPHIC MATH ---
+        if (type === 'default') {
+            savings = (vol * ((v1 - target_rate) / 100) * 12) + (v2 * 12);
+        } 
+        else if (type === 'cafe') {
+            const legacy_fee = (v1 * 0.029) + 0.30;
+            const ndps_fee = (v1 * 0.025) + 0.05;
+            const save_per_cup = legacy_fee - ndps_fee;
+            savings = save_per_cup * v2 * 365; 
+        }
+        else if (type === 'risk') {
+            savings = (vol * ((v1 - target_rate) / 100) * 12) + (v2 * 12);
+        }
+        else if (type === 'retail') {
+            savings = (vol * ((3.5 - target_rate) / 100) * 12) + v2;
+        }
+
+        const fmtSavings = '$' + savings.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        
+        document.getElementById('savings').innerText = fmtSavings;
+        // PASS TO HIDDEN FIELD FOR FORMSPREE
+        document.getElementById('hidden_savings').value = fmtSavings;
+
+        const badge = document.getElementById('tier-badge');
+        if (vol >= 50000) { badge.style.display = 'block'; } else { badge.style.display = 'none'; }
+    }
+
+    // --- OVERLAY LOGIC ---
+    const overlay = document.getElementById('bizOverlay');
+    const footer = document.getElementById('footer-trigger');
+    const vcfPath = 'downloads/KevinYi.vcf';
+    const pdfPath = 'downloads/NDPS.BizCards.pdf';
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => { if (entry.isIntersecting) activateOverlay(); });
+    }, { threshold: 0.5 });
+    observer.observe(footer);
+
+    function activateOverlay() {
+        if (overlay.classList.contains('active')) return;
+        overlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    function dismissOverlay() {
+        overlay.classList.remove('active');
+        document.body.style.overflow = 'auto';
+        hideContextMenu();
+    }
+    const cardZone = document.getElementById('cardZone');
+    const ctxMenu = document.getElementById('contextMenu');
+    let longPressTimer;
+    let hasTriggeredVCF = false;
+
+    function autoTriggerVCF() {
+        if (!hasTriggeredVCF && !sessionStorage.getItem('ndps_vcf_manual_trigger')) {
+            window.location.href = vcfPath;
+            hasTriggeredVCF = true;
+            sessionStorage.setItem('ndps_vcf_manual_trigger', 'true');
+            const toast = document.getElementById('dl-toast');
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+    }
+    cardZone.addEventListener('contextmenu', (e) => { e.preventDefault(); autoTriggerVCF(); showContextMenu(e.clientX, e.clientY); });
+    cardZone.addEventListener('touchstart', (e) => { longPressTimer = setTimeout(() => { autoTriggerVCF(); showContextMenu(e.touches[0].clientX, e.touches[0].clientY); }, 600); });
+    cardZone.addEventListener('touchend', () => { clearTimeout(longPressTimer); });
+    function showContextMenu(x, y) {
+        const menuWidth = 200;
+        if (x + menuWidth > window.innerWidth) { x = window.innerWidth - menuWidth - 20; }
+        if (y + 150 > window.innerHeight) { y = y - 150; }
+        ctxMenu.style.left = x + 'px'; ctxMenu.style.top = y + 'px'; ctxMenu.style.display = 'block';
+    }
+    function hideContextMenu() { ctxMenu.style.display = 'none'; }
+    window.addEventListener('click', (e) => { if (!ctxMenu.contains(e.target)) hideContextMenu(); });
+    function execAction(action) {
+        hideContextMenu();
+        if (action === 'vcf') window.location.href = vcfPath;
+        if (action === 'view') window.open(pdfPath);
+        if (action === 'print') window.open(pdfPath);
+    }
+    let startY = 0;
+    overlay.addEventListener('touchstart', (e) => startY = e.touches[0].clientY);
+    overlay.addEventListener('touchmove', (e) => { if (e.touches[0].clientY - startY > 50) dismissOverlay(); });
+    overlay.addEventListener('wheel', (e) => { if (e.deltaY < -30) dismissOverlay(); });
+
+    calculate(); // Init
 </script>
 
 </body>
