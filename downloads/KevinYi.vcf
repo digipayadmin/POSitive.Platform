@@ -2,11 +2,11 @@ BEGIN:VCARD
 VERSION:3.0
 FN:Kevin Yi
 N:Yi;Kevin;;;
-ORG:New Digital Payment Systems LLC
+ORG:POSitiveRails.com
 TITLE:FinTech Consultant
 TEL;TYPE=CELL:(224) 307-4511
-EMAIL:digipaymentsystems@gmail.com
-item1.URL:https://3rd3y3d.github.io/NDPS.mockup/
-item1.X-ABLabel:NDPS : DIGIPAYSYS.DIGITALRESIDUALS.CO
-NOTE:FinTech Strategies: High-Stakes Retail, Margin Recovery, Asset Security 
+EMAIL:kevin@positiverails.com
+item1.URL:https://https://www.positiverails.com
+item1.X-ABLabel: POSITIVERAILS.COM
+NOTE:FinTech Strategies: Revenue Margin Recovery, Asset Security 
 END:VCARD
