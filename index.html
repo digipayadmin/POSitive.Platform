@@ -270,10 +270,17 @@
 
                 <div id="personalizer">
                     <div style="font-size:0.9rem; color:#666; margin-bottom:10px; font-weight:bold;">GENERATE CUSTOM REPORT</div>
+                    
                     <div class="input-grid" style="margin-bottom:10px;">
                         <input type="text" name="business_name" placeholder="Business Name" style="padding:10px; width:100%; border:1px solid #ddd; border-radius:4px;" required>
-                        <input type="text" name="owner_name" placeholder="Owner Name (Optional)" style="padding:10px; width:100%; border:1px solid #ddd; border-radius:4px;">
+                        <input type="text" name="owner_name" placeholder="Owner Name" style="padding:10px; width:100%; border:1px solid #ddd; border-radius:4px;" required>
                     </div>
+                    
+                    <div class="input-grid" style="margin-bottom:10px;">
+                        <input type="email" name="email" placeholder="Email Address (Required)" style="padding:10px; width:100%; border:1px solid #ddd; border-radius:4px;" required>
+                        <input type="tel" name="phone" placeholder="Phone Number (Optional)" style="padding:10px; width:100%; border:1px solid #ddd; border-radius:4px;">
+                    </div>
+
                     <button type="submit" class="p-btn">Request Official Quote PDF</button>
                 </div>
             </form>
