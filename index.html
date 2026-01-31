@@ -358,7 +358,21 @@
     function toggleLogin(show) {
         document.getElementById('login-modal').style.display = show ? 'flex' : 'none';
     }
-    
+    // --- TRACKING LOGIC ---
+// Grabs ?src=xyz from URL and puts it into the form
+const urlParams = new URLSearchParams(window.location.search);
+const sourceParam = urlParams.get('src');
+if (sourceParam) {
+    // If found, update the hidden form field
+    const hiddenField = document.getElementById('referral_source');
+    if (hiddenField) hiddenField.value = sourceParam;
+
+    // Optional: Show a toast welcoming them
+    if(sourceParam === 'bizcard') {
+        // You could trigger a special welcome alert here if you wanted
+        console.log("Welcome from Business Card scan!");
+    }
+}
     function checkLogin() {
         const code = document.getElementById('access-code').value;
         if(code === "2026") { 
