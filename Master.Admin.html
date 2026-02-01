@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POSitive Rails | COMMAND CENTER</title>
+    
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    
+    <style>
+        :root {
+            --navy: #000035; --gold: #D4AF37; --white: #ffffff;
+            --emerald: #00e676; --danger: #ff5252;
+            --dark-bg: #121212; --panel-bg: #1e1e1e;
+        }
+        body { margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; background: var(--dark-bg); color: #e0e0e0; }
+        
+        .navbar { background: #000; border-bottom: 2px solid var(--gold); padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; }
+        .brand { font-weight: bold; color: var(--gold); letter-spacing: 1px; text-transform: uppercase; }
+        .status { font-size: 0.8rem; color: var(--emerald); border: 1px solid var(--emerald); padding: 4px 8px; border-radius: 4px; }
+
+        .container { max-width: 1200px; margin: 40px auto; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; padding: 0 20px; }
+        
+        /* Control Panel */
+        .panel { background: var(--panel-bg); padding: 30px; border-radius: 12px; border: 1px solid #333; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        h2 { margin-top: 0; color: var(--white); border-bottom: 1px solid #333; padding-bottom: 15px; }
+        
+        .input-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-size: 0.85rem; color: #888; text-transform: uppercase; font-weight: bold; }
+        input, select { width: 100%; padding: 12px; background: #2c2c2c; border: 1px solid #444; color: #fff; border-radius: 6px; font-size: 1rem; box-sizing: border-box; }
+        input:focus { border-color: var(--gold); outline: none; }
+
+        /* The Slider */
+        .slider-container { background: #252525; padding: 20px; border-radius: 8px; border: 1px solid var(--gold); margin-top: 20px; }
+        .slider-label { display: flex; justify-content: space-between; margin-bottom: 10px; color: var(--gold); font-weight: bold; }
+        input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; }
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 20px; width: 20px; border-radius: 50%; background: var(--gold); cursor: pointer; margin-top: -8px; }
+        input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 4px; cursor: pointer; background: #555; border-radius: 2px; }
+
+        /* Results */
+        .result-box { text-align: center; margin-top: 30px; padding: 20px; background: #000; border-radius: 8px; border: 1px dashed #444; }
+        .big-number { font-size: 3.5rem; color: var(--emerald); font-weight: bold; margin: 10px 0; text-shadow: 0 0 20px rgba(0,230,118,0.2); }
+        .sub-metric { display: flex; justify-content: space-between; margin-top: 20px; font-size: 0.9rem; color: #aaa; }
+        
+        @media (max-width: 768px) { .container { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="brand">POSitive Rails | Master Admin</div>
+    <div class="status">SECURE CONNECTION</div>
+</nav>
+
+<div class="container">
+    <div class="panel">
+        <h2>Client Metrics</h2>
+        
+        <div class="input-group">
+            <label>Template Preset</label>
+            <select id="preset" onchange="loadPreset()">
+                <option value="custom">-- Custom / Manual --</option>
+                <option value="retail">General Retail (Standard)</option>
+                <option value="cafe">High Volume Cafe</option>
+                <option value="risk">High Risk / Liquor</option>
+                <option value="gem">Luxury / Hospitality</option>
+            </select>
+        </div>
+
+        <div class="input-group">
+            <label>Monthly Revenue ($)</label>
+            <input type="number" id="revenue" value="50000" step="1000" oninput="calc()">
+        </div>
+
+        <div class="input-group">
+            <label>Client Current Rate (%)</label>
+            <input type="number" id="current_rate" value="3.5" step="0.1" oninput="calc()">
+        </div>
+
+        <div class="input-group">
+            <label>Junk Fees / Monthly SAAS ($)</label>
+            <input type="number" id="junk_fees" value="0" oninput="calc()">
+        </div>
+    </div>
+
+    <div class="panel">
+        <h2>Margin Engine</h2>
+        
+        <div class="slider-container">
+            <div class="slider-label">
+                <span>TARGET BUY RATE</span>
+                <span id="rate_display">2.50%</span>
+            </div>
+            <input type="range" id="target_slider" min="2.00" max="3.50" step="0.05" value="2.50" oninput="calc()">
+            <div style="text-align:right; font-size:0.8rem; color:#666; margin-top:5px;">Floor: 2.0%</div>
+        </div>
+
+        <div class="result-box">
+            <div style="text-transform:uppercase; letter-spacing:1px; color:#888; font-size:0.9rem;">Total Annual Savings Generated</div>
+            <div class="big-number" id="total_savings">$0.00</div>
+            
+            <div class="sub-metric">
+                <span>Monthly Recovery: <span id="mo_savings" style="color:var(--white)">$0</span></span>
+                <span>Basis Points Cut: <span id="bps_cut" style="color:var(--gold)">0 bps</span></span>
+            </div>
+        </div>
+        
+        <div style="margin-top:20px; font-size:0.8rem; color:#555; text-align:center;">
+            *Internal Use Only. Do not screen-share this view with clients.
+        </div>
+    </div>
+</div>
+
+<script>
+    const presets = {
+        retail: { rate: 3.5, fees: 150 },
+        cafe:   { rate: 3.8, fees: 300 }, // Higher effective rate due to small tickets
+        risk:   { rate: 4.5, fees: 199 },
+        gem:    { rate: 3.9, fees: 500 }  // Corporate card surcharges
+    };
+
+    function loadPreset() {
+        const type = document.getElementById('preset').value;
+        if(type === 'custom') return;
+        
+        document.getElementById('current_rate').value = presets[type].rate;
+        document.getElementById('junk_fees').value = presets[type].fees;
+        calc();
+    }
+
+    function calc() {
+        // Inputs
+        const rev = parseFloat(document.getElementById('revenue').value) || 0;
+        const current = parseFloat(document.getElementById('current_rate').value) || 0;
+        const fees = parseFloat(document.getElementById('junk_fees').value) || 0;
+        
+        // Slider Logic
+        const target = parseFloat(document.getElementById('target_slider').value);
+        
+        // Update Slider Display
+        document.getElementById('rate_display').innerText = target.toFixed(2) + "%";
+        
+        // Math: (Current% - Target%) * Vol + Fees
+        const rate_diff = current - target;
+        const rate_savings = rev * (rate_diff / 100);
+        const total_mo = rate_savings + fees;
+        const total_yr = total_mo * 12;
+
+        // Display
+        document.getElementById('total_savings').innerText = '$' + total_yr.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        document.getElementById('mo_savings').innerText = '$' + total_mo.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0});
+        
+        // BPS Display (1% = 100bps)
+        const bps = Math.round(rate_diff * 100);
+        const bpsText = bps > 0 ? "-" + bps + " bps" : "0 bps";
+        document.getElementById('bps_cut').innerText = bpsText;
+    }
+
+    // Init
+    calc();
+</script>
+
+</body>
+</html>
