@@ -358,7 +358,7 @@
             const hashBuffer = await crypto.subtle.digest('SHA-256', data);
             const hashArray = Array.from(new Uint8Array(hashBuffer));
             const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-   
+ 
             if(hashHex === "e81c402120b6630f576395353096e572051676e216507c6f39722880053982e9") { 
                 toggleLogin(false);
                 document.getElementById('admin-portal').style.display = 'block';
