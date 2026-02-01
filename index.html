@@ -10,6 +10,7 @@
     <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-68WTFK0B54"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
@@ -31,23 +32,31 @@
         }
         body { margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; color: var(--text); background: var(--white); user-select: none; -webkit-user-select: none; transition: background 0.5s; }
         
+        /* --- NAVIGATION --- */
         .navbar { display: flex; justify-content: center; align-items: center; padding: 10px 5%; background: var(--navy); border-bottom: 3px solid var(--gold); position: sticky; top: 0; z-index: 100; height: 70px; }
         .logo-container { display: flex; align-items: center; gap: 15px; text-decoration: none; }
-        .logo-img { height: 125px; width: auto; border-radius: 50%; border: 2px solid var(--gold); background: #fff; }
+        
+        /* LOGO FIX: Changed background to transparent to fix color washing */
+        .logo-img { height: 125px; width: auto; border-radius: 50%; border: 2px solid var(--gold); background: transparent; }
+        
         .nav-brand { color: var(--white); font-size: 1.1rem; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; }
         .login-btn { position: absolute; right: 5%; top: 50%; transform: translateY(-50%); border: 1px solid var(--gold); color: var(--gold); padding: 8px 20px; border-radius: 4px; text-decoration: none; font-size: 0.8rem; letter-spacing: 1px; transition: 0.3s; cursor: pointer; text-transform: uppercase; }
         .login-btn:hover { background: var(--gold); color: var(--navy); }
+
+        /* --- HERO & LAYOUT --- */
         .hero { background: linear-gradient(135deg, var(--navy) 0%, #001f3f 100%); color: var(--white); padding: 80px 5%; text-align: center; }
         .hero h1 { font-size: 3rem; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px; }
         .hero p { font-size: 1.2rem; max-width: 700px; margin: 0 auto 40px auto; opacity: 0.9; line-height: 1.6; }
         .btn-main { background: var(--gold); color: var(--navy); padding: 15px 35px; font-size: 1.1rem; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; transition: 0.3s; text-decoration: none; display: inline-block; }
         
+        /* --- TICKER --- */
         .ticker-wrap { width: 100%; overflow: hidden; background: #f0f0f0; border-bottom: 1px solid #e0e0e0; padding: 15px 0; }
         .ticker { display: flex; width: 100%; animation: ticker 30s linear infinite; }
         .ticker-item { white-space: nowrap; padding: 0 40px; color: var(--navy); font-weight: bold; font-size: 0.9rem; }
         .ticker-highlight { color: var(--emerald); }
         @keyframes ticker { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
 
+        /* --- SIMULATOR --- */
         .simulator { background: var(--navy); color: var(--white); padding: 80px 5%; text-align: center; position: relative; overflow: hidden; }
         .sim-container { max-width: 650px; margin: auto; background: var(--white); color: var(--text); padding: 0; border-radius: 12px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); overflow: hidden; transition: 0.4s ease-in-out; border: 2px solid transparent; }
         .sim-container.theme-cafe { border-color: var(--theme-cafe); box-shadow: 0 0 30px rgba(188, 19, 254, 0.3); }
@@ -68,6 +77,7 @@
         .p-btn { background: #333; color: #fff; width: 100%; padding: 15px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; transition: 0.3s; }
         .p-btn:hover { background: var(--gold); color: #000; }
 
+        /* --- CONTENT SECTIONS --- */
         .mission { padding: 80px 5%; max-width: 1000px; margin: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
         .mission-text h2 { color: var(--navy); font-size: 2.2rem; margin-bottom: 20px; }
         .mission-text p { font-size: 1.1rem; line-height: 1.8; color: #555; margin-bottom: 20px; }
@@ -83,6 +93,7 @@
         .bio p { font-size: 1.1rem; line-height: 1.8; color: #555; margin-bottom: 25px; }
         .signature { font-family: 'Courier New', monospace; font-weight: bold; color: var(--navy); margin-top: 30px; font-size: 1.2rem; }
 
+        /* --- FOOTER & MODALS --- */
         .footer { background: #111; color: #888; padding: 60px 5% 150px 5%; text-align: center; font-size: 0.9rem; position: relative; }
         #admin-portal { display: none; margin-top: 40px; background:#222; padding:40px; color:#fff; border-top:5px solid #D4AF37; border-radius:10px; text-align:left; animation: fadeIn 0.5s; }
         
@@ -90,6 +101,7 @@
         .login-box { background:white; padding:30px; border-radius:8px; width:300px; text-align:center; border:2px solid var(--gold); }
         .login-input { width:100%; padding:10px; margin:10px 0; border:1px solid #ccc; border-radius:4px; box-sizing:border-box; }
 
+        /* --- GUI OVERLAY --- */
         #bizOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--glass); z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; backdrop-filter: blur(8px); opacity: 0; pointer-events: none; transition: opacity 0.5s ease; }
         #bizOverlay.active { opacity: 1; pointer-events: all; }
         .gui-card-frame { background: transparent; width: 90%; max-width: 450px; height: auto; transform: translateY(50px); transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; cursor: context-menu; }
@@ -335,21 +347,29 @@
         document.getElementById('login-modal').style.display = show ? 'flex' : 'none';
     }
 
-    // --- 2. ROBUST LOGIN LOGIC (Fixes Spacing Issues) ---
+    // --- 2. ROBUST LOGIN LOGIC (Debug Version) ---
     async function checkLogin() {
-        // TRIM removes invisible spaces from front/back
-        const input = document.getElementById('access-code').value.trim();
+        // Get input and TRIM whitespace (Fixes the mobile space issue)
+        const rawInput = document.getElementById('access-code').value;
+        const input = rawInput.trim(); 
         const btn = document.querySelector('.p-btn');
         
-        // Visual Feedback
+        // UI Feedback
         const originalText = btn.innerText;
         btn.innerText = "Verifying...";
 
         try {
             // Check if browser supports modern security
+            // If window.crypto is missing, we are likely in a non-secure context
             if (!window.crypto || !window.crypto.subtle) {
-                alert("Error: Your browser is blocking secure login. Please try Chrome or Safari.");
-                btn.innerText = originalText;
+                 // Fallback for non-secure contexts (Development Mode)
+                console.warn("Security Warning: Running in non-secure context. Using simple check.");
+                if (input === "2026") {
+                    grantAccess();
+                } else {
+                    alert("Access Denied: Invalid Code");
+                }
+                btn.innerText = "Unlock";
                 return;
             }
 
@@ -358,22 +378,26 @@
             const hashBuffer = await crypto.subtle.digest('SHA-256', data);
             const hashArray = Array.from(new Uint8Array(hashBuffer));
             const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
- 
+
+            // Hash for "2026"
             if(hashHex === "e81c402120b6630f576395353096e572051676e216507c6f39722880053982e9") { 
-                toggleLogin(false);
-                document.getElementById('admin-portal').style.display = 'block';
-                document.getElementById('footer-trigger').scrollIntoView({behavior: 'smooth'});
-                document.querySelector('.login-btn').style.display = 'none';
+                grantAccess();
             } else {
-                alert("Access Denied: Incorrect Code");
+                // If it fails, this alert will help us debug if needed
+                alert("Access Denied.");
+                btn.innerText = "Unlock";
             }
         } catch (error) {
-            console.error(error);
-            // This alert will tell us if there's a specific technical error
             alert("System Error: " + error.message);
-        } finally {
-            btn.innerText = originalText;
+            btn.innerText = "Unlock";
         }
+    }
+    
+    function grantAccess() {
+        toggleLogin(false);
+        document.getElementById('admin-portal').style.display = 'block';
+        document.getElementById('footer-trigger').scrollIntoView({behavior: 'smooth'});
+        document.querySelector('.login-btn').style.display = 'none';
     }
 
     // --- 3. TRACKING LOGIC ---
