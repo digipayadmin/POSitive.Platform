@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POSitive Rails | Hospitality Audit</title>
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <style>
+        body { font-family: 'Segoe UI', Roboto, sans-serif; background: #fff; color: #333; margin:0; padding:20px; text-align:center; }
+        .audit-box { max-width: 600px; margin: 40px auto; border: 2px solid #ff5252; padding: 0; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(255, 82, 82, 0.2); }
+        .header { background: #b71c1c; color: white; padding: 20px; }
+        .body { padding: 30px; text-align: left; }
+        input, button { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
+        button { background: #ff5252; color: white; font-weight: bold; border: none; cursor: pointer; font-size: 1.1rem; }
+        .result { font-size: 2.5rem; color: #b71c1c; font-weight: bold; text-align: center; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <div class="audit-box">
+        <div class="header">
+            <h2 style="margin:0;">THE GRADUATE | HOSPITALITY AUDIT</h2>
+            <div style="font-size:0.9rem; opacity:0.8;">High-Volume Event & Room Processing</div>
+        </div>
+        <div class="body">
+            <label>Avg. Nightly Rate ($)</label>
+            <input type="number" id="rate" value="250" oninput="calc()">
+            
+            <label>Monthly Occupied Room Nights</label>
+            <input type="number" id="rooms" value="1200" oninput="calc()">
+            
+            <label>Event/Banquet Revenue (Monthly $)</label>
+            <input type="number" id="events" value="50000" oninput="calc()">
+
+            <div style="margin-top:20px; text-align:center; font-size:0.9rem; text-transform:uppercase; color:#888;">Projected Annual Recovery</div>
+            <div class="result" id="savings">$18,500.00</div>
+            <button onclick="window.location.href='index.html'">Request Full Proposal</button>
+        </div>
+    </div>
+    <script>
+        function calc() {
+            const r = parseFloat(document.getElementById('rate').value) || 0;
+            const n = parseFloat(document.getElementById('rooms').value) || 0;
+            const e = parseFloat(document.getElementById('events').value) || 0;
+            // Logic: 3.5% vs 2.5% on total vol + eliminating $0.30 per trans
+            const vol = (r * n) + e;
+            const savings = (vol * 0.01 * 12) + (n * 0.30 * 12);
+            document.getElementById('savings').innerText = '$' + savings.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        }
+        calc();
+    </script>
+</body>
+</html>
