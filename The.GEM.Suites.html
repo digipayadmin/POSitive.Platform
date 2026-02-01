@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POSitive Rails | Luxury Audit</title>
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <style>
+        body { font-family: 'Segoe UI', Roboto, sans-serif; background: #fff; color: #333; margin:0; padding:20px; text-align:center; }
+        .audit-box { max-width: 600px; margin: 40px auto; border: 2px solid #00e5ff; padding: 0; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0, 229, 255, 0.2); }
+        .header { background: #006064; color: white; padding: 20px; }
+        .body { padding: 30px; text-align: left; }
+        input, button { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
+        button { background: #00e5ff; color: #006064; font-weight: bold; border: none; cursor: pointer; font-size: 1.1rem; }
+        .result { font-size: 2.5rem; color: #006064; font-weight: bold; text-align: center; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <div class="audit-box">
+        <div class="header">
+            <h2 style="margin:0;">THE GEM SUITES | RESIDENCE AUDIT</h2>
+            <div style="font-size:0.9rem; opacity:0.8;">Corporate Housing & Int'l Rails</div>
+        </div>
+        <div class="body">
+            <label>Monthly Bookings</label>
+            <input type="number" id="bookings" value="45" oninput="calc()">
+            
+            <label>Avg. Stay Value ($)</label>
+            <input type="number" id="val" value="3500" oninput="calc()">
+            
+            <label>International / Corp Card %</label>
+            <input type="number" id="int_pct" value="40" oninput="calc()">
+
+            <div style="margin-top:20px; text-align:center; font-size:0.9rem; text-transform:uppercase; color:#888;">Projected Annual Recovery</div>
+            <div class="result" id="savings">$14,250.00</div>
+            <button onclick="window.location.href='index.html'">Request Full Proposal</button>
+        </div>
+    </div>
+    <script>
+        function calc() {
+            const b = parseFloat(document.getElementById('bookings').value) || 0;
+            const v = parseFloat(document.getElementById('val').value) || 0;
+            const p = parseFloat(document.getElementById('int_pct').value) || 0;
+            // Logic: High Int'l fees (4%+) vs Flat 2.5%
+            const total_vol = b * v;
+            const int_vol = total_vol * (p / 100);
+            const dom_vol = total_vol - int_vol;
+            // Save 1.5% on Int'l, 1.0% on Dom
+            const savings = ((int_vol * 0.015) + (dom_vol * 0.01)) * 12;
+            document.getElementById('savings').innerText = '$' + savings.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        }
+        calc();
+    </script>
+</body>
+</html>
