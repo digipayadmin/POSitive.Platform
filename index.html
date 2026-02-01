@@ -330,27 +330,53 @@
 </footer>
 
 <script>
+    // --- 1. LOGIN MODAL LOGIC ---
     function toggleLogin(show) {
         document.getElementById('login-modal').style.display = show ? 'flex' : 'none';
     }
+
+    // --- 2. ROBUST LOGIN LOGIC (Fixes Spacing Issues) ---
     async function checkLogin() {
-    const input = document.getElementById('access-code').value;
-    const encoder = new TextEncoder();
-    const data = encoder.encode(input);
-     
-    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-  
-    if(hashHex === "e81c402120b6630f576395353096e572051676e216507c6f39722880053982e9") { 
-        toggleLogin(false);
-        document.getElementById('admin-portal').style.display = 'block';
-        document.getElementById('footer-trigger').scrollIntoView({behavior: 'smooth'});
-        document.querySelector('.login-btn').style.display = 'none';
-    } else {
-        alert("Access Denied.");
+        // TRIM removes invisible spaces from front/back
+        const input = document.getElementById('access-code').value.trim();
+        const btn = document.querySelector('.p-btn');
+        
+        // Visual Feedback
+        const originalText = btn.innerText;
+        btn.innerText = "Verifying...";
+
+        try {
+            // Check if browser supports modern security
+            if (!window.crypto || !window.crypto.subtle) {
+                alert("Error: Your browser is blocking secure login. Please try Chrome or Safari.");
+                btn.innerText = originalText;
+                return;
+            }
+
+            const encoder = new TextEncoder();
+            const data = encoder.encode(input);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+   
+            if(hashHex === "e81c402120b6630f576395353096e572051676e216507c6f39722880053982e9") { 
+                toggleLogin(false);
+                document.getElementById('admin-portal').style.display = 'block';
+                document.getElementById('footer-trigger').scrollIntoView({behavior: 'smooth'});
+                document.querySelector('.login-btn').style.display = 'none';
+            } else {
+                alert("Access Denied: Incorrect Code");
+            }
+        } catch (error) {
+            console.error(error);
+            // This alert will tell us if there's a specific technical error
+            alert("System Error: " + error.message);
+        } finally {
+            btn.innerText = originalText;
+        }
     }
-}
+
+    // --- 3. TRACKING LOGIC ---
     const urlParams = new URLSearchParams(window.location.search);
     const sourceParam = urlParams.get('src');
     if (sourceParam) {
@@ -358,12 +384,15 @@
         if (hiddenField) hiddenField.value = sourceParam;
         if(sourceParam === 'bizcard') { console.log("Welcome from Business Card scan!"); }
     }
+
+    // --- 4. CALCULATOR ENGINE ---
     const engine = {
         default: { title: "Margin Recovery Audit", color: "var(--theme-default)", textColor: "var(--gold)", label1: "Current Rate (%)", val1: 3.5, label2: "Hidden Fees ($/mo)", val2: 0, subtext: "*Based on POSitive Rails Optimized Rate of 2.5%" },
         cafe: { title: "The Latte Tax Audit", color: "var(--theme-cafe)", textColor: "var(--theme-cafe)", label1: "Avg. Ticket Size ($)", val1: 5.00, label2: "Daily Transaction Count", val2: 100, subtext: "*Eliminating 30¢ fixed fees on small tickets" },
         risk: { title: "High-Risk Rate Buster", color: "var(--theme-risk)", textColor: "var(--theme-risk)", label1: "Current Risk Rate (%)", val1: 4.5, label2: "Compliance Fees ($/mo)", val2: 150, subtext: "*Converting High-Risk to POSitive Rails Standard" },
         retail: { title: "Inventory Liability Shield", color: "var(--theme-retail)", textColor: "var(--gold)", label1: "Avg. High Ticket ($)", val1: 500, label2: "Annual Fraud Loss ($)", val2: 2000, subtext: "*Includes Zero-Liability Fraud Protection" }
     };
+
     function updateIndustry() {
         const type = document.getElementById('industry_select').value;
         const config = engine[type];
@@ -381,6 +410,7 @@
         document.getElementById('personalizer').style.display = 'block';
         calculate();
     }
+
     function calculate() {
         const type = document.getElementById('industry_select').value;
         const vol = parseFloat(document.getElementById('monthly_vol').value) || 0;
@@ -398,6 +428,8 @@
         const badge = document.getElementById('tier-badge');
         if (vol >= 50000) { badge.style.display = 'block'; } else { badge.style.display = 'none'; }
     }
+
+    // --- 5. OVERLAY & INTERACTION ---
     const overlay = document.getElementById('bizOverlay');
     const footer = document.getElementById('footer-trigger');
     const vcfPath = 'downloads/KevinYi.vcf';
@@ -420,6 +452,8 @@
     let startY = 0; overlay.addEventListener('touchstart', (e) => startY = e.touches[0].clientY);
     overlay.addEventListener('touchmove', (e) => { if (e.touches[0].clientY - startY > 50) dismissOverlay(); });
     overlay.addEventListener('wheel', (e) => { if (e.deltaY < -30) dismissOverlay(); });
+
+    // Initialize
     updateIndustry();
 </script>
 </body>
