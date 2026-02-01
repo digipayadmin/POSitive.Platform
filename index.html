@@ -330,16 +330,24 @@
 </footer>
 
 <script>
-    function toggleLogin(show) { document.getElementById('login-modal').style.display = show ? 'flex' : 'none'; }
-    function checkLogin() {
-        const code = document.getElementById('access-code').value;
-        if(code === "2026") { 
-            toggleLogin(false);
-            document.getElementById('admin-portal').style.display = 'block';
-            document.getElementById('footer-trigger').scrollIntoView({behavior: 'smooth'});
-            document.querySelector('.login-btn').style.display = 'none';
-        } else { alert("Access Denied: Invalid Partner Code"); }
+    async function checkLogin() {
+    const input = document.getElementById('access-code').value;
+    const encoder = new TextEncoder();
+    const data = encoder.encode(input);
+     
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+  
+    if(hashHex === "e81c402120b6630f576395353096e572051676e216507c6f39722880053982e9") { 
+        toggleLogin(false);
+        document.getElementById('admin-portal').style.display = 'block';
+        document.getElementById('footer-trigger').scrollIntoView({behavior: 'smooth'});
+        document.querySelector('.login-btn').style.display = 'none';
+    } else {
+        alert("Access Denied.");
     }
+}
     const urlParams = new URLSearchParams(window.location.search);
     const sourceParam = urlParams.get('src');
     if (sourceParam) {
