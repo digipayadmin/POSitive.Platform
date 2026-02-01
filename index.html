@@ -330,6 +330,9 @@
 </footer>
 
 <script>
+    function toggleLogin(show) {
+        document.getElementById('login-modal').style.display = show ? 'flex' : 'none';
+    }
     async function checkLogin() {
     const input = document.getElementById('access-code').value;
     const encoder = new TextEncoder();
