@@ -353,7 +353,10 @@
         btn.innerText = "Verifying...";
         btn.style.opacity = "0.7";
 
-    
+        // SECRET: 2026
+        // STRATEGY: We use a Dual-Check system.
+        // 1. If HTTPS is active, we use SHA-256 (Best Security).
+        // 2. If Local/HTTP, we use Base64 (Obfuscation) to prevent errors.
         
         let isValid = false;
 
@@ -366,12 +369,14 @@
                 const hashArray = Array.from(new Uint8Array(hashBuffer));
                 const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
                 
-            
+                // SHA-256 hash for "2026"
                 if (hashHex === "e81c402120b6630f576395353096e572051676e216507c6f39722880053982e9") {
                     isValid = true;
                 }
             } else {
-               
+                // Check 2: Offline Fallback (Obfuscated to prevent casual snooping)
+                // We use Base64 encoding. "MjAyNg==" decodes to "2026".
+                // This allows the demo to work on your laptop without a server.
                 if (btoa(input) === "MjAyNg==") {
                     isValid = true;
                 }
