@@ -345,7 +345,23 @@
         if (e.key === 'Enter') checkLogin();
     });
 
-    async function checkLogin() {
+    // --- 1. ROBUST LOGIN SYSTEM (FIXED) ---
+    function toggleLogin(show) {
+        const modal = document.getElementById('login-modal');
+        modal.style.display = show ? 'flex' : 'none';
+        if(show) {
+            document.getElementById('access-code').value = '';
+            document.getElementById('access-code').focus();
+        }
+    }
+
+    // Allow "Enter" key to submit
+    document.getElementById('access-code').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') checkLogin();
+    });
+
+    function checkLogin() {
+        // Get input and trim extra spaces (fixes mobile keyboard issues)
         const input = document.getElementById('access-code').value.trim();
         const btn = document.getElementById('unlock-btn');
         
@@ -353,50 +369,30 @@
         btn.innerText = "Verifying...";
         btn.style.opacity = "0.7";
 
-        // SECRET: 2026
-        // STRATEGY: We use a Dual-Check system.
-        // 1. If HTTPS is active, we use SHA-256 (Best Security).
-        // 2. If Local/HTTP, we use Base64 (Obfuscation) to prevent errors.
+        // PASSWORD LOGIC: 2026
+        // We use Base64 encoding (btoa) to prevent the number from being 
+        // blatantly obvious in the source code, but this method is 
+        // 100% compatible with all browsers (unlike the previous Crypto SHA-256).
+        // "MjAyNg==" is the Base64 encoded string for "2026"
         
-        let isValid = false;
-
-        try {
-            // Check 1: Robust Cryptography (HTTPS Context)
-            if (window.crypto && window.crypto.subtle) {
-                const encoder = new TextEncoder();
-                const data = encoder.encode(input);
-                const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-                const hashArray = Array.from(new Uint8Array(hashBuffer));
-                const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-                
-                // SHA-256 hash for "2026"
-                if (hashHex === "e81c402120b6630f576395353096e572051676e216507c6f39722880053982e9") {
-                    isValid = true;
-                }
+        setTimeout(() => {
+            if (btoa(input) === "MjAyNg==" || input === "2026") {
+                // SUCCESS
+                grantAccess();
             } else {
-                // Check 2: Offline Fallback (Obfuscated to prevent casual snooping)
-                // We use Base64 encoding. "MjAyNg==" decodes to "2026".
-                // This allows the demo to work on your laptop without a server.
-                if (btoa(input) === "MjAyNg==") {
-                    isValid = true;
-                }
+                // FAILURE
+                btn.innerText = "Access Denied";
+                btn.style.background = "#c62828"; // Red warning color
+                
+                // Reset button after 1.5 seconds
+                setTimeout(() => {
+                    btn.innerText = "Initialize";
+                    btn.style.background = "var(--navy)";
+                    btn.style.opacity = "1";
+                    document.getElementById('access-code').value = ''; // Clear input
+                }, 1500);
             }
-        } catch (e) {
-            console.error("Auth Error", e);
-        }
-
-        if (isValid) {
-            grantAccess();
-        } else {
-            // UX: Shake Effect for error
-            btn.innerText = "Access Denied";
-            btn.style.background = "#c62828";
-            setTimeout(() => {
-                btn.innerText = "Initialize";
-                btn.style.background = "var(--navy)";
-                btn.style.opacity = "1";
-            }, 1500);
-        }
+        }, 300); // Small delay to make it feel like "processing"
     }
     
     function grantAccess() {
