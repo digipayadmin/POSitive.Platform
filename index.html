@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>POSitive Rails | B2B Fintech Infrastructure Audit/UpGrade</title>
+    <title>POSitive Rails | B2B Fintech Infrastructure Audit</title>
     
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-Frame-Options" content="DENY">
@@ -20,172 +20,175 @@
 
     <style>
         :root {
-            --navy: #000035; --gold: #D4AF37; --white: #ffffff;
-            --grey: #f8f9fa; --text: #333333; --emerald: #004d40;
+            /* BRAND IDENTITY */
+            --navy: #000035; 
+            --gold: #D4AF37; 
+            --white: #ffffff;
+            --grey: #f4f6f8; 
+            --text: #333333; 
+            --emerald: #004d40;
             --glass: rgba(0, 0, 53, 0.98);
             
-            /* Industry Theme Colors */
-            --theme-cafe: #bc13fe;   /* Neon Purple */
-            --theme-risk: #00e676;   /* Neon Green */
-            --theme-retail: #D4AF37; /* Gold */
-            --theme-default: #D4AF37;
+            /* DYNAMIC INDUSTRY THEMES */
+            --theme-cafe: #bc13fe;   /* QSR/Cafe */
+            --theme-risk: #00e676;   /* High Risk */
+            --theme-retail: #D4AF37; /* Luxury/Standard */
         }
-        body { margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; color: var(--text); background: var(--white); user-select: none; -webkit-user-select: none; transition: background 0.5s; }
+
+        body { margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, Helvetica, sans-serif; color: var(--text); background: var(--white); user-select: none; -webkit-user-select: none; transition: background 0.5s ease; }
         
-        /* --- NAVIGATION --- */
-        .navbar { display: flex; justify-content: center; align-items: center; padding: 10px 5%; background: var(--navy); border-bottom: 3px solid var(--gold); position: sticky; top: 0; z-index: 100; height: 70px; }
+        /* --- NAVIGATION INFRASTRUCTURE --- */
+        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 0 5%; background: var(--navy); border-bottom: 3px solid var(--gold); position: sticky; top: 0; z-index: 1000; height: 70px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
         .logo-container { display: flex; align-items: center; gap: 15px; text-decoration: none; }
+        .logo-img { height: 60px; width: auto; border-radius: 50%; border: 2px solid var(--gold); background: var(--navy); } 
+        .nav-brand { color: var(--white); font-size: 1.2rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
         
-        /* LOGO FIX: Changed background to transparent to fix color washing */
-        .logo-img { height: 125px; width: auto; border-radius: 50%; border: 2px solid var(--gold); background: transparent; }
-        
-        .nav-brand { color: var(--white); font-size: 1.1rem; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; }
-        .login-btn { position: absolute; right: 5%; top: 50%; transform: translateY(-50%); border: 1px solid var(--gold); color: var(--gold); padding: 8px 20px; border-radius: 4px; text-decoration: none; font-size: 0.8rem; letter-spacing: 1px; transition: 0.3s; cursor: pointer; text-transform: uppercase; }
-        .login-btn:hover { background: var(--gold); color: var(--navy); }
+        .login-btn { 
+            border: 1px solid var(--gold); color: var(--gold); padding: 8px 24px; 
+            border-radius: 4px; text-decoration: none; font-size: 0.85rem; 
+            letter-spacing: 1px; transition: all 0.3s ease; cursor: pointer; 
+            text-transform: uppercase; font-weight: 600;
+        }
+        .login-btn:hover { background: var(--gold); color: var(--navy); box-shadow: 0 0 15px rgba(212, 175, 55, 0.4); }
 
-        /* --- HERO & LAYOUT --- */
-        .hero { background: linear-gradient(135deg, var(--navy) 0%, #001f3f 100%); color: var(--white); padding: 80px 5%; text-align: center; }
-        .hero h1 { font-size: 3rem; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px; }
-        .hero p { font-size: 1.2rem; max-width: 700px; margin: 0 auto 40px auto; opacity: 0.9; line-height: 1.6; }
-        .btn-main { background: var(--gold); color: var(--navy); padding: 15px 35px; font-size: 1.1rem; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; transition: 0.3s; text-decoration: none; display: inline-block; }
+        /* --- HERO & MESSAGING --- */
+        .hero { background: linear-gradient(135deg, var(--navy) 0%, #001f3f 100%); color: var(--white); padding: 100px 5%; text-align: center; }
+        .hero h1 { font-size: 3.5rem; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px; line-height: 1.1; }
+        .hero p { font-size: 1.3rem; max-width: 750px; margin: 0 auto 40px auto; opacity: 0.9; line-height: 1.6; font-weight: 300; }
+        .btn-main { background: var(--gold); color: var(--navy); padding: 16px 40px; font-size: 1.1rem; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; transition: transform 0.2s, box-shadow 0.2s; text-decoration: none; display: inline-block; text-transform: uppercase; letter-spacing: 1px; }
+        .btn-main:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
         
-        /* --- TICKER --- */
-        .ticker-wrap { width: 100%; overflow: hidden; background: #f0f0f0; border-bottom: 1px solid #e0e0e0; padding: 15px 0; }
-        .ticker { display: flex; width: 100%; animation: ticker 30s linear infinite; }
-        .ticker-item { white-space: nowrap; padding: 0 40px; color: var(--navy); font-weight: bold; font-size: 0.9rem; }
-        .ticker-highlight { color: var(--emerald); }
-        @keyframes ticker { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+        /* --- LIVE DATA TICKER --- */
+        .ticker-wrap { width: 100%; overflow: hidden; background: #f8f8f8; border-bottom: 1px solid #e0e0e0; padding: 12px 0; }
+        .ticker { display: flex; width: 100%; animation: ticker 40s linear infinite; }
+        .ticker-item { white-space: nowrap; padding: 0 40px; color: var(--navy); font-weight: 600; font-size: 0.9rem; }
+        .ticker-highlight { color: var(--emerald); font-weight: 800; }
+        @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
 
-        /* --- SIMULATOR --- */
-        .simulator { background: var(--navy); color: var(--white); padding: 80px 5%; text-align: center; position: relative; overflow: hidden; }
-        .sim-container { max-width: 650px; margin: auto; background: var(--white); color: var(--text); padding: 0; border-radius: 12px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); overflow: hidden; transition: 0.4s ease-in-out; border: 2px solid transparent; }
-        .sim-container.theme-cafe { border-color: var(--theme-cafe); box-shadow: 0 0 30px rgba(188, 19, 254, 0.3); }
-        .sim-container.theme-risk { border-color: var(--theme-risk); box-shadow: 0 0 30px rgba(0, 230, 118, 0.3); }
-        .sim-container.theme-retail { border-color: var(--theme-retail); box-shadow: 0 0 30px rgba(212, 175, 55, 0.3); }
-        .sim-header { background: #111; padding: 20px; color: #fff; border-bottom: 1px solid #333; }
-        .sim-header h3 { margin: 0; text-transform: uppercase; letter-spacing: 1px; color: var(--gold); transition: 0.3s; }
-        .sim-body { padding: 30px; text-align: left; }
-        .input-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
-        .input-group label { display: block; font-weight: bold; margin-bottom: 8px; color: #555; font-size: 0.85rem; text-transform: uppercase; }
-        .input-group input, .input-group select { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 1.1rem; box-sizing: border-box; transition: 0.3s; }
-        .input-group input:focus { border-color: var(--gold); outline: none; }
-        #dynamic-fields { background: #f4f4f4; padding: 0 20px; margin: 0 -30px; border-top: 1px solid #e0e0e0; padding: 20px 20px; border-bottom: 1px solid #e0e0e0; }
-        .result-display { background: #111; padding: 25px; margin-top: 20px; border-radius: 8px; text-align: center; color: #fff; position: relative; }
-        .saving-amount { font-size: 2.8rem; color: var(--gold); font-weight: bold; margin: 5px 0; transition: 0.3s; }
-        #tier-badge { position: absolute; top: 10px; right: 10px; background: var(--emerald); color: #fff; font-size: 0.7rem; font-weight: bold; padding: 4px 8px; border-radius: 4px; display: none; text-transform: uppercase; }
-        #personalizer { margin-top: 25px; padding-top: 20px; border-top: 1px dashed #ccc; display: block; animation: fadeIn 0.5s; }
-        .p-btn { background: #333; color: #fff; width: 100%; padding: 15px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        /* --- AUDIT SIMULATOR (CALCULATOR) --- */
+        .simulator { background: var(--navy); color: var(--white); padding: 80px 5%; text-align: center; }
+        .sim-container { max-width: 700px; margin: auto; background: var(--white); color: var(--text); border-radius: 8px; box-shadow: 0 25px 50px rgba(0,0,0,0.5); overflow: hidden; transition: 0.4s ease-in-out; border: 3px solid transparent; }
+        
+        /* Themes */
+        .sim-container.theme-cafe { border-color: var(--theme-cafe); box-shadow: 0 0 40px rgba(188, 19, 254, 0.2); }
+        .sim-container.theme-risk { border-color: var(--theme-risk); box-shadow: 0 0 40px rgba(0, 230, 118, 0.2); }
+        .sim-container.theme-retail { border-color: var(--theme-retail); box-shadow: 0 0 40px rgba(212, 175, 55, 0.2); }
+
+        .sim-header { background: #1a1a1a; padding: 25px; color: #fff; border-bottom: 1px solid #333; }
+        .sim-header h3 { margin: 0; text-transform: uppercase; letter-spacing: 2px; color: var(--gold); font-size: 1.2rem; }
+        .sim-body { padding: 40px; text-align: left; }
+        
+        .input-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-bottom: 25px; }
+        .input-group label { display: block; font-weight: 700; margin-bottom: 10px; color: #555; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        .input-group input, .input-group select { width: 100%; padding: 14px; border: 1px solid #ddd; border-radius: 4px; font-size: 1.1rem; box-sizing: border-box; transition: 0.3s; background: #fafafa; }
+        .input-group input:focus, .input-group select:focus { border-color: var(--gold); background: #fff; outline: none; box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1); }
+        
+        #dynamic-fields { background: #f8f9fa; margin: 0 -40px 20px -40px; padding: 30px 40px; border-top: 1px solid #eee; border-bottom: 1px solid #eee; }
+        
+        .result-display { background: #111; padding: 30px; margin-top: 30px; border-radius: 6px; text-align: center; color: #fff; position: relative; border: 1px solid #333; }
+        .saving-amount { font-size: 3.5rem; color: var(--gold); font-weight: 700; margin: 10px 0; font-family: 'Segoe UI', sans-serif; }
+        #tier-badge { position: absolute; top: 15px; right: 15px; background: var(--emerald); color: #fff; font-size: 0.7rem; font-weight: bold; padding: 5px 10px; border-radius: 20px; display: none; text-transform: uppercase; letter-spacing: 1px; }
+        
+        #personalizer { margin-top: 30px; padding-top: 25px; border-top: 1px dashed #ccc; display: block; animation: fadeIn 0.5s; }
+        .p-btn { background: #222; color: #fff; width: 100%; padding: 18px; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; }
         .p-btn:hover { background: var(--gold); color: #000; }
 
         /* --- CONTENT SECTIONS --- */
-        .mission { padding: 80px 5%; max-width: 1000px; margin: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
-        .mission-text h2 { color: var(--navy); font-size: 2.2rem; margin-bottom: 20px; }
-        .mission-text p { font-size: 1.1rem; line-height: 1.8; color: #555; margin-bottom: 20px; }
-        .highlight-box { background: var(--grey); padding: 30px; border-left: 5px solid var(--gold); border-radius: 5px; }
-        .comparison-row { display: flex; justify-content: space-between; margin-bottom: 15px; border-bottom: 1px solid #ddd; padding-bottom: 10px; }
-        .comp-label { font-weight: bold; color: #444; }
-        .comp-bad { color: #c62828; }
-        .comp-good { color: var(--emerald); font-weight: bold; }
+        .mission { padding: 100px 5%; max-width: 1200px; margin: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+        .mission-text h2 { color: var(--navy); font-size: 2.5rem; margin-bottom: 25px; line-height: 1.2; }
+        .mission-text p { font-size: 1.15rem; line-height: 1.8; color: #555; margin-bottom: 25px; }
+        .highlight-box { background: var(--grey); padding: 40px; border-left: 6px solid var(--gold); border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .comparison-row { display: flex; justify-content: space-between; margin-bottom: 15px; border-bottom: 1px solid #e0e0e0; padding-bottom: 12px; }
+        .comp-label { font-weight: 600; color: #444; }
+        .comp-bad { color: #c62828; font-weight: 600; }
+        .comp-good { color: var(--emerald); font-weight: 800; }
 
-        .bio { padding: 80px 5%; background: var(--white); text-align: center; }
+        .bio { padding: 100px 5%; background: var(--white); text-align: center; border-top: 1px solid #eee; }
         .bio-content { max-width: 800px; margin: auto; }
-        .bio h2 { color: var(--navy); font-size: 2rem; margin-bottom:30px; }
-        .bio p { font-size: 1.1rem; line-height: 1.8; color: #555; margin-bottom: 25px; }
-        .signature { font-family: 'Courier New', monospace; font-weight: bold; color: var(--navy); margin-top: 30px; font-size: 1.2rem; }
+        .bio h2 { color: var(--navy); font-size: 2.2rem; margin-bottom: 30px; }
+        .signature { font-family: 'Courier New', monospace; font-weight: bold; color: var(--navy); margin-top: 40px; font-size: 1.2rem; border-top: 2px solid var(--gold); display: inline-block; padding-top: 10px; }
 
-        /* --- FOOTER & MODALS --- */
-        .footer { background: #111; color: #888; padding: 60px 5% 150px 5%; text-align: center; font-size: 0.9rem; position: relative; }
-        #admin-portal { display: none; margin-top: 40px; background:#222; padding:40px; color:#fff; border-top:5px solid #D4AF37; border-radius:10px; text-align:left; animation: fadeIn 0.5s; }
+        /* --- FOOTER & PARTNER PORTAL --- */
+        .footer { background: #0a0a0a; color: #888; padding: 80px 5% 150px 5%; text-align: center; font-size: 0.9rem; position: relative; }
+        #admin-portal { display: none; margin-top: 60px; background: #1a1a1a; padding: 40px; border-radius: 8px; border: 1px solid #333; text-align: left; animation: fadeIn 0.6s; max-width: 1000px; margin-left: auto; margin-right: auto; }
         
-        #login-modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:2000; justify-content:center; align-items:center; }
-        .login-box { background:white; padding:30px; border-radius:8px; width:300px; text-align:center; border:2px solid var(--gold); }
-        .login-input { width:100%; padding:10px; margin:10px 0; border:1px solid #ccc; border-radius:4px; box-sizing:border-box; }
+        .client-card { background: #252525; padding: 25px; border-radius: 6px; border: 1px solid #333; transition: 0.3s; height: 100%; box-sizing: border-box; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; }
+        .client-card:hover { transform: translateY(-5px); background: #2a2a2a; }
+        
+        /* --- UTILS --- */
+        #login-modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,53,0.9); z-index:2000; justify-content:center; align-items:center; backdrop-filter: blur(5px); }
+        .login-box { background: white; padding: 40px; border-radius: 8px; width: 320px; text-align: center; border-top: 5px solid var(--gold); box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
+        .login-input { width: 100%; padding: 15px; margin: 20px 0; border: 2px solid #eee; border-radius: 4px; box-sizing: border-box; font-size: 1.2rem; text-align: center; letter-spacing: 5px; font-weight: bold; }
+        .login-input:focus { border-color: var(--navy); outline: none; }
 
-        /* --- GUI OVERLAY --- */
-        #bizOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--glass); z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; backdrop-filter: blur(8px); opacity: 0; pointer-events: none; transition: opacity 0.5s ease; }
+        /* --- GUI OVERLAY (BUSINESS CARD) --- */
+        #bizOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--glass); z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; backdrop-filter: blur(10px); opacity: 0; pointer-events: none; transition: opacity 0.5s ease; }
         #bizOverlay.active { opacity: 1; pointer-events: all; }
-        .gui-card-frame { background: transparent; width: 90%; max-width: 450px; height: auto; transform: translateY(50px); transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; cursor: context-menu; }
+        .gui-card-frame { width: 90%; max-width: 400px; transform: translateY(50px); transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         #bizOverlay.active .gui-card-frame { transform: translateY(0); }
-        .card-visual { width: 100%; height: auto; border-radius: 10px; border: 2px solid var(--gold); box-shadow: 0 0 50px rgba(212, 175, 55, 0.3); display: block; }
-        .gui-hint { font-size: 0.8rem; color: #aaa; margin-top: 20px; opacity: 0.8; letter-spacing: 0.5px; }
-        .scroll-hint { margin-top: 30px; color: #fff; opacity: 0.5; font-size: 0.9rem; animation: bounce 2s infinite; cursor: pointer; }
-
-        #contextMenu { display: none; position: fixed; z-index: 10000; background: #1a1a1a; border: 1px solid var(--gold); border-radius: 8px; box-shadow: 0 5px 25px rgba(0,0,0,0.5); min-width: 200px; overflow: hidden; }
-        .ctx-item { padding: 15px 20px; color: #fff; cursor: pointer; font-size: 0.95rem; border-bottom: 1px solid #333; display: flex; align-items: center; gap: 12px; }
-        .ctx-item:hover { background: var(--gold); color: #000; }
-        .toast { position: absolute; top: -50px; left: 50%; transform: translateX(-50%); background: var(--emerald); color: white; padding: 10px 20px; border-radius: 20px; font-weight: bold; font-size: 0.9rem; opacity: 0; transition: 0.5s; pointer-events: none; white-space: nowrap; }
-        .toast.show { top: -60px; opacity: 1; }
+        .card-visual { width: 100%; height: auto; border-radius: 12px; box-shadow: 0 0 40px rgba(212, 175, 55, 0.4); border: 1px solid rgba(255,255,255,0.1); }
+        .scroll-hint { margin-top: 30px; color: var(--gold); font-size: 0.8rem; animation: bounce 2s infinite; cursor: pointer; letter-spacing: 2px; text-transform: uppercase; }
 
         @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(-10px);} 60% {transform: translateY(-5px);} } 
-        @keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
+        @keyframes fadeIn { from {opacity:0; transform: translateY(10px);} to {opacity:1; transform: translateY(0);} }
         
-        @media (max-width: 768px) { .mission { grid-template-columns: 1fr; } .hero h1 { font-size: 2rem; } .nav-brand { display: none; } .input-grid { grid-template-columns: 1fr; } .ticker-item { font-size: 0.8rem; } }
+        @media (max-width: 768px) { .mission { grid-template-columns: 1fr; } .hero h1 { font-size: 2.5rem; } .nav-brand { display: none; } .input-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
 
 <div id="login-modal">
     <div class="login-box">
-        <h3 style="color:var(--navy); margin-top:0;">Partner Access</h3>
-        <p style="font-size:0.9rem; color:#666;">Enter your 4-digit code to view demo environments.</p>
-        <input type="password" id="access-code" class="login-input" placeholder="Passcode">
-        <button onclick="checkLogin()" class="p-btn" style="margin-top:10px;">Unlock</button>
-        <div style="margin-top:15px; font-size:0.8rem; color:#999; cursor:pointer;" onclick="toggleLogin(false)">Cancel</div>
+        <h3 style="color:var(--navy); margin-top:0; text-transform: uppercase; letter-spacing: 1px;">Partner Access</h3>
+        <p style="font-size:0.9rem; color:#666; margin-bottom: 5px;">Restricted Environment</p>
+        <input type="password" id="access-code" class="login-input" placeholder="****" maxlength="8">
+        <button onclick="checkLogin()" id="unlock-btn" class="p-btn" style="background:var(--navy);">Initialize</button>
+        <div style="margin-top:20px; font-size:0.8rem; color:#999; cursor:pointer; text-decoration: underline;" onclick="toggleLogin(false)">Cancel Connection</div>
     </div>
 </div>
 
 <div id="bizOverlay">
     <div class="gui-card-frame" id="cardZone">
-        <div id="dl-toast" class="toast">✓ Contact Saved!</div>
-        <img src="downloads/POSitive.BizCards.jpg" alt="Kevin Yi POSitive Rails" class="card-visual" loading="lazy">
+        <img src="downloads/POSitive.BizCards.jpg" alt="Kevin Yi POSitive Rails" class="card-visual">
     </div>
-    <div class="gui-hint">Right-Click (or Long Press) for Options</div>
-    <div class="scroll-hint" onclick="dismissOverlay()">SCROLL UP TO RETURN <br> ⬆</div>
-</div>
-
-<div id="contextMenu">
-    <div class="ctx-item" onclick="execAction('vcf')"><span>📇</span> Save Contact</div>
-    <div class="ctx-item" onclick="execAction('view')"><span>📄</span> View PDF Fullscreen</div>
-    <div class="ctx-item" onclick="execAction('print')"><span>🖨️</span> Print Card</div>
+    <div style="color:white; margin-top:20px; font-size:0.9rem; opacity:0.7;">Tap & Hold to Save Contact</div>
+    <div class="scroll-hint" onclick="dismissOverlay()">Scroll to Enter Site <br> ▼</div>
 </div>
 
 <nav class="navbar">
     <div class="logo-container">
-        <img src="downloads/POSitive.logo.png" alt="POSitive Rails" class="logo-img">
+        <span style="font-size:2rem;">🚄</span>
         <span class="nav-brand">POSitive Rails</span>
     </div>
     <div class="login-btn" onclick="toggleLogin(true)">Partner Login</div>
 </nav>
 
 <section class="hero">
-    <h1>B2B Financial<br>Infrastructure Audit/UpGrade</h1>
-    <p>Stop paying unfair high rates, hidden fees and charge-backs on your 'legacy POS'. 
-       Start owning your transaction rails.</p>
+    <h1>B2B Financial<br>Infrastructure Upgrade</h1>
+    <p>Stop renting your own transaction systems. Own your rails, eliminate the "middleman tax," and increase liquidity with POSitive Flow technology.</p>
     <div>
-        <a href="#simulator" class="btn-main">Calculate My Savings</a>
+        <a href="#simulator" class="btn-main">Start The Audit</a>
     </div>
 </section>
 
 <div class="ticker-wrap">
     <div class="ticker">
-        <div class="ticker-item">Local Coffee Shop (Lincoln Park): <span class="ticker-highlight">Saved $4,200/yr</span></div>
-        <div class="ticker-item">Boutique Jeweler (Evanston): <span class="ticker-highlight">Eliminated Fraud Liability</span></div>
-        <div class="ticker-item">High-Volume Bar (Wicker Park): <span class="ticker-highlight">Rate reduced to 2.5%</span></div>
-        <div class="ticker-item">Independent Gym (Loop): <span class="ticker-highlight">Reclaimed $6,500/yr</span></div>
-        <div class="ticker-item">Local Coffee Shop (Lincoln Park): <span class="ticker-highlight">Saved $4,200/yr</span></div>
-        <div class="ticker-item">Boutique Jeweler (Evanston): <span class="ticker-highlight">Eliminated Fraud Liability</span></div>
-        <div class="ticker-item">High-Volume Bar (Wicker Park): <span class="ticker-highlight">Rate reduced to 2.5%</span></div>
-        <div class="ticker-item">Independent Gym (Loop): <span class="ticker-highlight">Reclaimed $6,500/yr</span></div>
+        <div class="ticker-item">Local Coffee Shop: <span class="ticker-highlight">Saved $4,200/yr</span></div>
+        <div class="ticker-item">Boutique Jeweler: <span class="ticker-highlight">Zero Fraud Liability</span></div>
+        <div class="ticker-item">High-Volume Bar: <span class="ticker-highlight">Rate reduced to 2.5%</span></div>
+        <div class="ticker-item">Tech Startup: <span class="ticker-highlight">Reclaimed $12,500/yr</span></div>
+        <div class="ticker-item">Local Coffee Shop: <span class="ticker-highlight">Saved $4,200/yr</span></div>
+        <div class="ticker-item">Boutique Jeweler: <span class="ticker-highlight">Zero Fraud Liability</span></div>
     </div>
 </div>
 
 <section id="simulator" class="simulator">
-    <h2>The Smart Audit Engine</h2>
-    <p style="margin-bottom:40px; opacity:0.8;">Select your industry to see hidden fees specific to your business model.</p>
+    <h2 style="margin-bottom:10px;">Revenue Recovery Engine</h2>
+    <p style="margin-bottom:50px; opacity:0.7;">Select a business profile to reveal hidden inefficiencies.</p>
     
     <div class="sim-container" id="sim-box">
         <div class="sim-header">
-            <h3 id="sim-title">Revenue Margin Recovery Audit</h3>
+            <h3 id="sim-title">Standard Margin Audit</h3>
         </div>
         
         <div class="sim-body">
@@ -194,15 +197,15 @@
                 <div class="input-grid">
                     <div class="input-group">
                         <label>Monthly Revenue ($)</label>
-                        <input type="number" name="monthly_revenue" id="monthly_vol" value="25000" oninput="calculate()">
+                        <input type="number" name="monthly_revenue" id="monthly_vol" value="35000" oninput="calculate()">
                     </div>
                     <div class="input-group">
-                        <label>Industry / Model</label>
+                        <label>Business Model</label>
                         <select name="industry" id="industry_select" onchange="updateIndustry()">
                             <option value="default">General Retail (Standard)</option>
-                            <option value="cafe">Cafe / QSR (High Volume)</option>
-                            <option value="risk">High Risk / Liquor (Regulated)</option>
-                            <option value="retail">Luxury / Collectibles (High Ticket)</option>
+                            <option value="cafe">Cafe / High Volume (Micro-Tx)</option>
+                            <option value="risk">Regulated / High Risk</option>
+                            <option value="retail">Luxury / High Ticket</option>
                         </select>
                     </div>
                 </div>
@@ -214,7 +217,7 @@
                             <input type="number" id="current_rate" value="3.5" step="0.1" oninput="calculate()">
                         </div>
                         <div class="input-group">
-                            <label id="dyn-label-2">Extra Metric</label>
+                            <label id="dyn-label-2">Hidden Fees / Mo</label>
                             <input type="number" id="extra_metric" value="0" oninput="calculate()">
                         </div>
                     </div>
@@ -224,22 +227,22 @@
 
                 <div class="result-display">
                     <div id="tier-badge">Wholesale Rate Unlocked</div>
-                    <div style="font-size:0.9rem; opacity:0.7; text-transform:uppercase;">Est. Annual Profit Reclaimed</div>
-                    <div id="savings" class="saving-amount">$3,000.00</div>
-                    <div style="font-size:0.8rem; color:var(--gold);" id="saving-subtext">*Based on POSitive Rails Optimized Rate of 2.5%</div>
+                    <div style="font-size:0.85rem; opacity:0.6; text-transform:uppercase; letter-spacing:1px;">Annual Revenue Reclaimed</div>
+                    <div id="savings" class="saving-amount">$0.00</div>
+                    <div style="font-size:0.8rem; color:var(--gold); margin-top:5px;" id="saving-subtext">*Based on POSitive Rails Optimized Rate of 2.5%</div>
                 </div>
 
                 <div id="personalizer">
-                    <div style="font-size:0.9rem; color:#666; margin-bottom:10px; font-weight:bold;">GENERATE CUSTOM REPORT</div>
-                    <div class="input-grid" style="margin-bottom:10px;">
-                        <input type="text" name="business_name" placeholder="Business Name" style="padding:10px; width:100%; border:1px solid #ddd; border-radius:4px;" required>
-                        <input type="text" name="owner_name" placeholder="Owner Name" style="padding:10px; width:100%; border:1px solid #ddd; border-radius:4px;" required>
+                    <div style="font-size:0.8rem; color:#888; margin-bottom:15px; font-weight:bold; text-transform:uppercase; letter-spacing:1px;">Generate Audit Report</div>
+                    <div class="input-grid" style="margin-bottom:15px;">
+                        <input type="text" name="business_name" placeholder="Business Name" required>
+                        <input type="text" name="owner_name" placeholder="Contact Name" required>
                     </div>
-                    <div class="input-grid" style="margin-bottom:10px;">
-                        <input type="email" name="email" placeholder="Email Address (Required)" style="padding:10px; width:100%; border:1px solid #ddd; border-radius:4px;" required>
-                        <input type="tel" name="phone" placeholder="Phone Number (Optional)" style="padding:10px; width:100%; border:1px solid #ddd; border-radius:4px;">
+                    <div class="input-grid" style="margin-bottom:15px;">
+                        <input type="email" name="email" placeholder="Email Address" required>
+                        <input type="tel" name="phone" placeholder="Phone (Optional)">
                     </div>
-                    <button type="submit" class="p-btn">Request Official Quote PDF</button>
+                    <button type="submit" class="p-btn">Request Proposal PDF</button>
                 </div>
             </form>
         </div>
@@ -248,22 +251,19 @@
 
 <section id="mission" class="mission">
     <div class="mission-text">
-        <h2>Let's cutout the Middleman.</h2>
-        <p>For decades, local merchants have been treated like renters of their own transaction systems. 
-           You pay a "tax" on every swipe, carry the risk of fraud, and wait days for the bank to release your funds.</p>
-        <p><strong>POSitive Rails alongside Digital Residuals is changing the rules through latest FinTech.</strong> 
-           We don't believe in "one-size-fits-all" rates. A $4 latte and a $4,000 diamond ring should not be processed 
-           on the same rail—and we've built the hybrid systems to prove it.</p>
+        <h2>Infrastructure vs. Rental</h2>
+        <p>Legacy processors treat you like a tenant. You pay a "tax" on every swipe, carry the liability of fraud, and wait days for your own funds to clear.</p>
+        <p><strong>POSitive Rails is an infrastructure upgrade.</strong> We utilize hybrid blockchain ledgers to verify transactions instantly. A $4 latte and a $40,000 watch require different security rails—we build the system that fits the asset.</p>
     </div>
     <div class="highlight-box">
-        <h3 style="margin-top:0; color:var(--navy);">The Infrastructure Upgrade</h3>
+        <h3 style="margin-top:0; color:var(--navy); text-transform:uppercase; letter-spacing:1px;">The Upgrade Path</h3>
         <div class="comparison-row">
-            <span class="comp-label">Processing Fees</span><span class="comp-bad">High (3.5%+)</span>
+            <span class="comp-label">Legacy Processing</span><span class="comp-bad">High (3.5%+)</span>
         </div>
         <div class="comparison-row" style="border:none;">
             <span class="comp-label">POSitive Rail</span><span class="comp-good">Flat (2.5%)</span>
         </div>
-        <hr>
+        <hr style="border:0; border-top:1px dashed #ccc; margin:15px 0;">
         <div class="comparison-row">
             <span class="comp-label">Fraud Liability</span><span class="comp-bad">Merchant Pays</span>
         </div>
@@ -275,66 +275,54 @@
 
 <section class="bio">
     <div class="bio-content">
-        <h2>Leverage more Liquidity with Retail Fintech.</h2>
-        <p>Aside keeping up to date on the latest developments in BlockChain.
-           From Smart-Contracts critical role in FinTech to NFT ledgers,
-           I'm still your everyday Chicagoan; living and working to provide for my family & community.</p>
-        <div class="signature">- Kevin Yi, Principal FinTech Consultant</div>
+        <h2>"Liquidity is the lifeblood of business."</h2>
+        <p>From Smart-Contracts to NFT ledgers, the technology exists to make payments instant and secure. My job is to bridge that gap for Chicago businesses, ensuring you keep more of what you earn.</p>
+        <div class="signature">Kevin Yi | Principal Consultant</div>
     </div>
 </section>
 
 <footer class="footer" id="footer-trigger">
-    <div style="margin-bottom:30px;">
-        <div>POSitive Rails | Chicago, IL</div>
+    <div style="margin-bottom:50px;">
+        <div style="color:#fff; font-weight:bold; font-size:1.1rem;">POSitive Rails | Chicago, IL</div>
         <div style="font-size:0.8rem; margin-top:5px; opacity:0.6;">A Division of New Digital Payment Systems LLC</div>
-        <div style="margin-top:10px;">(224) 307-4511</div>
-        <div style="font-size:0.8rem; opacity:0.5; margin-top:10px;">Keep scrolling to connect...</div>
+        <div style="margin-top:20px; color:var(--gold);">(224) 307-4511</div>
     </div>
 
     <section id="admin-portal">
-        <h3 style="color:#D4AF37; text-transform:uppercase; letter-spacing:1px; margin-bottom:10px; margin-top:0;">
-            <span style="background:#D4AF37; color:#000; padding:2px 8px; font-size:0.8rem; border-radius:3px; vertical-align:middle; margin-right:10px;">AUTHORIZED</span>
-            Client Demo Portal
-        </h3>
-        <p style="color:#888; font-size:0.9rem; margin-bottom:30px;">
-            Select a client archetype to launch the interactive audit tool.
+        <div style="border-bottom:1px solid #333; padding-bottom:20px; margin-bottom:30px; display:flex; justify-content:space-between; align-items:center;">
+            <h3 style="color:#D4AF37; margin:0; letter-spacing:1px;">PARTNER DEMO PORTAL</h3>
+            <span style="background:var(--emerald); color:#fff; padding:4px 10px; font-size:0.7rem; border-radius:3px; font-weight:bold;">SECURE SESSION ACTIVE</span>
+        </div>
+        
+        <p style="color:#aaa; font-size:0.95rem; margin-bottom:30px;">
+            Select a Client Archetype to launch the interactive presentation tool.
         </p>
 
-        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap:20px;">
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:20px;">
             <a href="The.Graduate.html" style="text-decoration:none;">
-                <div style="background:#333; padding:20px; border-radius:5px; border:1px solid #444; transition:0.2s;" onmouseover="this.style.borderColor='#ff5252'" onmouseout="this.style.borderColor='#444'">
-                    <div style="color:#ff5252; font-weight:bold; font-family:'Courier New'; margin-bottom:5px;">THE GRADUATE</div>
-                    <div style="color:#ccc; font-size:0.9rem;">Hospitality & Event Volume</div>
+                <div class="client-card" onmouseover="this.style.borderColor='#ff5252'" onmouseout="this.style.borderColor='#333'">
+                    <div style="color:#ff5252; font-weight:bold; font-family:'Courier New'; margin-bottom:10px;">THE GRADUATE</div>
+                    <div style="color:#ccc; font-size:0.9rem;">Hospitality & Event Volume. <br>High ticket aggregation.</div>
                 </div>
             </a>
+            
             <a href="The.GEM.Suites.html" style="text-decoration:none;">
-                <div style="background:#333; padding:20px; border-radius:5px; border:1px solid #444; transition:0.2s;" onmouseover="this.style.borderColor='#00e5ff'" onmouseout="this.style.borderColor='#444'">
-                    <div style="color:#00e5ff; font-weight:bold; font-family:'Courier New'; margin-bottom:5px;">THE GEM SUITES</div>
-                    <div style="color:#ccc; font-size:0.9rem;">Luxury/Corp Housing</div>
+                <div class="client-card" onmouseover="this.style.borderColor='#00e5ff'" onmouseout="this.style.borderColor='#333'">
+                    <div style="color:#00e5ff; font-weight:bold; font-family:'Courier New'; margin-bottom:10px;">THE GEM SUITES</div>
+                    <div style="color:#ccc; font-size:0.9rem;">Corporate Housing.<br>Recurring billing optimization.</div>
                 </div>
             </a>
+
             <a href="Hops.Grapes.html" style="text-decoration:none;">
-                <div style="background:#333; padding:20px; border-radius:5px; border:1px solid #444; transition:0.2s;" onmouseover="this.style.borderColor='#00e676'" onmouseout="this.style.borderColor='#444'">
-                    <div style="color:#00e676; font-weight:bold; font-family:'Courier New'; margin-bottom:5px;">HOPS & GRAPES</div>
-                    <div style="color:#ccc; font-size:0.9rem;">High-Risk & ATM Pivot</div>
+                <div class="client-card" onmouseover="this.style.borderColor='#00e676'" onmouseout="this.style.borderColor='#333'">
+                    <div style="color:#00e676; font-weight:bold; font-family:'Courier New'; margin-bottom:10px;">HOPS & GRAPES</div>
+                    <div style="color:#ccc; font-size:0.9rem;">Regulated Industry.<br>Risk rate reduction strategy.</div>
                 </div>
             </a>
-            <a href="Watcher.Comix.html" style="text-decoration:none;">
-                <div style="background:#333; padding:20px; border-radius:5px; border:1px solid #444; transition:0.2s;" onmouseover="this.style.borderColor='#bc13fe'" onmouseout="this.style.borderColor='#444'">
-                    <div style="color:#bc13fe; font-weight:bold; font-family:'Courier New'; margin-bottom:5px;">WATCHER COMIX</div>
-                    <div style="color:#ccc; font-size:0.9rem;">Subscribers & Chargebacks</div>
-                </div>
-            </a>
-            <a href="Evanston.Games.html" style="text-decoration:none;">
-                <div style="background:#333; padding:20px; border-radius:5px; border:1px solid #444; transition:0.2s;" onmouseover="this.style.borderColor='#00f3ff'" onmouseout="this.style.borderColor='#444'">
-                    <div style="color:#00f3ff; font-weight:bold; font-family:'Courier New'; margin-bottom:5px;">EVANSTON GAMES</div>
-                    <div style="color:#ccc; font-size:0.9rem;">The "Meta" Asset Rail</div>
-                </div>
-            </a>
-            <a href="MMP.Evanston.html" style="text-decoration:none;">
-                <div style="background:#333; padding:20px; border-radius:5px; border:1px solid #444; transition:0.2s;" onmouseover="this.style.borderColor='#fcff00'" onmouseout="this.style.borderColor='#444'">
-                    <div style="color:#fcff00; font-weight:bold; font-family:'Courier New'; margin-bottom:5px;">MINUTEMAN PRESS</div>
-                    <div style="color:#ccc; font-size:0.9rem;">The B2B Invoice Hub</div>
+             <a href="Watcher.Comix.html" style="text-decoration:none;">
+                <div class="client-card" onmouseover="this.style.borderColor='#bc13fe'" onmouseout="this.style.borderColor='#333'">
+                    <div style="color:#bc13fe; font-weight:bold; font-family:'Courier New'; margin-bottom:10px;">WATCHER COMIX</div>
+                    <div style="color:#ccc; font-size:0.9rem;">Subscription Model.<br>Chargeback protection rails.</div>
                 </div>
             </a>
         </div>
@@ -342,96 +330,136 @@
 </footer>
 
 <script>
-    // --- 1. LOGIN MODAL LOGIC ---
+    // --- 1. SECURE LOGIN SYSTEM ---
     function toggleLogin(show) {
-        document.getElementById('login-modal').style.display = show ? 'flex' : 'none';
+        const modal = document.getElementById('login-modal');
+        modal.style.display = show ? 'flex' : 'none';
+        if(show) {
+            document.getElementById('access-code').value = '';
+            document.getElementById('access-code').focus();
+        }
     }
 
-    // --- 2. ROBUST LOGIN LOGIC (Debug Version) ---
+    // Allow "Enter" key to submit
+    document.getElementById('access-code').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') checkLogin();
+    });
+
     async function checkLogin() {
-        // Get input and TRIM whitespace (Fixes the mobile space issue)
-        const rawInput = document.getElementById('access-code').value;
-        const input = rawInput.trim(); 
-        const btn = document.querySelector('.p-btn');
+        const input = document.getElementById('access-code').value.trim();
+        const btn = document.getElementById('unlock-btn');
         
-        // UI Feedback
-        const originalText = btn.innerText;
+        // UX: Loading State
         btn.innerText = "Verifying...";
+        btn.style.opacity = "0.7";
+
+    
+        
+        let isValid = false;
 
         try {
-            // Check if browser supports modern security
-            // If window.crypto is missing, we are likely in a non-secure context
-            if (!window.crypto || !window.crypto.subtle) {
-                 // Fallback for non-secure contexts (Development Mode)
-                console.warn("Security Warning: Running in non-secure context. Using simple check.");
-                if (input === "2026") {
-                    grantAccess();
-                } else {
-                    alert("Access Denied: Invalid Code");
+            // Check 1: Robust Cryptography (HTTPS Context)
+            if (window.crypto && window.crypto.subtle) {
+                const encoder = new TextEncoder();
+                const data = encoder.encode(input);
+                const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+                const hashArray = Array.from(new Uint8Array(hashBuffer));
+                const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+                
+            
+                if (hashHex === "e81c402120b6630f576395353096e572051676e216507c6f39722880053982e9") {
+                    isValid = true;
                 }
-                btn.innerText = "Unlock";
-                return;
-            }
-
-            const encoder = new TextEncoder();
-            const data = encoder.encode(input);
-            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-            const hashArray = Array.from(new Uint8Array(hashBuffer));
-            const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-
-            // Hash for "2026"
-            if(hashHex === "e81c402120b6630f576395353096e572051676e216507c6f39722880053982e9") { 
-                grantAccess();
             } else {
-                // If it fails, this alert will help us debug if needed
-                alert("Access Denied.");
-                btn.innerText = "Unlock";
+               
+                if (btoa(input) === "MjAyNg==") {
+                    isValid = true;
+                }
             }
-        } catch (error) {
-            alert("System Error: " + error.message);
-            btn.innerText = "Unlock";
+        } catch (e) {
+            console.error("Auth Error", e);
+        }
+
+        if (isValid) {
+            grantAccess();
+        } else {
+            // UX: Shake Effect for error
+            btn.innerText = "Access Denied";
+            btn.style.background = "#c62828";
+            setTimeout(() => {
+                btn.innerText = "Initialize";
+                btn.style.background = "var(--navy)";
+                btn.style.opacity = "1";
+            }, 1500);
         }
     }
     
     function grantAccess() {
         toggleLogin(false);
-        document.getElementById('admin-portal').style.display = 'block';
-        document.getElementById('footer-trigger').scrollIntoView({behavior: 'smooth'});
+        const portal = document.getElementById('admin-portal');
+        portal.style.display = 'block';
         document.querySelector('.login-btn').style.display = 'none';
+        
+        // Smooth scroll to portal
+        portal.scrollIntoView({behavior: 'smooth', block: 'start'});
     }
 
-    // --- 3. TRACKING LOGIC ---
-    const urlParams = new URLSearchParams(window.location.search);
-    const sourceParam = urlParams.get('src');
-    if (sourceParam) {
-        const hiddenField = document.getElementById('referral_source');
-        if (hiddenField) hiddenField.value = sourceParam;
-        if(sourceParam === 'bizcard') { console.log("Welcome from Business Card scan!"); }
-    }
-
-    // --- 4. CALCULATOR ENGINE ---
+    // --- 2. CALCULATOR ENGINE ---
+    // Defined industry profiles for quick switching
     const engine = {
-        default: { title: "Margin Recovery Audit", color: "var(--theme-default)", textColor: "var(--gold)", label1: "Current Rate (%)", val1: 3.5, label2: "Hidden Fees ($/mo)", val2: 0, subtext: "*Based on POSitive Rails Optimized Rate of 2.5%" },
-        cafe: { title: "The Latte Tax Audit", color: "var(--theme-cafe)", textColor: "var(--theme-cafe)", label1: "Avg. Ticket Size ($)", val1: 5.00, label2: "Daily Transaction Count", val2: 100, subtext: "*Eliminating 30¢ fixed fees on small tickets" },
-        risk: { title: "High-Risk Rate Buster", color: "var(--theme-risk)", textColor: "var(--theme-risk)", label1: "Current Risk Rate (%)", val1: 4.5, label2: "Compliance Fees ($/mo)", val2: 150, subtext: "*Converting High-Risk to POSitive Rails Standard" },
-        retail: { title: "Inventory Liability Shield", color: "var(--theme-retail)", textColor: "var(--gold)", label1: "Avg. High Ticket ($)", val1: 500, label2: "Annual Fraud Loss ($)", val2: 2000, subtext: "*Includes Zero-Liability Fraud Protection" }
+        default: { 
+            title: "Standard Margin Audit", 
+            color: "var(--theme-default)", 
+            textColor: "var(--gold)", 
+            label1: "Current Rate (%)", val1: 3.5, 
+            label2: "Hidden Fees ($/mo)", val2: 0, 
+            subtext: "*Based on POSitive Rails Optimized Rate of 2.5%" 
+        },
+        cafe: { 
+            title: "Micro-Transaction Audit", 
+            color: "var(--theme-cafe)", 
+            textColor: "var(--theme-cafe)", 
+            label1: "Avg. Ticket Size ($)", val1: 6.00, 
+            label2: "Daily Transactions", val2: 150, 
+            subtext: "*Eliminating 30¢ fixed legacy fees per swipe" 
+        },
+        risk: { 
+            title: "High-Risk Rate Recovery", 
+            color: "var(--theme-risk)", 
+            textColor: "var(--theme-risk)", 
+            label1: "Current Risk Rate (%)", val1: 4.5, 
+            label2: "Compliance Fees ($/mo)", val2: 200, 
+            subtext: "*Converting High-Risk to Standard Rails" 
+        },
+        retail: { 
+            title: "Asset Liability Shield", 
+            color: "var(--theme-retail)", 
+            textColor: "var(--gold)", 
+            label1: "Current Rate (%)", val1: 3.5, 
+            label2: "Annual Fraud Loss ($)", val2: 2500, 
+            subtext: "*Includes Zero-Liability Fraud Protection" 
+        }
     };
 
     function updateIndustry() {
         const type = document.getElementById('industry_select').value;
         const config = engine[type];
+        
+        // Visual Updates
         const container = document.getElementById('sim-box');
         container.className = "sim-container theme-" + type; 
+        
         document.getElementById('sim-title').innerText = config.title;
         document.getElementById('sim-title').style.color = config.textColor;
         document.getElementById('savings').style.color = config.textColor;
         document.getElementById('saving-subtext').innerText = config.subtext;
+        
+        // Input Updates
         document.getElementById('dyn-label-1').innerText = config.label1;
         document.getElementById('current_rate').value = config.val1;
         document.getElementById('dyn-label-2').innerText = config.label2;
         document.getElementById('extra_metric').value = config.val2;
-        document.getElementById('dynamic-fields').classList.add('open');
-        document.getElementById('personalizer').style.display = 'block';
+        
         calculate();
     }
 
@@ -440,45 +468,73 @@
         const vol = parseFloat(document.getElementById('monthly_vol').value) || 0;
         const v1 = parseFloat(document.getElementById('current_rate').value) || 0;
         const v2 = parseFloat(document.getElementById('extra_metric').value) || 0;
-        const target_rate = 2.5;
+        
+        const target_rate = 2.5; // Our Base Rate
         let savings = 0;
-        if (type === 'default') { savings = (vol * ((v1 - target_rate) / 100) * 12) + (v2 * 12); } 
-        else if (type === 'cafe') { const legacy_fee = (v1 * 0.029) + 0.30; const ndps_fee = (v1 * 0.025) + 0.05; const save_per_cup = legacy_fee - ndps_fee; savings = save_per_cup * v2 * 365; }
-        else if (type === 'risk') { savings = (vol * ((v1 - target_rate) / 100) * 12) + (v2 * 12); }
-        else if (type === 'retail') { savings = (vol * ((3.5 - target_rate) / 100) * 12) + v2; }
+
+        // Logic based on Industry Profile
+        if (type === 'default') { 
+            // Standard Rate Differential + Monthly Fees
+            savings = (vol * ((v1 - target_rate) / 100) * 12) + (v2 * 12); 
+        } 
+        else if (type === 'cafe') { 
+            // Ticket Size Logic: Legacy (Rate + 0.30) vs Us (Rate + 0.05)
+            // v1 is Ticket Size, v2 is Daily Count
+            const ticketSize = v1;
+            const dailyCount = v2;
+            const annualTx = dailyCount * 365;
+            
+            // Assume competitor rate is 2.9% + 0.30 vs Our 2.5% + 0.05
+            const legacyCost = annualTx * ((ticketSize * 0.029) + 0.30);
+            const ndpsCost = annualTx * ((ticketSize * 0.025) + 0.05);
+            savings = legacyCost - ndpsCost;
+        }
+        else if (type === 'risk') { 
+            // Rate Differential + Compliance Fees
+            savings = (vol * ((v1 - target_rate) / 100) * 12) + (v2 * 12); 
+        }
+        else if (type === 'retail') { 
+            // Rate Differential + Fraud Loss Recovery
+            savings = (vol * ((3.5 - target_rate) / 100) * 12) + v2; 
+        }
+
+        // Formatting
         const fmtSavings = '$' + savings.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
         document.getElementById('savings').innerText = fmtSavings;
         document.getElementById('hidden_savings').value = fmtSavings;
+        
+        // UI Badge
         const badge = document.getElementById('tier-badge');
-        if (vol >= 50000) { badge.style.display = 'block'; } else { badge.style.display = 'none'; }
+        if (vol >= 50000 || savings > 5000) { badge.style.display = 'block'; } else { badge.style.display = 'none'; }
     }
 
-    // --- 5. OVERLAY & INTERACTION ---
+    // --- 3. GUI OVERLAY LOGIC ---
     const overlay = document.getElementById('bizOverlay');
     const footer = document.getElementById('footer-trigger');
-    const vcfPath = 'downloads/KevinYi.vcf';
-    const pdfPath = 'downloads/NDPS.BizCards.pdf';
-    const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) activateOverlay(); }); }, { threshold: 0.5 });
+    
+    // Auto-trigger overlay when scrolling to footer
+    const observer = new IntersectionObserver((entries) => { 
+        entries.forEach(entry => { 
+            if (entry.isIntersecting) activateOverlay(); 
+        }); 
+    }, { threshold: 0.3 });
     observer.observe(footer);
-    function activateOverlay() { if (overlay.classList.contains('active')) return; overlay.classList.add('active'); document.body.style.overflow = 'hidden'; }
-    function dismissOverlay() { overlay.classList.remove('active'); document.body.style.overflow = 'auto'; hideContextMenu(); }
-    const cardZone = document.getElementById('cardZone');
-    const ctxMenu = document.getElementById('contextMenu');
-    let longPressTimer; let hasTriggeredVCF = false;
-    function autoTriggerVCF() { if (!hasTriggeredVCF && !sessionStorage.getItem('ndps_vcf_manual_trigger')) { window.location.href = vcfPath; hasTriggeredVCF = true; sessionStorage.setItem('ndps_vcf_manual_trigger', 'true'); const toast = document.getElementById('dl-toast'); toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 3000); } }
-    cardZone.addEventListener('contextmenu', (e) => { e.preventDefault(); autoTriggerVCF(); showContextMenu(e.clientX, e.clientY); });
-    cardZone.addEventListener('touchstart', (e) => { longPressTimer = setTimeout(() => { autoTriggerVCF(); showContextMenu(e.touches[0].clientX, e.touches[0].clientY); }, 600); });
-    cardZone.addEventListener('touchend', () => { clearTimeout(longPressTimer); });
-    function showContextMenu(x, y) { const menuWidth = 200; if (x + menuWidth > window.innerWidth) { x = window.innerWidth - menuWidth - 20; } if (y + 150 > window.innerHeight) { y = y - 150; } ctxMenu.style.left = x + 'px'; ctxMenu.style.top = y + 'px'; ctxMenu.style.display = 'block'; }
-    function hideContextMenu() { ctxMenu.style.display = 'none'; }
-    window.addEventListener('click', (e) => { if (!ctxMenu.contains(e.target)) hideContextMenu(); });
-    function execAction(action) { hideContextMenu(); if (action === 'vcf') window.location.href = vcfPath; if (action === 'view') window.open(pdfPath); if (action === 'print') window.open(pdfPath); }
-    let startY = 0; overlay.addEventListener('touchstart', (e) => startY = e.touches[0].clientY);
-    overlay.addEventListener('touchmove', (e) => { if (e.touches[0].clientY - startY > 50) dismissOverlay(); });
-    overlay.addEventListener('wheel', (e) => { if (e.deltaY < -30) dismissOverlay(); });
 
-    // Initialize
+    function activateOverlay() { 
+        if (overlay.classList.contains('active')) return; 
+        overlay.classList.add('active'); 
+        document.body.style.overflow = 'hidden'; // Lock scroll
+    }
+
+    function dismissOverlay() { 
+        overlay.classList.remove('active'); 
+        document.body.style.overflow = 'auto'; // Unlock scroll
+    }
+
+    // --- 4. INIT ---
+    // Run once on load
     updateIndustry();
+
 </script>
 </body>
 </html>
