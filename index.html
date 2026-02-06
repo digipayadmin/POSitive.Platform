@@ -306,20 +306,20 @@
                 </div>
             </a>
             
-            <a href="The.GEM.Suites.html" style="text-decoration:none;">
+            <a href="audit/The.GEM.Suites.html" style="text-decoration:none;">
                 <div class="client-card" onmouseover="this.style.borderColor='#00e5ff'" onmouseout="this.style.borderColor='#333'">
                     <div style="color:#00e5ff; font-weight:bold; font-family:'Courier New'; margin-bottom:10px;">THE GEM SUITES</div>
                     <div style="color:#ccc; font-size:0.9rem;">Corporate Housing.<br>Recurring billing optimization.</div>
                 </div>
             </a>
 
-            <a href="Hops.Grapes.html" style="text-decoration:none;">
+            <a href="audit/Hops.Grapes.html" style="text-decoration:none;">
                 <div class="client-card" onmouseover="this.style.borderColor='#00e676'" onmouseout="this.style.borderColor='#333'">
                     <div style="color:#00e676; font-weight:bold; font-family:'Courier New'; margin-bottom:10px;">HOPS & GRAPES</div>
                     <div style="color:#ccc; font-size:0.9rem;">Regulated Industry.<br>Risk rate reduction strategy.</div>
                 </div>
             </a>
-             <a href="Watcher.Comix.html" style="text-decoration:none;">
+             <a href="audit/Watcher.Comix.html" style="text-decoration:none;">
                 <div class="client-card" onmouseover="this.style.borderColor='#bc13fe'" onmouseout="this.style.borderColor='#333'">
                     <div style="color:#bc13fe; font-weight:bold; font-family:'Courier New'; margin-bottom:10px;">WATCHER COMIX</div>
                     <div style="color:#ccc; font-size:0.9rem;">Subscription Model.<br>Chargeback protection rails.</div>
@@ -361,38 +361,32 @@
     });
 
     function checkLogin() {
-        // Get input and trim extra spaces (fixes mobile keyboard issues)
+       
         const input = document.getElementById('access-code').value.trim();
         const btn = document.getElementById('unlock-btn');
         
         // UX: Loading State
         btn.innerText = "Verifying...";
         btn.style.opacity = "0.7";
-
-        // PASSWORD LOGIC: 2026
-        // We use Base64 encoding (btoa) to prevent the number from being 
-        // blatantly obvious in the source code, but this method is 
-        // 100% compatible with all browsers (unlike the previous Crypto SHA-256).
-        // "MjAyNg==" is the Base64 encoded string for "2026"
+ 
         
         setTimeout(() => {
             if (btoa(input) === "MjAyNg==" || input === "2026") {
-                // SUCCESS
+           
                 grantAccess();
             } else {
                 // FAILURE
                 btn.innerText = "Access Denied";
-                btn.style.background = "#c62828"; // Red warning color
-                
-                // Reset button after 1.5 seconds
+                btn.style.background = "#c62828";  
+               
                 setTimeout(() => {
                     btn.innerText = "Initialize";
                     btn.style.background = "var(--navy)";
                     btn.style.opacity = "1";
-                    document.getElementById('access-code').value = ''; // Clear input
+                    document.getElementById('access-code').value = ''; 
                 }, 1500);
             }
-        }, 300); // Small delay to make it feel like "processing"
+        }, 300);  
     }
     
     function grantAccess() {
@@ -400,13 +394,10 @@
         const portal = document.getElementById('admin-portal');
         portal.style.display = 'block';
         document.querySelector('.login-btn').style.display = 'none';
-        
-        // Smooth scroll to portal
+     
         portal.scrollIntoView({behavior: 'smooth', block: 'start'});
     }
-
-    // --- 2. CALCULATOR ENGINE ---
-    // Defined industry profiles for quick switching
+ 
     const engine = {
         default: { 
             title: "Standard Margin Audit", 
