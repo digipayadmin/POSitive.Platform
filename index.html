@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=2.0">
     <title>POSitive Rails | B2B Fintech Infrastructure Audit</title>
     
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
@@ -40,10 +40,7 @@
         /* --- NAVIGATION INFRASTRUCTURE --- */
         .navbar { display: flex; justify-content: space-between; align-items: center; padding: 0 5%; background: var(--navy); border-bottom: 3px solid var(--gold); position: sticky; top: 0; z-index: 1000; height: 70px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
         .logo-container { display: flex; align-items: center; gap: 15px; text-decoration: none; }
-        
-        /* UPDATED LOGO CSS */
         .logo-img { height: 60px; width: auto; border-radius: 50%; border: 2px solid var(--gold); background: transparent; } 
-        
         .nav-brand { color: var(--white); font-size: 1.2rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
         
         .login-btn { 
@@ -336,7 +333,43 @@
 </footer>
 
 <script>
-    // --- 1. SECURE LOGIN SYSTEM ---
+    // --- 1. SMART ROUTING LOGIN SYSTEM ---
+    
+    // ACTION MAP: Defines what happens for each hash
+    // To generate a new hash: Open Console (F12), type your code in login box, hit Initialize.
+    const accessMap = {
+        // MASTER ADMIN (Code: 2026) -> Shows the list
+        "e81c402120b6630f576395353096e572051676e216507c6f39722880053982e9": { 
+            type: "admin", 
+            target: "admin-portal" 
+        },
+        
+        // Example: THE GRADUATE (Code: 3001) -> Direct Redirect
+        // You must replace this hash with the real one you generate
+        "REPLACE_WITH_HASH_FOR_3001": { 
+            type: "redirect", 
+            target: "The.Graduate.html" 
+        },
+
+        // Example: GEM SUITES (Code: 3002)
+        "REPLACE_WITH_HASH_FOR_3002": { 
+            type: "redirect", 
+            target: "audit/The.GEM.Suites.html" 
+        },
+        
+        // Example: HOPS & GRAPES (Code: 3003)
+        "REPLACE_WITH_HASH_FOR_3003": { 
+            type: "redirect", 
+            target: "audit/Hops.Grapes.html" 
+        },
+
+        // Example: WATCHER COMIX (Code: 3004)
+        "REPLACE_WITH_HASH_FOR_3004": { 
+            type: "redirect", 
+            target: "audit/Watcher.Comix.html" 
+        }
+    };
+
     function toggleLogin(show) {
         const modal = document.getElementById('login-modal');
         modal.style.display = show ? 'flex' : 'none';
@@ -346,30 +379,42 @@
         }
     }
 
-    // Allow "Enter" key to submit
     document.getElementById('access-code').addEventListener('keydown', function(e) {
         if (e.key === 'Enter') checkLogin();
     });
 
-    function checkLogin() {
-       
+    async function checkLogin() {
         const input = document.getElementById('access-code').value.trim();
         const btn = document.getElementById('unlock-btn');
         
-        // UX: Loading State
         btn.innerText = "Verifying...";
         btn.style.opacity = "0.7";
- 
-        
-        setTimeout(() => {
-            if (btoa(input) === "MjAyNg==" || input === "2026") {
-           
-                grantAccess();
+
+        try {
+            // 1. Generate Hash
+            const encoder = new TextEncoder();
+            const data = encoder.encode(input);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+
+            // DEBUG TOOL: Log the hash to console so you can copy it
+            console.log("[DEV] Hash for code '" + input + "' is: " + hashHex);
+
+            // 2. Check Map
+            const action = accessMap[hashHex];
+
+            if (action) {
+                // SUCCESS
+                if (action.type === 'redirect') {
+                    window.location.href = action.target;
+                } else if (action.type === 'admin') {
+                    grantAccess();
+                }
             } else {
                 // FAILURE
                 btn.innerText = "Access Denied";
                 btn.style.background = "#c62828";  
-               
                 setTimeout(() => {
                     btn.innerText = "Initialize";
                     btn.style.background = "var(--navy)";
@@ -377,7 +422,10 @@
                     document.getElementById('access-code').value = ''; 
                 }, 1500);
             }
-        }, 300);  
+        } catch (e) {
+            console.error(e);
+            alert("Security Error: " + e.message);
+        }
     }
     
     function grantAccess() {
@@ -385,64 +433,29 @@
         const portal = document.getElementById('admin-portal');
         portal.style.display = 'block';
         document.querySelector('.login-btn').style.display = 'none';
-     
         portal.scrollIntoView({behavior: 'smooth', block: 'start'});
     }
  
     const engine = {
-        default: { 
-            title: "Standard Margin Audit", 
-            color: "var(--theme-default)", 
-            textColor: "var(--gold)", 
-            label1: "Current Rate (%)", val1: 3.5, 
-            label2: "Hidden Fees ($/mo)", val2: 0, 
-            subtext: "*Based on POSitive Rails Optimized Rate of 2.5%" 
-        },
-        cafe: { 
-            title: "Micro-Transaction Audit", 
-            color: "var(--theme-cafe)", 
-            textColor: "var(--theme-cafe)", 
-            label1: "Avg. Ticket Size ($)", val1: 6.00, 
-            label2: "Daily Transactions", val2: 150, 
-            subtext: "*Eliminating 30¢ fixed legacy fees per swipe" 
-        },
-        risk: { 
-            title: "High-Risk Rate Recovery", 
-            color: "var(--theme-risk)", 
-            textColor: "var(--theme-risk)", 
-            label1: "Current Risk Rate (%)", val1: 4.5, 
-            label2: "Compliance Fees ($/mo)", val2: 200, 
-            subtext: "*Converting High-Risk to Standard Rails" 
-        },
-        retail: { 
-            title: "Asset Liability Shield", 
-            color: "var(--theme-retail)", 
-            textColor: "var(--gold)", 
-            label1: "Current Rate (%)", val1: 3.5, 
-            label2: "Annual Fraud Loss ($)", val2: 2500, 
-            subtext: "*Includes Zero-Liability Fraud Protection" 
-        }
+        default: { title: "Standard Margin Audit", color: "var(--theme-default)", textColor: "var(--gold)", label1: "Current Rate (%)", val1: 3.5, label2: "Hidden Fees ($/mo)", val2: 0, subtext: "*Based on POSitive Rails Optimized Rate of 2.5%" },
+        cafe: { title: "Micro-Transaction Audit", color: "var(--theme-cafe)", textColor: "var(--theme-cafe)", label1: "Avg. Ticket Size ($)", val1: 6.00, label2: "Daily Transactions", val2: 150, subtext: "*Eliminating 30¢ fixed legacy fees per swipe" },
+        risk: { title: "High-Risk Rate Recovery", color: "var(--theme-risk)", textColor: "var(--theme-risk)", label1: "Current Risk Rate (%)", val1: 4.5, label2: "Compliance Fees ($/mo)", val2: 200, subtext: "*Converting High-Risk to Standard Rails" },
+        retail: { title: "Asset Liability Shield", color: "var(--theme-retail)", textColor: "var(--gold)", label1: "Current Rate (%)", val1: 3.5, label2: "Annual Fraud Loss ($)", val2: 2500, subtext: "*Includes Zero-Liability Fraud Protection" }
     };
 
     function updateIndustry() {
         const type = document.getElementById('industry_select').value;
         const config = engine[type];
-        
-        // Visual Updates
         const container = document.getElementById('sim-box');
         container.className = "sim-container theme-" + type; 
-        
         document.getElementById('sim-title').innerText = config.title;
         document.getElementById('sim-title').style.color = config.textColor;
         document.getElementById('savings').style.color = config.textColor;
         document.getElementById('saving-subtext').innerText = config.subtext;
-        
-        // Input Updates
         document.getElementById('dyn-label-1').innerText = config.label1;
         document.getElementById('current_rate').value = config.val1;
         document.getElementById('dyn-label-2').innerText = config.label2;
         document.getElementById('extra_metric').value = config.val2;
-        
         calculate();
     }
 
@@ -451,42 +464,20 @@
         const vol = parseFloat(document.getElementById('monthly_vol').value) || 0;
         const v1 = parseFloat(document.getElementById('current_rate').value) || 0;
         const v2 = parseFloat(document.getElementById('extra_metric').value) || 0;
-        
-        const target_rate = 2.5; // Our Base Rate
+        const target_rate = 2.5; 
         let savings = 0;
-
-        // Logic based on Industry Profile
-        if (type === 'default') { 
-            // Standard Rate Differential + Monthly Fees
-            savings = (vol * ((v1 - target_rate) / 100) * 12) + (v2 * 12); 
-        } 
+        if (type === 'default') { savings = (vol * ((v1 - target_rate) / 100) * 12) + (v2 * 12); } 
         else if (type === 'cafe') { 
-            // Ticket Size Logic: Legacy (Rate + 0.30) vs Us (Rate + 0.05)
-            // v1 is Ticket Size, v2 is Daily Count
-            const ticketSize = v1;
-            const dailyCount = v2;
-            const annualTx = dailyCount * 365;
-            
-            // Assume competitor rate is 2.9% + 0.30 vs Our 2.5% + 0.05
+            const ticketSize = v1; const dailyCount = v2; const annualTx = dailyCount * 365;
             const legacyCost = annualTx * ((ticketSize * 0.029) + 0.30);
             const ndpsCost = annualTx * ((ticketSize * 0.025) + 0.05);
             savings = legacyCost - ndpsCost;
         }
-        else if (type === 'risk') { 
-            // Rate Differential + Compliance Fees
-            savings = (vol * ((v1 - target_rate) / 100) * 12) + (v2 * 12); 
-        }
-        else if (type === 'retail') { 
-            // Rate Differential + Fraud Loss Recovery
-            savings = (vol * ((3.5 - target_rate) / 100) * 12) + v2; 
-        }
-
-        // Formatting
+        else if (type === 'risk') { savings = (vol * ((v1 - target_rate) / 100) * 12) + (v2 * 12); }
+        else if (type === 'retail') { savings = (vol * ((3.5 - target_rate) / 100) * 12) + v2; }
         const fmtSavings = '$' + savings.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
         document.getElementById('savings').innerText = fmtSavings;
         document.getElementById('hidden_savings').value = fmtSavings;
-        
-        // UI Badge
         const badge = document.getElementById('tier-badge');
         if (vol >= 50000 || savings > 5000) { badge.style.display = 'block'; } else { badge.style.display = 'none'; }
     }
@@ -494,30 +485,13 @@
     // --- 3. GUI OVERLAY LOGIC ---
     const overlay = document.getElementById('bizOverlay');
     const footer = document.getElementById('footer-trigger');
-    
-    // Auto-trigger overlay when scrolling to footer
-    const observer = new IntersectionObserver((entries) => { 
-        entries.forEach(entry => { 
-            if (entry.isIntersecting) activateOverlay(); 
-        }); 
-    }, { threshold: 0.3 });
+    const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) activateOverlay(); }); }, { threshold: 0.3 });
     observer.observe(footer);
-
-    function activateOverlay() { 
-        if (overlay.classList.contains('active')) return; 
-        overlay.classList.add('active'); 
-        document.body.style.overflow = 'hidden'; // Lock scroll
-    }
-
-    function dismissOverlay() { 
-        overlay.classList.remove('active'); 
-        document.body.style.overflow = 'auto'; // Unlock scroll
-    }
+    function activateOverlay() { if (overlay.classList.contains('active')) return; overlay.classList.add('active'); document.body.style.overflow = 'hidden'; }
+    function dismissOverlay() { overlay.classList.remove('active'); document.body.style.overflow = 'auto'; }
 
     // --- 4. INIT ---
-    // Run once on load
     updateIndustry();
-
 </script>
 </body>
 </html>
