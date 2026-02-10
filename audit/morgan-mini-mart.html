@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Morgan Mini Mart | Community Wealth Audit</title>
     
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.1.1/dist/chart.min.js"></script>
     
     <style>
         :root {
-            /* Brand Palette */
+            /* Brand Colors */
             --englewood-green: #2e7d32;
             --bitflow-gold: #ffb300;
             --midnight: #0f172a;
@@ -27,14 +27,14 @@
         .header { background: linear-gradient(135deg, #000 0%, #064e3b 100%); padding: 30px 5%; text-align: center; border-bottom: 4px solid var(--bitflow-gold); }
         .header h1 { margin: 0; font-size: 1.8rem; letter-spacing: 1px; text-transform: uppercase; }
         
-        /* Grid Layout */
+        /* Layout Grid */
         .dashboard { max-width: 1100px; margin: 30px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
         
         /* Cards */
         .card { background: var(--panel); border-radius: 16px; padding: 30px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); border: 1px solid var(--border); }
         h2 { margin-top: 0; color: var(--bitflow-gold); font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid var(--border); padding-bottom: 15px; margin-bottom: 20px; }
         
-        /* Left Column Inputs */
+        /* Inputs */
         .input-group { margin-bottom: 25px; }
         label { display: block; font-size: 0.75rem; color: #94a3b8; text-transform: uppercase; margin-bottom: 8px; font-weight: bold; }
         input[type=range] { width: 100%; cursor: pointer; accent-color: var(--bitflow-gold); }
@@ -44,25 +44,28 @@
             font-size: 1rem; box-sizing: border-box; transition: 0.3s;
         }
         input:focus { border-color: var(--bitflow-gold); outline: none; }
-        
         .val-display { float: right; color: var(--bitflow-gold); font-weight: bold; font-size: 1.1rem; }
 
-        /* Right Column Elements */
+        /* Right Column Specifics */
         .chart-container { position: relative; margin: 10px auto 20px auto; height: 220px; width: 220px; }
         
-        .metric-box { background: rgba(0,0,0,0.3); padding: 15px; border-radius: 12px; text-align: center; margin-bottom: 20px; border: 1px solid var(--englewood-green); }
-        .metric-val { font-size: 2.2rem; font-weight: bold; display: block; color: #69f0ae; text-shadow: 0 0 10px rgba(105, 240, 174, 0.3); }
-        .metric-label { font-size: 0.7rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
+        .metric-box { background: rgba(0,0,0,0.3); padding: 15px; border-radius: 12px; text-align: center; margin-bottom: 25px; border: 1px solid var(--englewood-green); }
+        .metric-val { font-size: 2.5rem; font-weight: bold; display: block; color: #69f0ae; text-shadow: 0 0 15px rgba(105, 240, 174, 0.2); }
+        .metric-label { font-size: 0.75rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
 
-        /* Lead Form Specifics */
-        #leadForm { background: rgba(15, 23, 42, 0.6); padding: 20px; border-radius: 12px; border: 1px solid var(--border); }
-        .btn-main { width: 100%; background: var(--bitflow-gold); color: #000; padding: 15px; font-weight: 800; border: none; border-radius: 8px; cursor: pointer; font-size: 1rem; margin-top: 10px; text-transform: uppercase; transition: transform 0.2s; }
+        /* Lead Form */
+        #leadForm { background: rgba(15, 23, 42, 0.6); padding: 20px; border-radius: 12px; border: 1px solid var(--border); text-align: left; }
+        .btn-main { width: 100%; background: var(--bitflow-gold); color: #000; padding: 15px; font-weight: 800; border: none; border-radius: 8px; cursor: pointer; font-size: 1rem; margin-top: 15px; text-transform: uppercase; transition: transform 0.2s; }
         .btn-main:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255,179,0,0.4); }
 
-        /* Toast */
+        /* Download Link */
+        .download-link { text-decoration: none; display: block; margin-top: 20px; padding-top: 15px; border-top: 1px dashed var(--border); transition: 0.3s; }
+        .download-content { display: flex; align-items: center; justify-content: center; gap: 10px; color: var(--bitflow-gold); font-size: 0.85rem; font-weight: bold; }
+        .download-link:hover .download-content { color: #fff; text-shadow: 0 0 10px var(--bitflow-gold); }
+
+        /* Toast Notification */
         #successToast { display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); width:90%; max-width:400px; background:var(--englewood-green); color:white; padding:30px; border-radius:12px; box-shadow:0 20px 60px rgba(0,0,0,0.8); z-index:100; text-align: center; border: 2px solid #fff; }
 
-        /* Responsive */
         @media (max-width: 850px) { .dashboard { grid-template-columns: 1fr; } }
     </style>
 </head>
@@ -111,7 +114,7 @@
         <div class="metric-box">
             <span class="metric-label">Annual Capital Recovered</span>
             <span class="metric-val" id="annual_save">$0</span>
-            <div id="vol_text_footer" style="font-size: 0.75rem; color: #94a3b8; margin-top:5px;">Based on Current vs. Pilot Rate Logic</div>
+            <div id="vol_text_footer" style="font-size: 0.75rem; color: #94a3b8; margin-top:5px;">Community Wealth Returned to Business</div>
         </div>
 
         <div id="leadForm">
@@ -143,18 +146,16 @@
             </button>
         </div>
 
-        <div style="margin-top: 20px; padding-top: 15px; border-top: 1px dashed var(--border);">
-            <a href="#" style="text-decoration: none;">
-                <div style="display: flex; align-items: center; justify-content: center; gap: 10px; color: var(--bitflow-gold); font-size: 0.85rem; font-weight: bold;">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v4"></path>
-                        <polyline points="7 10 12 15 17 10"></polyline>
-                        <line x1="12" y1="15" x2="12" y2="3"></line>
-                    </svg>
-                    DOWNLOAD FULL PDF AUDIT (v2.2)
-                </div>
-            </a>
-        </div>
+        <a href="downloads/morgan.mini.mart.pdf" download="Morgan_Mini_Mart_Audit_v2.2.pdf" class="download-link">
+            <div class="download-content">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                DOWNLOAD FULL PDF AUDIT (v2.2)
+            </div>
+        </a>
     </div>
 
 </div>
@@ -169,7 +170,7 @@
 <script>
     let chart;
 
-    // --- 1. CHART INITIALIZATION ---
+    // --- 1. INITIALIZE CHART ---
     function init() {
         const ctx = document.getElementById('pieChart').getContext('2d');
         chart = new Chart(ctx, {
@@ -192,46 +193,47 @@
         update();
     }
 
-    // --- 2. DYNAMIC CALCULATION ---
+    // --- 2. CALCULATE LOGIC ---
     function update() {
-        // Get Inputs
+        // Get Inputs from Left Card
         const rev = parseFloat(document.getElementById('revenue').value) || 0;
         const cardPct = parseFloat(document.getElementById('card_pct').value) / 100;
         const legacyRate = parseFloat(document.getElementById('legacy_rate').value) / 100;
         const ourRate = parseFloat(document.getElementById('our_rate').value) / 100;
 
-        // Update Text Displays
+        // Update UI Displays
         document.getElementById('card_pct_val').innerText = (cardPct * 100).toFixed(0) + "%";
         document.getElementById('legacy_val').innerText = (legacyRate * 100).toFixed(1) + "%";
         document.getElementById('our_rate_val').innerText = (ourRate * 100).toFixed(1) + "%";
 
-        // Logic
+        // The Math
         const cardVol = rev * cardPct;
         const currentFees = cardVol * legacyRate;
         const newFees = cardVol * ourRate;
         const monthlySave = currentFees - newFees;
         const annualSave = monthlySave * 12;
 
-        // Update Metric Box
+        // Update Right Card Results
         document.getElementById('annual_save').innerText = '$' + annualSave.toLocaleString(undefined, {maximumFractionDigits: 0});
 
-        // Chart Data Update
-        const baseKept = rev - currentFees; // What he keeps now
-        const remainingFee = newFees;       // What he pays us
-        const savedWealth = monthlySave;    // The new slice of pie
+        // Update Chart Slices
+        const baseKept = rev - currentFees; // Green: What he keeps now
+        const remainingFee = newFees;       // Red: What he still pays us
+        const savedWealth = monthlySave;    // Gold: What we recovered
 
         chart.data.datasets[0].data = [baseKept, remainingFee, savedWealth];
         chart.update();
     }
 
-    // --- 3. FORM ACTIONS ---
+    // --- 3. TOAST ACTION ---
     function showSuccessToast() {
-        // Optional: Validate inputs here
+        // Show Popup
         document.getElementById('successToast').style.display = 'block';
-        document.getElementById('leadForm').style.opacity = '0.3'; // Dim the form to focus on toast
+        // Dim the form
+        document.getElementById('leadForm').style.opacity = '0.3'; 
     }
 
-    // Start
+    // Start Engine
     window.onload = init;
 </script>
 
