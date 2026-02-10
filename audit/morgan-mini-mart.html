@@ -1,170 +1,70 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Morgan Mini Mart | Community Wealth Audit</title>
+  <div class="card" style="text-align: center; position: relative;">
+    <h2>Morgan Mini Mart | Community Wealth Audit</h2>
     
-    <script src="https://cdn.jsdelivr.net/npm/chart.js?v=2.0"></script>
-    
-    <style>
-        :root {
-            --englewood-green: #2e7d32;
-            --bitflow-gold: #ffb300;
-            --midnight: #0f172a;
-            --panel: #1e293b;
-            --white: #ffffff;
-            --text: #f1f5f9;
-            --danger: #ef4444;
-        }
-        
-        body { margin: 0; font-family: 'Inter', sans-serif; background: var(--midnight); color: var(--text); padding-bottom: 60px; }
-        .header { background: linear-gradient(135deg, #000 0%, #064e3b 100%); padding: 30px 5%; text-align: center; border-bottom: 4px solid var(--bitflow-gold); }
-        .header h1 { margin: 0; font-size: 1.8rem; letter-spacing: 1px; }
-        
-        .dashboard { max-width: 1100px; margin: 20px auto; padding: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
-        .card { background: var(--panel); border-radius: 16px; padding: 30px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); border: 1px solid #334155; }
-        
-        h2 { margin-top: 0; color: var(--bitflow-gold); font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid #334155; padding-bottom: 15px; margin-bottom: 20px; }
-        
-        .input-group { margin-bottom: 25px; }
-        label { display: block; font-size: 0.75rem; color: #94a3b8; text-transform: uppercase; margin-bottom: 8px; font-weight: bold; }
-        input[type=range] { width: 100%; cursor: pointer; accent-color: var(--bitflow-gold); }
-        input[type=number] { width: 100%; padding: 12px; background: #0f172a; border: 1px solid #334155; color: white; border-radius: 8px; font-size: 1.2rem; box-sizing: border-box; }
-        
-        .val-display { float: right; color: var(--bitflow-gold); font-weight: bold; font-size: 1.1rem; }
-
-        .chart-container { position: relative; margin: 20px auto; height: 280px; width: 280px; }
-
-        .metric-box { background: rgba(0,0,0,0.3); padding: 20px; border-radius: 12px; text-align: center; margin-top: 20px; border: 1px solid #334155; }
-        .metric-val { font-size: 2.2rem; font-weight: bold; display: block; }
-        .metric-label { font-size: 0.7rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
-        
-        .btn-main { width: 100%; background: var(--bitflow-gold); color: #000; padding: 18px; font-weight: 800; border: none; border-radius: 8px; cursor: pointer; font-size: 1rem; margin-top: 20px; text-transform: uppercase; transition: 0.3s; }
-        .btn-main:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255,179,0,0.4); }
-
-        @media (max-width: 850px) { .dashboard { grid-template-columns: 1fr; } }
-    </style>
-</head>
-<body>
-
-<div class="header">
-    <h1>Morgan Mini Mart Audit</h1>
-    <div style="color:var(--bitflow-gold); font-size: 0.9rem; margin-top: 5px;">Community Whole & Fresh Foods Margin Recovery | Prepared for Sami Deffala</div>
-</div>
-
-<div class="dashboard">
-
-    <div class="card">
-        <h2>Operating Data</h2>
-        
-        <div class="input-group">
-            <label>Monthly Gross Sales ($)</label>
-            <input type="number" id="revenue" value="60000" oninput="update()">
-        </div>
-        
-        <div class="input-group">
-            <label>Card / Digital Volume (%) <span class="val-display" id="card_pct_val">35%</span></label>
-            <input type="range" id="card_pct" min="10" max="80" value="35" oninput="update()">
-        </div>
-
-        <div class="input-group">
-            <label>Current Bank Fee (%) <span class="val-display" id="legacy_val">5.5%</span></label>
-            <input type="range" id="legacy_rate" min="3.5" max="9.0" step="0.5" value="5.5" oninput="update()">
-            <div style="font-size:0.65rem; color:#94a3b8; margin-top:5px;">*Includes 30¢ swipe fees & hidden costs</div>
-        </div>
-
-        <div class="input-group" style="border-top: 1px solid #334155; padding-top: 20px;">
-            <label>Proposed Rail Rate (%) <span class="val-display" id="our_rate_val" style="color:#69f0ae;">3.0%</span></label>
-            <input type="range" id="our_rate" min="2.7" max="3.5" step="0.1" value="3.0" oninput="update()">
-            <div style="font-size:0.65rem; color:#69f0ae; margin-top:5px;">*No hidden swipe fees. No monthly rentals.</div>
-        </div>
+    <div class="chart-container">
+        <canvas id="pieChart"></canvas>
     </div>
 
-    <div class="card" style="text-align: center;">
-        <h2>Wealth Recovery Map</h2>
-        
-        <div class="chart-container">
-            <canvas id="pieChart"></canvas>
-        </div>
-
-        <div class="metric-box" style="border-color: var(--englewood-green);">
-            <span class="metric-label">Annual Capital Recovered</span>
-            <span class="metric-val" id="annual_save" style="color:#69f0ae;">$0</span>
-        </div>
-
-        <div style="margin-top: 15px; font-size: 0.8rem; color: #94a3b8;">
-            By moving <span id="vol_text" style="color:var(--white); font-weight:bold;">$21,000</span> to the POSitive Rail.
-        </div>
-
-        <button class="btn-main">Protect These Margins</button>
+    <div class="metric-box" style="border-color: var(--englewood-green); margin-bottom: 25px;">
+        <span class="metric-label">Annual Capital Recovered</span>
+        <span class="metric-val" id="annual_save" style="color:#69f0ae;">$0</span>
+        <div id="vol_text_footer" style="font-size: 0.75rem; color: #94a3b8; margin-top:5px;">Based on 4.0% vs. 3.0% logic</div>
     </div>
 
+    <div id="leadForm" style="text-align: left; background: rgba(15, 23, 42, 0.6); padding: 20px; border-radius: 12px; border: 1px solid #334155; transition: 0.3s;">
+        <h3 style="margin-top:0; font-size: 0.9rem; color: var(--bitflow-gold); text-transform: uppercase;">Lock in Your Pilot Rate</h3>
+        
+        <div class="input-group" style="margin-bottom: 12px;">
+            <label>Owner Name</label>
+            <input type="text" id="owner_name" placeholder="Sami Deffala" style="padding: 8px; font-size: 1rem; width:100%; box-sizing:border-box; background:#0f172a; border:1px solid #334155; color:white; border-radius:4px;">
+        </div>
+
+        <div class="input-group" style="margin-bottom: 12px;">
+            <label>Business Name</label>
+            <input type="text" id="biz_name" placeholder="Morgan Mini Mart" style="padding: 8px; font-size: 1rem; width:100%; box-sizing:border-box; background:#0f172a; border:1px solid #334155; color:white; border-radius:4px;">
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <div class="input-group">
+                <label>Email</label>
+                <input type="email" id="email" placeholder="sami@email.com" style="padding: 8px; font-size: 1rem; width:100%; box-sizing:border-box; background:#0f172a; border:1px solid #334155; color:white; border-radius:4px;">
+            </div>
+            <div class="input-group">
+                <label>Phone</label>
+                <input type="tel" id="phone" placeholder="(773) 000-0000" style="padding: 8px; font-size: 1rem; width:100%; box-sizing:border-box; background:#0f172a; border:1px solid #334155; color:white; border-radius:4px;">
+            </div>
+        </div>
+
+        <button class="btn-main" onclick="showSuccessToast()">
+            ACTIVATE MY SAVINGS
+        </button>
+    </div>
+
+    <div id="successToast" style="display:none; position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); width:90%; background:var(--englewood-green); color:white; padding:30px; border-radius:12px; box-shadow:0 10px 30px rgba(0,0,0,0.5); z-index:10;">
+        <div style="font-size:3rem; margin-bottom:10px;">✅</div>
+        <h3 style="margin:0;">Pilot Rate Locked!</h3>
+        <p style="font-size:0.9rem;">The 3.0% Community Tier is now reserved for Morgan Mini Mart. Check your email for the implementation roadmap.</p>
+        <button onclick="document.getElementById('successToast').style.display='none'" style="background:white; border:none; padding:10px 20px; border-radius:5px; font-weight:bold; cursor:pointer;">Dismiss</button>
+    </div>
+
+    <div style="margin-top: 20px; padding-top: 15px; border-top: 1px dashed #334155;">
+    <a href="/downloads/morgan.mini.mart.pdf?v=2.2" target="_blank" style="text-decoration: none;">
+        <div style="display: flex; align-items: center; justify-content: center; gap: 10px; color: var(--bitflow-gold); font-size: 0.85rem; font-weight: bold;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            DOWNLOAD FULL PDF AUDIT (v2.2)
+        </div>
+    </a>
 </div>
 
 <script>
-    let chart;
-
-    function init() {
-        const ctx = document.getElementById('pieChart').getContext('2d');
-        chart = new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-                labels: ['Sami Keeps', 'Old Bank Fees', 'Recovered Wealth'],
-                datasets: [{
-                    data: [90, 10, 0],
-                    backgroundColor: ['#2e7d32', '#ef4444', '#ffb300'],
-                    borderWidth: 0,
-                    hoverOffset: 4
-                }]
-            },
-            options: {
-                cutout: '75%',
-                plugins: { legend: { display: false } },
-                animation: { duration: 500 }
-            }
-        });
-        update();
+    function showSuccessToast() {
+        const biz = document.getElementById('biz_name').value || "your business";
+        document.getElementById('successToast').style.display = 'block';
+        // Optional: Reset form or dim background
+        document.getElementById('leadForm').style.opacity = '0.3';
     }
-
-    function update() {
-        // Get Inputs
-        const rev = parseFloat(document.getElementById('revenue').value) || 0;
-        const cardPct = parseFloat(document.getElementById('card_pct').value) / 100;
-        const legacyRate = parseFloat(document.getElementById('legacy_rate').value) / 100;
-        const ourRate = parseFloat(document.getElementById('our_rate').value) / 100;
-
-        // Update Displays
-        document.getElementById('card_pct_val').innerText = (cardPct * 100).toFixed(0) + "%";
-        document.getElementById('legacy_val').innerText = (legacyRate * 100).toFixed(1) + "%";
-        document.getElementById('our_rate_val').innerText = (ourRate * 100).toFixed(1) + "%";
-
-        // Logic
-        const cardVol = rev * cardPct;
-        const currentFees = cardVol * legacyRate;
-        const newFees = cardVol * ourRate;
-        const monthlySave = currentFees - newFees;
-        
-        const annualSave = monthlySave * 12;
-
-        // UI Updates
-        document.getElementById('annual_save').innerText = '$' + annualSave.toLocaleString(undefined, {maximumFractionDigits: 0});
-        document.getElementById('vol_text').innerText = '$' + cardVol.toLocaleString();
-
-        // Chart Update
-        // Slice 1: What he kept before any card fees
-        const baseKept = rev - currentFees;
-        // Slice 2: The remaining fee he STILL pays (Red)
-        const remainingFee = newFees;
-        // Slice 3: The money we CLAWED BACK (Gold)
-        const savedWealth = monthlySave;
-
-        chart.data.datasets[0].data = [baseKept, remainingFee, savedWealth];
-        chart.update();
-    }
-
-    window.onload = init;
 </script>
-
-</body>
-</html>
