@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decanter Hotel | International Wealth Audit</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #0f172a; color: #f1f5f9; padding: 20px; }
+        .card { background: #1e293b; padding: 25px; border-radius: 12px; margin-bottom: 20px; border: 1px solid #334155; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        h1 { color: #D4AF37; text-transform: uppercase; letter-spacing: 1px; margin-top: 0; font-size: 1.4rem; }
+        .input-group label { display: block; font-size: 0.85rem; color: #94a3b8; margin-bottom: 8px; text-transform: uppercase; }
+        input[type="range"] { width: 100%; accent-color: #D4AF37; margin-bottom: 20px; cursor: pointer; }
+        .money-box { display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; margin-top: 10px; }
+        .val { font-size: 1.5rem; font-weight: bold; color: #fff; }
+        .highlight { color: #D4AF37; }
+        .saved { color: #2e7d32; font-size: 2rem; font-weight: 800; }
+        .subtext { font-size: 0.75rem; color: #64748b; }
+    </style>
+</head>
+<body>
+
+    <div class="card" style="text-align: center; border-bottom: 4px solid #D4AF37;">
+        <h1>Decanter Hotel</h1>
+        <div style="color: #94a3b8; font-size: 0.9rem;">Old San Juan | High-Velocity Tourist Audit</div>
+    </div>
+
+    <div class="card">
+        <div class="input-group">
+            <label>Est. Monthly Revenue ($)</label>
+            <div class="money-box" style="margin-bottom: 10px;">
+                <span id="rev_disp" class="val">$130,000</span>
+            </div>
+            <input type="range" id="revenue" min="50000" max="250000" step="5000" value="130000" oninput="update()">
+        </div>
+
+        <div class="input-group">
+            <label>International / Premium Card Mix (%)</label>
+            <div style="display:flex; justify-content:space-between; margin-bottom:5px; color:#D4AF37; font-weight:bold;">
+                <span>Standard Cards</span>
+                <span id="mix_disp">60% Premium</span>
+            </div>
+            <input type="range" id="intl_mix" min="10" max="90" step="5" value="60" oninput="update()">
+            <div class="subtext">*Includes Amex, Foreign Visa, Corporate Rewards</div>
+        </div>
+    </div>
+
+    <div class="card" style="text-align: center;">
+        <label>Annual Fees Avoided</label>
+        <div id="annual_savings" class="saved">$5,616</div>
+        <div class="subtext" style="margin-top: 10px;">By converting International Volume to POSitive Rail</div>
+        
+        <div style="margin-top: 20px; padding-top: 15px; border-top: 1px dashed #334155; display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <div>
+                <div style="color: #ef4444; font-weight: bold;">Current Fee</div>
+                <div id="curr_fee" style="font-size: 1.1rem;">$5,070/mo</div>
+            </div>
+            <div>
+                <div style="color: #2e7d32; font-weight: bold;">New Fee</div>
+                <div id="new_fee" style="font-size: 1.1rem;">$4,602/mo</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function update() {
+            const rev = parseFloat(document.getElementById('revenue').value);
+            const mix = parseFloat(document.getElementById('intl_mix').value) / 100;
+            
+            // Assumptions:
+            // Standard Rate: 2.9% (Domestic)
+            // Premium/Intl Rate: 3.9% (The "Tourist Tax")
+            // POSitive Rail Rate: 1.0% (Crypto Settlement)
+            
+            const domesticVol = rev * (1 - mix);
+            const intlVol = rev * mix;
+            
+            // Current Cost
+            const costDomestic = domesticVol * 0.029;
+            const costIntl = intlVol * 0.039;
+            const totalCurrent = costDomestic + costIntl;
+            
+            // New Cost (Assuming we convert 30% of Intl volume to Crypto Rail)
+            // Strategy: We don't convert ALL of it, just the savvy users.
+            const conversionRate = 0.30; 
+            const cryptoVol = intlVol * conversionRate;
+            const remainingIntl = intlVol * (1 - conversionRate);
+            
+            const costCrypto = cryptoVol * 0.01; // 1% Flat
+            const costRemainingIntl = remainingIntl * 0.039;
+            
+            const totalNew = costDomestic + costRemainingIntl + costCrypto;
+            
+            const monthlySave = totalCurrent - totalNew;
+            const annualSave = monthlySave * 12;
+
+            // Update UI
+            document.getElementById('rev_disp').innerText = '$' + rev.toLocaleString();
+            document.getElementById('mix_disp').innerText = (mix * 100) + '% Premium';
+            document.getElementById('curr_fee').innerText = '$' + totalCurrent.toLocaleString(undefined, {maximumFractionDigits:0}) + '/mo';
+            document.getElementById('new_fee').innerText = '$' + totalNew.toLocaleString(undefined, {maximumFractionDigits:0}) + '/mo';
+            document.getElementById('annual_savings').innerText = '$' + annualSave.toLocaleString(undefined, {maximumFractionDigits:0});
+        }
+        update();
+    </script>
+</body>
+</html>
